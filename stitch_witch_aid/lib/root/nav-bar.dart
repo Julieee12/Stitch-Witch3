@@ -1,67 +1,63 @@
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:stitch_witch_aid/counter/counter.dart';
+import 'package:stitch_witch_aid/glossary/glossary.dart';
 
+class NavBar extends StatefulWidget {
+  const NavBar(this.callback, {super.key});
 
-class NavBar extends StatelessWidget { //change to stateful if we use the index for pagination
-  const NavBar({super.key});
+  // Callback function used to change current page
+  final Function(Widget) callback;
 
-//
-//   @override
-//   _MainScreenState createState() => _MainScreenState();
-// }
+  @override
+  _NavBarState createState() => _NavBarState();
+}
 
-// class _MainScreenState extends State<MainScreen> {
-//   int _currentIndex = 0; // Tracks active tab
+class _NavBarState extends State<NavBar> {
+  int _currentPage = 0; // Tracks active tab
 
-  // final List<Widget> _pages = [
-  //   TodoPage(),
-  //   ShoppingPage(),
-  //   DiaryPage(),
-  //   GoalsPage(),
-  // ];
+  final List<Widget> _pages = [Counter(), Glossary()];
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ClipRRect(
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(28),
-          topRight: Radius.circular(28),
+    return ClipRRect(
+      borderRadius: const BorderRadius.only(
+        topLeft: Radius.circular(28),
+        topRight: Radius.circular(28),
+      ),
+      child: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: const Color(0xFFF5CE88),
+        selectedFontSize: 16,
+        unselectedFontSize: 14,
+        iconSize: 35,
+        selectedItemColor: const Color(0xFF2E8C8A),
+        unselectedItemColor: const Color(0xFF104F4D),
+        selectedLabelStyle: GoogleFonts.robotoSlab(
+          fontWeight: FontWeight.bold,
+          fontSize: 16,
         ),
-        child: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: const Color(0xFFF5CE88),
-          selectedFontSize: 16,
-          unselectedFontSize: 14,
-          iconSize: 35,
-          selectedItemColor: const Color(0xFF2E8C8A),
-          unselectedItemColor: const Color(0xFF104F4D),
-          selectedLabelStyle: GoogleFonts.robotoSlab(
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
-          ),
-          unselectedLabelStyle: GoogleFonts.robotoSlab(
-            fontWeight: FontWeight.normal,
-            fontSize: 14,
-          ),
-          // currentIndex: _currentIndex,
-          // onTap: (index) {
-          //   setState(() {
-          //     _currentIndex = index;
-          //   });
-          // },
-          items: const [
-            BottomNavigationBarItem(
-                label: 'Counter', icon: Icon(Icons.alarm_add_outlined)),
-            BottomNavigationBarItem(
-                label: 'Inventory', icon: Icon(Icons.inventory_2_outlined)),
-            BottomNavigationBarItem(
-                label: 'Glossary', icon: Icon(Icons.book_outlined)),
-            BottomNavigationBarItem(
-                label: 'Projects', icon: Icon(Icons.list_outlined)),
-          ],
+        unselectedLabelStyle: GoogleFonts.robotoSlab(
+          fontWeight: FontWeight.normal,
+          fontSize: 14,
         ),
+        currentIndex: _currentPage,
+        onTap: (index) {
+          setState(() {
+            _currentPage = index;
+            widget.callback(_pages[_currentPage]);
+          });
+        },
+        items: const [
+          BottomNavigationBarItem(
+              label: 'Counter', icon: Icon(Icons.alarm_add_outlined)),
+          BottomNavigationBarItem(
+              label: 'Inventory', icon: Icon(Icons.inventory_2_outlined)),
+          BottomNavigationBarItem(
+              label: 'Glossary', icon: Icon(Icons.book_outlined)),
+          BottomNavigationBarItem(
+              label: 'Projects', icon: Icon(Icons.list_outlined)),
+        ],
       ),
     );
   }
