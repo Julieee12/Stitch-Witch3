@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../root/brand-colors.dart';
 
-class Glossary extends StatelessWidget {
-  const Glossary ({super.key});
+class Projects extends StatelessWidget {
+  const Projects ({super.key});
 
   @override
   Widget build(BuildContext context) {
