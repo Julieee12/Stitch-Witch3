@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:stitch_witch_aid/counter/counter.dart';
 import 'package:stitch_witch_aid/glossary/glossary.dart';
 import 'package:stitch_witch_aid/inventory/inventory.dart';
+import 'package:stitch_witch_aid/root/brand-colors.dart';
 
 import '../projects/projects.dart';
 
@@ -24,18 +25,14 @@ class _NavBarState extends State<NavBar> {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(28),
-        topRight: Radius.circular(28),
-      ),
       child: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        backgroundColor: const Color(0xFFF5CE88),
+        backgroundColor: BrandColors.purpleLighter,
         selectedFontSize: 16,
         unselectedFontSize: 14,
         iconSize: 35,
-        selectedItemColor: const Color(0xFF2E8C8A),
-        unselectedItemColor: const Color(0xFF104F4D),
+        selectedItemColor: const Color(0xFF742CBF),
+        unselectedItemColor: const Color(0xFF391467),
         selectedLabelStyle: GoogleFonts.robotoSlab(
           fontWeight: FontWeight.bold,
           fontSize: 16,
