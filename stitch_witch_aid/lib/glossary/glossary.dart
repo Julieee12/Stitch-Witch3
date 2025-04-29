@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../root/brand-colors.dart';
 import '../root/search-bar.dart';
+import '../root/tags.dart';
 
 class Glossary extends StatelessWidget {
   const Glossary ({super.key});
@@ -11,7 +12,8 @@ class Glossary extends StatelessWidget {
       color: BrandColors.purpleExtraLight,
       child: Stack(
         children: [
-          TopSearchBar(),
+          Tags(["gl","O", "ser", "Y"]),
+          TopSearchBar(caller: this,),
           Padding(
           padding: const EdgeInsets.only(top: 110),
           child: GridView.count(

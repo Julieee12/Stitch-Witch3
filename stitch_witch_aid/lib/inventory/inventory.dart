@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stitch_witch_aid/root/tags.dart';
 import '../root/brand-colors.dart';
 import '../root/search-bar.dart';
 
@@ -11,7 +12,8 @@ class Inventory extends StatelessWidget {
       color: BrandColors.purpleExtraLight,
         child: Stack(
           children: [
-            TopSearchBar(),
+            Tags(["in","ven", "tory"]),
+            TopSearchBar(caller: this),
             Padding(
               padding: const EdgeInsets.only(top: 110),
               child: GridView.count(
