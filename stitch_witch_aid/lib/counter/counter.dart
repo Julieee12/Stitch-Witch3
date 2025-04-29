@@ -6,7 +6,7 @@ class Counter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Center(
-      child: Text('Counter'),
+      child: Text('Counter', style: TextStyle(fontFamily: 'Comic Sans'),),
     );
   }
 }

@@ -60,6 +60,11 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+  fonts:
+    - family: Comic Sans
+      fonts:
+        - asset: lib/fonts/Comic-Sans-MS.ttf
+
 
   # To add assets to your application, add an assets section, like this:
   # assets:
