@@ -37,7 +37,7 @@ class _TagsState extends State<Tags> {
           onPressed: () {},
           child: Text(
             "text",
-            style: TextStyle(fontSize: 12, fontFamily: "Comic Sans"),),
+            style: TextStyle(fontSize: 12, ),
       ),
     );
   }

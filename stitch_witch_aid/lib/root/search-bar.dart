@@ -24,7 +24,7 @@ class _TopSearchBarState extends State<TopSearchBar> {
             padding: const EdgeInsets.only(top: 60, left: 10, right: 10),
 
             child: TextFormField(
-              style: TextStyle(fontSize: 22, fontFamily: 'Comic Sans'),
+              style: TextStyle(fontSize: 22, ),
               decoration: InputDecoration(
                 //BORDER
                 border: OutlineInputBorder(
