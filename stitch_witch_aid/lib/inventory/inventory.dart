@@ -34,6 +34,7 @@ class Inventory extends StatelessWidget {
             bottom: 30,
             right: 0,
             child: AddButton(),
+
           ),
         ],
       ),
