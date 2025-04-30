@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../root/add-button.dart';
 import '../root/brand-colors.dart';
 import '../root/search-bar.dart';
 import '../root/tags.dart';
@@ -29,6 +30,11 @@ class Projects extends StatelessWidget {
               }),
             ),
           ),
+          Positioned(
+            bottom: 30,
+            right: 0,
+            child: AddButton(),
+          )
         ],
       ),
     );

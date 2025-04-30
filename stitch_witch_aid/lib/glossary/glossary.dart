@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../root/brand-colors.dart';
+import '../root/search-bar.dart';
+import '../root/tags.dart';
 
 class Glossary extends StatelessWidget {
   const Glossary ({super.key});

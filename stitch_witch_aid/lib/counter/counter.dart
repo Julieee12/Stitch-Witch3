@@ -67,7 +67,7 @@ class Counter extends StatelessWidget {
               const Text('Stitches/ row:', style: TextStyle(fontSize: 16)),
               const SizedBox(width: 8), // adds space between label and input field
               SizedBox(
-                height: 30,
+                height: 35,
                 width: 80,
                 child: TextField(
                   textAlign: TextAlign.center,

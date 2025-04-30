@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import '../root/brand-colors.dart';
+import '../root/search-bar.dart';
+import '../root/tags.dart';
+import '../root/add-button.dart'; // Make sure this import points to the correct file
 
 class Inventory extends StatelessWidget {
   const Inventory({super.key});
@@ -26,6 +29,11 @@ class Inventory extends StatelessWidget {
                 return _buildGridItem(BrandColors.purpleSoft);
               }),
             ),
+          ),
+          Positioned(
+            bottom: 30,
+            right: 0,
+            child: AddButton(),
           ),
         ],
       ),

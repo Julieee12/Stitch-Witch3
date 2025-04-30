@@ -30,7 +30,7 @@ class _MyAppState extends State<MyApp> {
       home: Scaffold(
         body: currentWidget,
           bottomNavigationBar: NavBar(callback), // Bottom navigation bar is passed the callback function,
-          floatingActionButton: const AddButton(),
+
       ),
       );
   }
