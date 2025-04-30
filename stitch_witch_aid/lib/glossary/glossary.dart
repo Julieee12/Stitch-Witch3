@@ -13,9 +13,12 @@ class Glossary extends StatelessWidget {
       child: Stack(
         children: [
           Tags(["gl","O", "ser", "Y"]),
-          TopSearchBar(caller: this,),
           Padding(
-          padding: const EdgeInsets.only(top: 110),
+            padding: const EdgeInsets.only(top: 20),
+          child: TopSearchBar(caller: this,),
+          ),
+          Padding(
+          padding: const EdgeInsets.only(top: 130),
           child: GridView.count(
             padding: const EdgeInsets.all(20),
             crossAxisCount: 2,
@@ -26,7 +29,7 @@ class Glossary extends StatelessWidget {
             }),
           ),
         ),
-        ]
+        ],
       ),
     );
   }

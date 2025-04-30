@@ -18,7 +18,7 @@ class Inventory extends StatelessWidget {
             child: TopSearchBar(caller: this),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 130), // Adjust as needed
+            padding: const EdgeInsets.only(top: 130),
             child: GridView.count(
               padding: const EdgeInsets.all(20),
               crossAxisCount: 2,
