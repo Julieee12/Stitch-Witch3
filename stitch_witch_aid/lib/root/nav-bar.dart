@@ -33,13 +33,17 @@ class _NavBarState extends State<NavBar> {
         iconSize: 35,
         selectedItemColor: const Color(0xFF742CBF),
         unselectedItemColor: const Color(0xFF391467),
-        selectedLabelStyle: GoogleFonts.robotoSlab(
+        //selectedLabelStyle: GoogleFonts.robotoSlab(
+        selectedLabelStyle: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 16,
+          fontFamily: "Comic Sans"
         ),
-        unselectedLabelStyle: GoogleFonts.robotoSlab(
+        //unselectedLabelStyle: GoogleFonts.robotoSlab(
+        unselectedLabelStyle: TextStyle(
           fontWeight: FontWeight.normal,
           fontSize: 14,
+          fontFamily: "Comic Sans"
         ),
         currentIndex: _currentPage,
         onTap: (index) {
