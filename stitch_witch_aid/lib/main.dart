@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stitch_witch_aid/counter/counter.dart';
+import 'package:stitch_witch_aid/root/add-button.dart';
 import 'package:stitch_witch_aid/root/nav-bar.dart';
 
 void main() {
@@ -28,8 +29,9 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         body: currentWidget,
-        bottomNavigationBar: NavBar(callback) // Bottom navigation bar is passed the callback function,
-        ),
+          bottomNavigationBar: NavBar(callback), // Bottom navigation bar is passed the callback function,
+          floatingActionButton: const AddButton(),
+      ),
       );
   }
 }

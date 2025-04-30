@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stitch_witch_aid/root/tags.dart';
 import '../root/brand-colors.dart';
-import '../root/search-bar.dart';
 
 class Inventory extends StatelessWidget {
   const Inventory({super.key});

@@ -36,12 +36,10 @@ class _NavBarState extends State<NavBar> {
         selectedLabelStyle: GoogleFonts.robotoSlab(
           fontWeight: FontWeight.bold,
           fontSize: 16,
-
         ),
         unselectedLabelStyle: GoogleFonts.robotoSlab(
           fontWeight: FontWeight.normal,
           fontSize: 14,
-
         ),
         currentIndex: _currentPage,
         onTap: (index) {
