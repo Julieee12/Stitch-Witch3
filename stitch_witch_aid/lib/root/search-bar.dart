@@ -1,64 +1,49 @@
-
 import 'package:flutter/material.dart';
 
 import 'brand-colors.dart';
 
 class TopSearchBar extends StatefulWidget {
-
   final Widget caller;
   const TopSearchBar({super.key, required this.caller});
-
-
 
   @override
   State<TopSearchBar> createState() => _TopSearchBarState();
 }
 
 class _TopSearchBarState extends State<TopSearchBar> {
-
-
-
   @override
   Widget build(BuildContext context) {
-      return Padding(
-            padding: const EdgeInsets.only(top: 60, left: 10, right: 10),
+    return Padding(
 
-            child: TextFormField(
-              style: TextStyle(fontSize: 22, ),
-              decoration: InputDecoration(
-                //BORDER
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: BorderSide(
-                    width: 0,
-                    style: BorderStyle.none
-                  )
-                ),
-
-                //COLOUR
-                filled: true,
-                //fillColor: BrandColors.purpleSoft,
-
-                //ICON
-                prefixIcon:  Icon(
-                  Icons.search,
-                  color: BrandColors.purpleLight,
-                  size: 35,
-                ),
-
-                //HINT
-                hintText: "search stuff here",
-                hintStyle: TextStyle(fontSize: 22),
-
-                contentPadding: EdgeInsets.only(top: 15),
+      padding: const EdgeInsets.only(top: 60, left: 10, right: 10),
+      child: SizedBox(
+        height: 40,
+        child: TextFormField(
+          style: const TextStyle(fontSize: 22),
+          decoration: InputDecoration(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+              borderSide: const BorderSide(
+                width: 0,
+                style: BorderStyle.none,
               ),
-              onTap: () {
-                //TODO: implement search
-                //maybe you can use widget.caller
-                //to get the original widget, if that's useful
-                //if not, u can delete the "caller"
-              },
             ),
-      );
+            filled: true,
+            fillColor: BrandColors.purpleVeryLight,
+            prefixIcon: Icon(
+              Icons.search,
+              color: BrandColors.purpleLight,
+              size: 30, // Reduced icon size
+            ),
+            hintText: "Search",
+            hintStyle: const TextStyle(fontSize: 16),
+            contentPadding: const EdgeInsets.symmetric(vertical: 0), // Tight padding
+          ),
+          onTap: () {
+            // TODO: implement search
+          },
+        ),
+      ),
+    );
   }
 }

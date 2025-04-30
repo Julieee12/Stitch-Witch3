@@ -10,25 +10,27 @@ class Inventory extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: BrandColors.purpleExtraLight,
-        child: Stack(
-          children: [
-            Tags(["in","ven", "tory"]),
-            TopSearchBar(caller: this),
-            Padding(
-              padding: const EdgeInsets.only(top: 110),
-              child: GridView.count(
-                //shrinkWrap: true,
-                padding: const EdgeInsets.all(20),
-                crossAxisCount: 2,
-                crossAxisSpacing: 30,
-                mainAxisSpacing: 15,
-                children: List.generate(10, (index) {
-                  return _buildGridItem(BrandColors.purpleSoft);
-                }),
-              ),
+      child: Stack(
+        children: [
+          Tags(["in", "ven", "tory"]),
+          Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: TopSearchBar(caller: this),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 130), // Adjust as needed
+            child: GridView.count(
+              padding: const EdgeInsets.all(20),
+              crossAxisCount: 2,
+              crossAxisSpacing: 30,
+              mainAxisSpacing: 15,
+              children: List.generate(10, (index) {
+                return _buildGridItem(BrandColors.purpleSoft);
+              }),
             ),
-          ],
-        ),
+          ),
+        ],
+      ),
     );
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stitch_witch_aid/root/brand-colors.dart';
 
 class Tags extends StatefulWidget {
   final List<String> tags;
@@ -35,6 +36,9 @@ class _TagsState extends State<Tags> {
       height: 10,
       child: FilledButton(
           onPressed: () {},
+        style: FilledButton.styleFrom(
+          backgroundColor: BrandColors.purpleLight,
+        ),
           child: Text(
             "text",
             style: TextStyle(fontSize: 12,),),
