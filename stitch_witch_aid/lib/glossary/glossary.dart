@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import '../root/brand-colors.dart';
-import '../root/search-bar.dart';
-import '../root/tags.dart';
 
 class Glossary extends StatelessWidget {
   const Glossary ({super.key});
@@ -10,23 +8,17 @@ class Glossary extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: BrandColors.purpleExtraLight,
-      child: Stack(
-        children: [
-          Tags(["gl","O", "ser", "Y"]),
-          TopSearchBar(caller: this,),
-          Padding(
-          padding: const EdgeInsets.only(top: 110),
-          child: GridView.count(
-            padding: const EdgeInsets.all(20),
-            crossAxisCount: 2,
-            crossAxisSpacing: 30,
-            mainAxisSpacing: 15,
-            children: List.generate(10, (index) {
-              return _buildGridItem(BrandColors.purpleSoft);
-            }),
-          ),
+      child: Padding(
+        padding: const EdgeInsets.only(top: 110),
+        child: GridView.count(
+          padding: const EdgeInsets.all(20),
+          crossAxisCount: 2,
+          crossAxisSpacing: 30,
+          mainAxisSpacing: 15,
+          children: List.generate(10, (index) {
+            return _buildGridItem(BrandColors.purpleSoft);
+          }),
         ),
-        ]
       ),
     );
   }
