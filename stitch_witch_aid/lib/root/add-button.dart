@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stitch_witch_aid/root/brand-colors.dart';
 
 import '../inventory/inventory-dialog.dart';
 
@@ -14,7 +15,7 @@ class AddButton extends StatelessWidget {
           builder: (context) => InventoryDialog(),
         );
       },
-      backgroundColor: const Color(0xFF104F4D),
+      backgroundColor: BrandColors.purpleDark,
       child: const Icon(Icons.add, color: Colors.white),
     );
   }
