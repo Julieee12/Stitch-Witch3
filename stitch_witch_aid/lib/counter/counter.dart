@@ -12,12 +12,12 @@ class Counter extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
 
-          // Toggle Switch Row
+          /////////////////////////////////////// TOGGLE /////////////////////////////////////////////
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(width: 6,),
-              const Text('Manual', style: TextStyle(fontSize: 16)),
+              const Text('Manual', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               const SizedBox(width: 20,),
               Switch(
                 value: true,
@@ -25,7 +25,7 @@ class Counter extends StatelessWidget {
                 activeColor: BrandColors.purpleLighter,
               ),
               const SizedBox(width: 20,),
-              const Text('Stitch Witch', style: TextStyle(fontSize: 16)),
+              const Text('Stitch Witch', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
 
             ],
           ),
@@ -41,7 +41,7 @@ class Counter extends StatelessWidget {
                 height: 30,
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: BrandColors.purpleVeryLight,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: DropdownButtonHideUnderline(
@@ -73,7 +73,7 @@ class Counter extends StatelessWidget {
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
                     filled: true,
-                    fillColor: Colors.white,
+                    fillColor: BrandColors.purpleVeryLight,
                     contentPadding: const EdgeInsets.symmetric(vertical: 10),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -87,7 +87,7 @@ class Counter extends StatelessWidget {
           ),
           const SizedBox(height: 30),
 
-          // Stitches container/counter
+          //////////////////////////////// STITCHES CONTAINER////////////////////////////////////////////
           _buildLargeCounter(
             context: context,
             label: 'Stitches',
@@ -97,7 +97,7 @@ class Counter extends StatelessWidget {
           ),
           const SizedBox(height: 40),
 
-          // Rows container/counter
+         /////////////////////////////// ROWS CONTAINER /////////////////////////////////////////////
           _buildLargeCounter(
             context: context,
             label: 'Rows',
