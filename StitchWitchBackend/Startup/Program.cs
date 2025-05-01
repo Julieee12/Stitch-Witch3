@@ -1,3 +1,4 @@
+using Api.Websocket.Extentions;
 using Application.Extentions;
 using Application.Models;
 using Infrastructure.Postgres.Extentions;
@@ -33,7 +34,7 @@ public class Program
         
         services.AddWebsocketInfrastructure();
 
-        // services.RegisterWebsocketApiServices();
+        services.AddWebsocketApiServices();
         // services.RegisterRestApiServices();
         /*services.AddOpenApiDocument(conf =>
         {
@@ -55,13 +56,15 @@ public class Program
 
 
         app.Urls.Clear();
+        
         //Sets the address and port for a REST API
         app.Urls.Add($"http://0.0.0.0:{appOptions.REST_PORT}");
+        
         /*app.Services.GetRequiredService<IProxyConfig>()
             .StartProxyServer(appOptions.PORT, appOptions.REST_PORT, appOptions.WS_PORT);*/
 
         //app.ConfigureRestApi();
-        //await app.ConfigureWebsocketApi(appOptions.WS_PORT);
+        await app.ConfigureWebsocketApi(appOptions.WS_PORT);
 
 
         //app.MapGet("Acceptance", () => "Accepted");
