@@ -1,4 +1,6 @@
+using Application.Infrastructure.Postgres;
 using Application.Models;
+using Infrastructure.Postgres.repositories;
 using Infrastructure.Postgres.Scaffolding;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -25,6 +27,7 @@ public static class ServiceCollectionExtentions
     public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         //TODO add repositories here
+        services.AddScoped<IItemRepository, ItemRepository>();
         return services;
     }
 }
