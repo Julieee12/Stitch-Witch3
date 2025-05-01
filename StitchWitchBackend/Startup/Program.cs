@@ -23,13 +23,11 @@ public class Program
     private static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
     {
         var appOptions = services.AddAppOptions(configuration);
-
-        // services.RegisterApplicationServices();
         
-        // Connect to data source
+        services.AddApplicationServices();
+        
         services.AddDataSource();
-
-        // Adds repository classes
+        
         services.AddRepositories();
         
         // services.AddWebsocketInfrastructure();

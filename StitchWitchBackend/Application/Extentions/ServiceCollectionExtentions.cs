@@ -4,7 +4,7 @@ using Application.Models;
 
 namespace Application.Extentions;
 
-public static class AppOptionsExtentions
+public static class ServiceCollectionExtentions
 {
     /*
      * This IServiceCollection extension method sets up
@@ -27,6 +27,13 @@ public static class AppOptionsExtentions
                 $"{string.Join(", ", results.Select(r => r.ErrorMessage))}");
 
         return appOptions;
+    }
+
+    // Adds application services
+    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+    {
+        // TODO add application services here
+        return services;
     }
 }
 
