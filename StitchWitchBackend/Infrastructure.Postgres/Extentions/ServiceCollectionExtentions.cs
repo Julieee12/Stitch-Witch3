@@ -20,4 +20,11 @@ public static class ServiceCollectionExtentions
 
         return services;
     }
+
+    // Adds repository services
+    public static IServiceCollection AddRepositories(this IServiceCollection services)
+    {
+        //TODO add repositories here
+        return services;
+    }
 }

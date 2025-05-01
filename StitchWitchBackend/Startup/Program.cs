@@ -28,6 +28,10 @@ public class Program
         
         // Connect to data source
         services.AddDataSource();
+
+        // Adds repository classes
+        services.AddRepositories();
+        
         // services.AddWebsocketInfrastructure();
 
         // services.RegisterWebsocketApiServices();
