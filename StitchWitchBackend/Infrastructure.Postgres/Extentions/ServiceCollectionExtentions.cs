@@ -1,0 +1,23 @@
+using Application.Models;
+using Infrastructure.Postgres.Scaffolding;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+
+namespace Infrastructure.Postgres.Extentions;
+
+public static class ServiceCollectionExtentions
+{
+    // Connects to the chosen database from AppOptions DbConnectionString field
+    public static IServiceCollection AddDataSource(this IServiceCollection services)
+    {
+        services.AddDbContext<StitchWitchDbContext>((service, options) =>
+        {
+            var provider = services.BuildServiceProvider();
+            options.UseNpgsql(
+                provider.GetRequiredService<IOptionsMonitor<AppOptions>>().CurrentValue.DbConnectionString);
+            options.EnableSensitiveDataLogging();
+        });
+
+        return services;
+    }
+}

@@ -1,5 +1,6 @@
 using Application.Extentions;
 using Application.Models;
+using Infrastructure.Postgres.Extentions;
 using Microsoft.Extensions.Options;
 
 namespace Startup;
@@ -24,8 +25,9 @@ public class Program
         var appOptions = services.AddAppOptions(configuration);
 
         // services.RegisterApplicationServices();
-
-        // services.AddDataSourceAndRepositories();
+        
+        // Connect to data source
+        services.AddDataSource();
         // services.AddWebsocketInfrastructure();
 
         // services.RegisterWebsocketApiServices();

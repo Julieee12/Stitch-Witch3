@@ -6,6 +6,7 @@
       <ProjectReference Include="..\Core.Domain\Core.Domain.csproj" />
       <ProjectReference Include="..\Application\Application.csproj" />
       <ProjectReference Include="..\Api.Websocket\Api.Websocket.csproj" />
+      <ProjectReference Include="..\Infrastructure.Postgres\Infrastructure.Postgres.csproj" />
     </ItemGroup>
 
     <PropertyGroup>
