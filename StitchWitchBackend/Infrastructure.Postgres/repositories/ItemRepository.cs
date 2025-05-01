@@ -1,6 +1,11 @@
-/*namespace Infrastructure.Postgres.repositories;
+using Application.Infrastructure.Postgres;
+using Core.Domain.Entities;
+using Infrastructure.Postgres.Scaffolding;
+using Microsoft.EntityFrameworkCore;
 
-public class ItemRepository(DbContext context)
+namespace Infrastructure.Postgres.repositories;
+
+public class ItemRepository(StitchWitchDbContext context) : IItemRepository
 {
     public async Task<List<Item>> GetAllItems()
     {
@@ -9,27 +14,28 @@ public class ItemRepository(DbContext context)
     
     public async Task<Item> GetItemById(string id)
     {
-        return await context.Items.Where(i => i.id == id).ToListAsync();
+        return await context.Items.Where(i => i.Id == id).SingleOrDefaultAsync();
     }
     
     public async Task<Item> AddItem(Item item)
     {
         await context.Items.AddAsync(item);
-        await context.saveChangesAsync();
+        await context.SaveChangesAsync();
         return item;
     }
     
     public async Task<Item> UpdateItem(Item item)
     {
-        await context.Items.UpdateAsync(item);
-        await context.saveChangesAsync();
+        context.Items.Update(item);
+        await context.SaveChangesAsync();
         return item;
     }
     
     public async void DeleteItem(string id)
     {
-        await context.Items.RemoveAsync(item);
-        await context.saveChangesAsync();
+        Item item = context.Items.Where(i => i.Id == id).SingleOrDefault();
+        context.Items.Remove(item!);
+        await context.SaveChangesAsync();
     }
     
-}*/
+}
