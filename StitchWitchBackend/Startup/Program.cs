@@ -1,6 +1,7 @@
 using Application.Extentions;
 using Application.Models;
 using Infrastructure.Postgres.Extentions;
+using Infrastructure.Websocket.Extentions;
 using Microsoft.Extensions.Options;
 
 namespace Startup;
@@ -30,7 +31,7 @@ public class Program
         
         services.AddRepositories();
         
-        // services.AddWebsocketInfrastructure();
+        services.AddWebsocketInfrastructure();
 
         // services.RegisterWebsocketApiServices();
         // services.RegisterRestApiServices();
