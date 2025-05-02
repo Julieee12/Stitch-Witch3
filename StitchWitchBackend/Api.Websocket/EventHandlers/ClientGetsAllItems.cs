@@ -8,14 +8,14 @@ using WebSocketBoilerplate;
 namespace Api.Websocket.EventHandlers;
 
 
-public class ClientWantsToGetItemsDto : BaseDto
+public class ClientGetsAllItemsDto : BaseDto
 {
     private string message { get; set; }
 }
 
-public class ClientWantsToGetItems(IConnectionManager connectionManager, IItemRepository itemRepo) : BaseEventHandler<ClientWantsToGetItemsDto>
+public class ClientGetsAllItems(IConnectionManager connectionManager, IItemRepository itemRepo) : BaseEventHandler<ClientGetsAllItemsDto>
 {
-    public override async Task Handle(ClientWantsToGetItemsDto dto, IWebSocketConnection socket)
+    public override async Task Handle(ClientGetsAllItemsDto dto, IWebSocketConnection socket)
     {
 
         List<Item> allItems = await itemRepo.GetAllItems();

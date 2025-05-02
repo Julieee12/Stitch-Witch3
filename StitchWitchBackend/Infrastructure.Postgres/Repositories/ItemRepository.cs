@@ -21,11 +21,10 @@ public class ItemRepository(StitchWitchDbContext context) : IItemRepository
         return item;
     }
     
-    public async Task<Item> AddItem(Item item)
+    public async Task AddItem(Item item)
     {
         await context.Items.AddAsync(item);
         await context.SaveChangesAsync();
-        return item;
     }
     
     public async Task<Item> UpdateItem(Item item)
@@ -35,7 +34,7 @@ public class ItemRepository(StitchWitchDbContext context) : IItemRepository
         return item;
     }
     
-    public async void DeleteItem(string id)
+    public async Task DeleteItem(string id)
     {
         Item item = context.Items.Where(i => i.Id == id).SingleOrDefault();
 
