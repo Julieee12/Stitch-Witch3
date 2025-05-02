@@ -14,7 +14,11 @@ public class ItemRepository(StitchWitchDbContext context) : IItemRepository
     
     public async Task<Item> GetItemById(string id)
     {
-        return await context.Items.Where(i => i.Id == id).SingleOrDefaultAsync();
+        Item item = await context.Items.Where(i => i.Id == id).SingleOrDefaultAsync();
+
+        if (item == null) throw new Exception("item not found");
+
+        return item;
     }
     
     public async Task<Item> AddItem(Item item)
@@ -34,6 +38,9 @@ public class ItemRepository(StitchWitchDbContext context) : IItemRepository
     public async void DeleteItem(string id)
     {
         Item item = context.Items.Where(i => i.Id == id).SingleOrDefault();
+
+        if (item == null) throw new Exception("Item not found... lol");
+        
         context.Items.Remove(item!);
         await context.SaveChangesAsync();
     }
