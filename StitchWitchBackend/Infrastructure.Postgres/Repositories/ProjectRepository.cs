@@ -32,4 +32,17 @@ public class ProjectRepository(StitchWitchDbContext context) : IProjectRepositor
         
         return projectDtos;
     }
+
+    public async Task DeleteProjectAsync(string projectId)
+    {
+        var projectToDelete = await context.Projects
+            .Where(project => project.Id == projectId)
+            .SingleOrDefaultAsync();
+
+        if (projectToDelete == null) throw new Exception("Project not found");
+        
+        context.Projects.Remove(projectToDelete);
+        
+        await context.SaveChangesAsync();
+    }
 }

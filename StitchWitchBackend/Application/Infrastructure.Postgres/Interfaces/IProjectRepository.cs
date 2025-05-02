@@ -8,4 +8,6 @@ public interface IProjectRepository
     public Task<ProjectDto> CreateNewProjectAsync(CreateNewProjectDto createNewProjectDto);
 
     public Task<List<ProjectDto>> GetAllProjectsAsync();
+
+    public Task DeleteProjectAsync(string projectId);
 }
