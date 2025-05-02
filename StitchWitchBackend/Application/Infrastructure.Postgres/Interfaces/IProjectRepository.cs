@@ -10,4 +10,6 @@ public interface IProjectRepository
     public Task<List<ProjectDto>> GetAllProjectsAsync();
 
     public Task DeleteProjectAsync(string projectId);
+
+    public Task<ProjectDto> UpdateProjectAsync(UpdateProjectDto updateProjectDto);
 }

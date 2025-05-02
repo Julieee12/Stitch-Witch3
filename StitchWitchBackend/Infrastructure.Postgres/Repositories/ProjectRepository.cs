@@ -45,4 +45,17 @@ public class ProjectRepository(StitchWitchDbContext context) : IProjectRepositor
         
         await context.SaveChangesAsync();
     }
+
+    public async Task<ProjectDto> UpdateProjectAsync(UpdateProjectDto updateProjectDto)
+    {
+        var projectToUpdate = ProjectEntityUtil.UpdateProjectDtoToProject(updateProjectDto);
+
+        var updatedProject = context.Projects.Update(projectToUpdate).Entity;
+
+        await context.SaveChangesAsync();
+        
+        var projectDto = ProjectEntityUtil.ProjectToProjectDto(updatedProject);
+        
+        return projectDto;
+    }
 }

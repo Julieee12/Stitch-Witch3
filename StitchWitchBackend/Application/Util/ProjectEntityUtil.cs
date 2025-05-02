@@ -46,4 +46,23 @@ public class ProjectEntityUtil
     {
         return projects.Select(project => ProjectToProjectDto(project)).ToList();
     }
+
+    public static Project UpdateProjectDtoToProject(UpdateProjectDto updateProjectDto)
+    {
+        var project = new Project
+        {
+            Id = updateProjectDto.Id,
+            Name = updateProjectDto.Name,
+            Tag = updateProjectDto.Tag,
+            Stitch = updateProjectDto.Stitch,
+            Row = updateProjectDto.Row,
+            Picurl = updateProjectDto.Picurl,
+            Description = updateProjectDto.Description,
+            Yarn = updateProjectDto.Yarn,
+            Hook = updateProjectDto.Hook,
+            Time = updateProjectDto.Time
+        };
+
+        return project;
+    }
 }
