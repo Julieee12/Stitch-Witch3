@@ -1,4 +1,5 @@
 using Application.Infrastructure.Postgres;
+using Application.Infrastructure.Postgres.Interfaces;
 using Application.Models;
 using Infrastructure.Postgres.repositories;
 using Infrastructure.Postgres.Scaffolding;
@@ -28,6 +29,8 @@ public static class ServiceCollectionExtentions
     {
         //TODO add repositories here
         services.AddScoped<IItemRepository, ItemRepository>();
+        services.AddScoped<IProjectRepository, ProjectRepository>();
+
         return services;
     }
 }
