@@ -3,20 +3,33 @@ using Application.Models.DTOs;
 using Application.Utility;
 using Core.Domain.Entities;
 using Infrastructure.Postgres.Scaffolding;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Postgres.repositories;
 
 public class ProjectRepository(StitchWitchDbContext context) : IProjectRepository
 {
-    public Task<ProjectDto> CreateNewProjectAsync(CreateNewProjectDto createNewProjectDto)
+    public async Task<ProjectDto> CreateNewProjectAsync(CreateNewProjectDto createNewProjectDto)
     {
         var projectToCreate = ProjectEntityUtil.CreateNewProjectDtoToProject(createNewProjectDto);
         projectToCreate.Id = Guid.NewGuid().ToString();
         
-        var createdProject = context.Projects.Add(projectToCreate).Entity;
+        var result = await context.Projects.AddAsync(projectToCreate);
+        await context.SaveChangesAsync();
+
+        var createdProject = result.Entity;
 
         var projectDto = ProjectEntityUtil.ProjectToProjectDto(createdProject);
         
-        return Task.FromResult(projectDto);
+        return projectDto;
+    }
+
+    public async Task<List<ProjectDto>> GetAllProjectsAsync()
+    {
+        var allProjects = await context.Projects.ToListAsync();
+
+        var projectDtos = ProjectEntityUtil.ProjectsToProjectDtos(allProjects);
+        
+        return projectDtos;
     }
 }

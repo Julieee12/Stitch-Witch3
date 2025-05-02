@@ -41,4 +41,9 @@ public class ProjectEntityUtil
 
         return projectDto;
     }
+
+    public static List<ProjectDto> ProjectsToProjectDtos(List<Project> projects)
+    {
+        return projects.Select(project => ProjectToProjectDto(project)).ToList();
+    }
 }

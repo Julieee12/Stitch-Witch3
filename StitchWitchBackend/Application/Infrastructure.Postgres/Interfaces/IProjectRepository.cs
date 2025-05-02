@@ -6,4 +6,6 @@ namespace Application.Infrastructure.Postgres.Interfaces;
 public interface IProjectRepository
 {
     public Task<ProjectDto> CreateNewProjectAsync(CreateNewProjectDto createNewProjectDto);
+
+    public Task<List<ProjectDto>> GetAllProjectsAsync();
 }
