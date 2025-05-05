@@ -1,11 +1,11 @@
-class Item {
+class InventoryItemModel {
   final String id;
   final String name;
   final String description;
   final String tag;
   final String picture;
 
-  Item({
+  InventoryItemModel({
     required this.id,
     required this.name,
     required this.description,

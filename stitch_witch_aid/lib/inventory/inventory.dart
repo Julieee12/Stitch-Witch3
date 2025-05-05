@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:stitch_witch_aid/inventory/inventory-item.dart';
+import 'package:stitch_witch_aid/inventory/inventory-model.dart';
 import '../root/brand-colors.dart';
 import '../root/search-bar.dart';
 import '../root/tags.dart';
@@ -25,14 +27,22 @@ class Inventory extends StatelessWidget {
               crossAxisCount: 2,
               crossAxisSpacing: 30,
               mainAxisSpacing: 15,
+              /*
+              * Get list of all items from the backend
+              * */
               children: List.generate(10, (index) {
-                return _buildGridItem(BrandColors.purpleSoft);
+                return InventoryItem(item: InventoryItemModel(id: 'id', name: 'name', description: 'description', tag: 'tag', picture: 'picture'), color: BrandColors.purpleLight);
               }),
             ),
           ),
           Positioned(
             bottom: 30,
             right: 0,
+            /*
+            * Pass the item for the backend to create
+            * The backend then returns the newly created item,
+            * which we can then show
+            * */
             child: AddButton(),
 
           ),

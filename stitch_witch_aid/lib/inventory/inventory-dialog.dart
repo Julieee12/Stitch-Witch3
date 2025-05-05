@@ -148,7 +148,7 @@ class _AddItemDialogState extends State<InventoryDialog> {
                       if (!_formKey.currentState!.validate()) return;
 
                       // Create the new item
-                      final newItem = Item(
+                      final newItem = InventoryItemModel(
                         id: DateTime.now().toString(), // You might want to generate a unique ID
                         name: _name,
                         description: _description,
