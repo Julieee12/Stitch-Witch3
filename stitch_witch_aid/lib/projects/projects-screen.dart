@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:stitch_witch_aid/projects/projects-item.dart';
+import 'package:stitch_witch_aid/projects/projects-model.dart';
 import '../root/add-button.dart';
 import '../root/brand-colors.dart';
 import '../root/search-bar.dart';
 import '../root/tags.dart';
 
-class Projects extends StatelessWidget {
-  const Projects ({super.key});
+class ProjectsScreen extends StatelessWidget {
+  const ProjectsScreen ({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +28,7 @@ class Projects extends StatelessWidget {
               crossAxisSpacing: 30,
               mainAxisSpacing: 15,
               children: List.generate(10, (index) {
-                return _buildGridItem(BrandColors.purpleSoft);
+                return ProjectsItem(item: ProjectsItemModel(id:  'id', name: 'name', description: 'descrption', tag: 'tag', picture: 'url', stitches: '11', rows: '20', time: '44:23'), color: BrandColors.purpleSoft,);
               }),
             ),
           ),
