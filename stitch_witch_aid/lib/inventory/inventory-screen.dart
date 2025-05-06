@@ -31,7 +31,7 @@ class InventoryScreen extends StatelessWidget {
               * Get list of all items from the backend
               * */
               children: List.generate(10, (index) {
-                return InventoryItem(item: InventoryItemModel(id: 'id', name: 'name', description: 'description', tag: 'tag', picture: 'picture'), color: BrandColors.purpleLight);
+                return InventoryItem(item: InventoryItemModel(id: 'id', name: 'name', description: 'description', tag: 'tag', picture: 'picture'), color: BrandColors.purpleSoft);
               }),
             ),
           ),
