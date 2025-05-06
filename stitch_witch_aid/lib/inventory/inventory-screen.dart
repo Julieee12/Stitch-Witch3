@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import '../root/add-button.dart';
+import 'package:stitch_witch_aid/inventory/inventory-item.dart';
+import 'package:stitch_witch_aid/inventory/inventory-model.dart';
 import '../root/brand-colors.dart';
 import '../root/search-bar.dart';
 import '../root/tags.dart';
+import '../root/add-button.dart'; // Make sure this import points to the correct file
 
-class Projects extends StatelessWidget {
-  const Projects ({super.key});
+class InventoryScreen extends StatelessWidget {
+  const InventoryScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +15,7 @@ class Projects extends StatelessWidget {
       color: BrandColors.purpleExtraLight,
       child: Stack(
         children: [
-          Tags(["pr", "oje", "cts"]),
+          Tags(["in", "ven", "tory"]),
           Padding(
             padding: const EdgeInsets.only(top: 20),
             child: TopSearchBar(caller: this),
@@ -25,16 +27,25 @@ class Projects extends StatelessWidget {
               crossAxisCount: 2,
               crossAxisSpacing: 30,
               mainAxisSpacing: 15,
+              /*
+              * Get list of all items from the backend
+              * */
               children: List.generate(10, (index) {
-                return _buildGridItem(BrandColors.purpleSoft);
+                return InventoryItem(item: InventoryItemModel(id: 'id', name: 'name', description: 'description', tag: 'tag', picture: 'picture'), color: BrandColors.purpleSoft);
               }),
             ),
           ),
           Positioned(
             bottom: 30,
             right: 0,
+            /*
+            * Pass the item for the backend to create
+            * The backend then returns the newly created item,
+            * which we can then show
+            * */
             child: AddButton(),
-          )
+
+          ),
         ],
       ),
     );

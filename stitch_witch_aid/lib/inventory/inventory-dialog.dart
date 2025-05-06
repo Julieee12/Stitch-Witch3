@@ -1,24 +1,49 @@
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class InventoryDialog extends StatelessWidget {
+import '../root/brand-colors.dart';
+import 'inventory-model.dart';
 
+class InventoryDialog extends StatefulWidget {
+  const InventoryDialog({super.key});
+
+  @override
+  State<InventoryDialog> createState() => _AddItemDialogState();
+}
+
+class _AddItemDialogState extends State<InventoryDialog> {
+  final _formKey = GlobalKey<FormState>();
+
+
+  late String _name;
+  late String _description;
+  late String _tag;
+  late String _picture;
+
+  @override
+  void initState() {
+    super.initState();
+    _name = '';
+    _description = '';
+    _tag = ''; // Optional
+    _picture = ''; // Optional
+  }
+
+  @override
   Widget build(BuildContext context) {
-
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
-      backgroundColor: const Color(0xFFB3EDDD),
+      backgroundColor: BrandColors.purpleExtraLight,
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Form(
+          key: _formKey,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               const Text(
-                "Diary Entry",
+                "Add Item",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -26,20 +51,28 @@ class InventoryDialog extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 15),
+
+              // Name input field (required)
               TextFormField(
                 decoration: InputDecoration(
-                  labelText: 'Title',
+                  labelText: 'Item Name',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                   filled: true,
-                  fillColor: Colors.white,
+                  fillColor: BrandColors.purpleVeryLight,
                 ),
-                validator: (value) => value!.isEmpty ? 'Please enter a title' : null,
-                // initialValue: _title,
-                // onChanged: (value) => _title = value,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a name';
+                  }
+                  return null;
+                },
+                onChanged: (value) => _name = value,
               ),
               const SizedBox(height: 15),
+
+              // Description input field (required)
               TextFormField(
                 decoration: InputDecoration(
                   labelText: 'Description',
@@ -47,34 +80,55 @@ class InventoryDialog extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   filled: true,
-                  fillColor: Colors.white,
+                  fillColor: BrandColors.purpleVeryLight,
                 ),
-                // initialValue: _description,
-                // onChanged: (value) => _description = value,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a description';
+                  }
+                  return null;
+                },
+                onChanged: (value) => _description = value,
               ),
               const SizedBox(height: 15),
+
+              // Tag input field (optional)
               TextFormField(
                 decoration: InputDecoration(
-                  labelText: 'Date',
+                  labelText: 'Tag (optional)',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                   filled: true,
-                  fillColor: Colors.white,
+                  fillColor: BrandColors.purpleVeryLight,
                 ),
-                validator: (value) => value!.isEmpty ? 'Please enter a date' : null,
-                // initialValue: _date,
-                // onChanged: (value) => _date = value,
+                onChanged: (value) => _tag = value, // Optional
+              ),
+              const SizedBox(height: 15),
+
+              // Picture URL input field (optional)
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Picture (optional)',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  filled: true,
+                  fillColor: BrandColors.purpleVeryLight,
+                ),
+                onChanged: (value) => _picture = value, // Optional
               ),
               const SizedBox(height: 20),
+
+              // Buttons
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   TextButton(
                     onPressed: () => Navigator.of(context).pop(),
                     style: TextButton.styleFrom(
-                      foregroundColor: const Color(0xFF104F4D),
-                      backgroundColor: const Color(0xFFF5CE88),
+                      foregroundColor: BrandColors.purpleVeryLight,
+                      backgroundColor: BrandColors.purpleDark,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -84,23 +138,29 @@ class InventoryDialog extends StatelessWidget {
                   const SizedBox(width: 10),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      foregroundColor: const Color(0xFF104F4D),
-                      backgroundColor: const Color(0xFFF5CE88),
+                      foregroundColor: BrandColors.purpleVeryLight,
+                      backgroundColor: BrandColors.purpleDark,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    // onPressed: () {
-                    //   // if (!_formKey.currentState!.validate()) return;
-                    //   // final update = widget.diary.copyWith(
-                    //   //   title: _title,
-                    //   //   description: _description,
-                    //   //   date: _date,
-                    //   );
+                    onPressed: () {
+                      if (!_formKey.currentState!.validate()) return;
 
-                      // Navigator.of(context).pop();
-                    // },
-                    onPressed: () {  },
+                      // Create the new item
+                      final newItem = InventoryItemModel(
+                        id: DateTime.now().toString(), // You might want to generate a unique ID
+                        name: _name,
+                        description: _description,
+                        tag: _tag,
+                        picture: _picture,
+                      );
+
+                      // You can now use this item, e.g., adding to your state or database
+                      print('Item Created: $newItem');
+
+                      Navigator.of(context).pop();
+                    },
                     child: const Text("Save"),
                   ),
                 ],
