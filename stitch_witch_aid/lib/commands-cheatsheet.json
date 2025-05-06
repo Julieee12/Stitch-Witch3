@@ -1,0 +1,3 @@
+{
+  "Update DTOs": "dart pub run build_runner build"
+}
