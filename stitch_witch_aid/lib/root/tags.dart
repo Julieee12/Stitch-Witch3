@@ -40,7 +40,7 @@ class _TagsState extends State<Tags> {
           backgroundColor: BrandColors.purpleLight,
         ),
           child: Text(
-            "text",
+            'text',
             style: TextStyle(fontSize: 12,),),
       ),
     );
