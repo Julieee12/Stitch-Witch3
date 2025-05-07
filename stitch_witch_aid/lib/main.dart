@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:stitch_witch_aid/counter/counter.dart';
-import 'package:stitch_witch_aid/root/add-button.dart';
 import 'package:stitch_witch_aid/root/nav-bar.dart';
 
 void main() {
