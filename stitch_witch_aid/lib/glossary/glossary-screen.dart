@@ -13,7 +13,10 @@ class GlossaryScreen extends StatelessWidget {
       {'title': 'Pattern Creator', 'image': 'assets/pattern.png'},
       {'title': 'Yarn Converter', 'image': 'assets/yarn.png'},
       {'title': 'Hook Size Converter', 'image': 'assets/hook.png'},
-      {'title': 'Distribute Increase and Decrease', 'image': 'assets/increase.png'},
+      {
+        'title': 'Distribute Increase and Decrease',
+        'image': 'assets/increase.png'
+      },
       {'title': 'Length unit converter ', 'image': 'assets/unit.png'},
       {'title': 'Type Of Stitches', 'image': 'assets/stitches.png'},
       {'title': 'EU/US Terms', 'image': 'assets/terms.png'},
@@ -58,7 +61,6 @@ class GlossaryScreen extends StatelessWidget {
       ),
       padding: const EdgeInsets.all(12),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             title,
@@ -69,12 +71,13 @@ class GlossaryScreen extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 10),
-          SizedBox(
-            height: 90,
-            child: Image.asset(
-              imagePath,
-              fit: BoxFit.contain,
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Image.asset(
+                imagePath,
+                fit: BoxFit.contain,
+              ),
             ),
           ),
         ],
