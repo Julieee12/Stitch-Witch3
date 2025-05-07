@@ -6,7 +6,6 @@
 
 part of 'server-sends-all-items-event.dart';
 
-
 class ServerSendsAllItemsEventMapper
     extends SubClassMapperBase<ServerSendsAllItemsEvent> {
   ServerSendsAllItemsEventMapper._();

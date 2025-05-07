@@ -6,7 +6,6 @@
 
 part of 'client-gets-all-items-event.dart';
 
-
 class ClientGetsAllItemsEventMapper
     extends SubClassMapperBase<ClientGetsAllItemsEvent> {
   ClientGetsAllItemsEventMapper._();

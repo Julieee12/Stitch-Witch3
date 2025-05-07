@@ -12,7 +12,7 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 
 class ItemBloc extends Bloc<BaseEvent, ItemState> {
   final WebSocketChannel _channel;
-  late StreamSubscription _subscription;
+  late StreamSubscription _channelSubscription;
   String? _jwt;
 
   ItemBloc ({required channel})
@@ -24,6 +24,13 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
 
     ////////////////////Server event handlers////////////////////////
     on<ServerSendsAllItemsEvent>(_onServerSendsAllItems);
+
+
+    //feed deserialized events into this bloc
+    //basically just listening to events
+    _channelSubscription = _channel.stream
+    .map((event) => BaseEventMapper.fromJson(event))
+    .listen(add, onError:  addError);
 
   }
 
