@@ -1,5 +1,5 @@
 import 'package:dart_mappable/dart_mappable.dart';
-import 'package:stitch_witch_aid/events//base-event.dart';
+import 'package:stitch_witch_aid/events/base-event.dart';
 
 part 'client-gets-all-projects-event.mapper.dart';
 
@@ -7,5 +7,5 @@ part 'client-gets-all-projects-event.mapper.dart';
 class ClientGetsAllProjectsEvent extends BaseEvent with ClientGetsAllProjectsEventMappable {
   static const String name = 'ClientGetsAllProjects';
 
-  ClientGetsAllProjectsEvent(super.eventType, super.requestId);
+  ClientGetsAllProjectsEvent({required super.eventType, required super.requestId});
 }

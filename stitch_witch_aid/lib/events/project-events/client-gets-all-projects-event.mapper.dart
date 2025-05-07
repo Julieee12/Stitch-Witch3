@@ -45,7 +45,7 @@ class ClientGetsAllProjectsEventMapper
 
   static ClientGetsAllProjectsEvent _instantiate(DecodingData data) {
     return ClientGetsAllProjectsEvent(
-        data.dec(_f$eventType), data.dec(_f$requestId));
+        eventType: data.dec(_f$eventType), requestId: data.dec(_f$requestId));
   }
 
   @override
@@ -131,8 +131,9 @@ class _ClientGetsAllProjectsEventCopyWithImpl<$R, $Out>
       }));
   @override
   ClientGetsAllProjectsEvent $make(CopyWithData data) =>
-      ClientGetsAllProjectsEvent(data.get(#eventType, or: $value.eventType),
-          data.get(#requestId, or: $value.requestId));
+      ClientGetsAllProjectsEvent(
+          eventType: data.get(#eventType, or: $value.eventType),
+          requestId: data.get(#requestId, or: $value.requestId));
 
   @override
   ClientGetsAllProjectsEventCopyWith<$R2, ClientGetsAllProjectsEvent, $Out2>
