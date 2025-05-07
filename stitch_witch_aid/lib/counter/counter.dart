@@ -6,141 +6,142 @@ class Counter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+    return SingleChildScrollView( // Make the whole screen scrollable if content exceeds the screen
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 30),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(height:20),
 
-          /////////////////////////////////////// TOGGLE /////////////////////////////////////////////
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(width: 6,),
-              const Text('Manual', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              const SizedBox(width: 20,),
-              Switch(
-                value: true,
-                onChanged: (_) {},
-                activeColor: BrandColors.purpleLighter,
-              ),
-              const SizedBox(width: 20,),
-              const Text('Stitch Witch', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-
-            ],
-          ),
-          const SizedBox(height: 30),
-
-          ////////////////////////DROPDOWN///////////////////////////////////
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text('Project:', style: TextStyle(fontSize: 16)),
-              const SizedBox(width: 15), // adds space between label and dropdown
-              Container(
-                height: 30,
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                decoration: BoxDecoration(
-                  color: BrandColors.purpleVeryLight,
-                  borderRadius: BorderRadius.circular(12),
+            /////////////////////////////////////// TOGGLE /////////////////////////////////////////////
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(width: 6,),
+                const Text('Manual', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                const SizedBox(width: 20,),
+                Switch(
+                  value: true,
+                  onChanged: (_) {},
+                  activeColor: BrandColors.purpleLighter,
                 ),
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton<String>(
-                    value: 'Wool Scarf',
-                    items: const [
-                      DropdownMenuItem(value: 'Wool Scarf', child: Text('Wool Scarf')),
-                      DropdownMenuItem(value: 'Blanket', child: Text('Blanket')),
-                    ],
-                    onChanged: (_) {},
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 22), // adds space between dropdown and stitches input
-
-
-          //////////////////////// STITCHES/ROW////////////////////////////////////////
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text('Stitches/ row:', style: TextStyle(fontSize: 16)),
-              const SizedBox(width: 8), // adds space between label and input field
-              SizedBox(
-                height: 35,
-                width: 80,
-                child: TextField(
-                  textAlign: TextAlign.center,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: BrandColors.purpleVeryLight,
-                    contentPadding: const EdgeInsets.symmetric(vertical: 10),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                  controller: TextEditingController(text: '20'),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 30),
-
-          //////////////////////////////// STITCHES CONTAINER////////////////////////////////////////////
-          _buildLargeCounter(
-            context: context,
-            label: 'Stitches',
-            value: '26',
-            color: BrandColors.purpleLighter, // color for the container (background)
-            buttonColor: BrandColors.purpleLightish, // color for Stitches buttons (inside)
-          ),
-          const SizedBox(height: 40),
-
-         /////////////////////////////// ROWS CONTAINER /////////////////////////////////////////////
-          _buildLargeCounter(
-            context: context,
-            label: 'Rows',
-            value: '12/20',
-            color: BrandColors.purpleSoft,// color for the container (background)
-            buttonColor: BrandColors.purpleMedium, // color for Rows buttons (inside)
-          ),
-          const SizedBox(height: 40),
-
-          ///////////////////////////////////// TIMER ///////////////////////////////
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 11),
-            decoration: BoxDecoration(
-              color: BrandColors.purpleLightish,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: const [
-                Icon(Icons.play_arrow, color: Colors.deepPurple, size: 50,),
-                SizedBox(width: 8),
-                Text('00:47:23', style: TextStyle(fontSize: 27)),
+                const SizedBox(width: 20,),
+                const Text('Stitch Witch', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               ],
             ),
-          ),
-          const SizedBox(height: 30),
+            const SizedBox(height: 20),
 
-          /////////////////////////////// SAVE BUTTON /////////////////////////////////////////
-          ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              backgroundColor: BrandColors.purpleDark,
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+            ////////////////////////DROPDOWN///////////////////////////////////
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('Project:', style: TextStyle(fontSize: 16)),
+                const SizedBox(width: 15), // adds space between label and dropdown
+                Container(
+                  height: 30,
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  decoration: BoxDecoration(
+                    color: BrandColors.purpleVeryLight,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      value: 'Wool Scarf',
+                      items: const [
+                        DropdownMenuItem(value: 'Wool Scarf', child: Text('Wool Scarf')),
+                        DropdownMenuItem(value: 'Blanket', child: Text('Blanket')),
+                      ],
+                      onChanged: (_) {},
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20), // adds space between dropdown and stitches input
+
+            //////////////////////// STITCHES/ROW////////////////////////////////////////
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('Stitches/ row:', style: TextStyle(fontSize: 16)),
+                const SizedBox(width: 8), // adds space between label and input field
+                SizedBox(
+                  height: 35,
+                  width: 80,
+                  child: TextField(
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: BrandColors.purpleVeryLight,
+                      contentPadding: const EdgeInsets.symmetric(vertical: 10),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                    controller: TextEditingController(text: '20'),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+
+            //////////////////////////////// STITCHES CONTAINER////////////////////////////////////////////
+            _buildLargeCounter(
+              context: context,
+              label: 'Stitches',
+              value: '26',
+              color: BrandColors.purpleLighter, // color for the container (background)
+              buttonColor: BrandColors.purpleLightish, // color for Stitches buttons (inside)
+            ),
+            const SizedBox(height: 10),
+
+            /////////////////////////////// ROWS CONTAINER /////////////////////////////////////////////
+            _buildLargeCounter(
+              context: context,
+              label: 'Rows',
+              value: '12/20',
+              color: BrandColors.purpleSoft,// color for the container (background)
+              buttonColor: BrandColors.purpleMedium, // color for Rows buttons (inside)
+            ),
+            const SizedBox(height: 20),
+
+            ///////////////////////////////////// TIMER ///////////////////////////////
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 11),
+              decoration: BoxDecoration(
+                color: BrandColors.purpleLightish,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: const [
+                  Icon(Icons.play_arrow, color: Colors.deepPurple, size: 50,),
+                  SizedBox(width: 8),
+                  Text('00:47:23', style: TextStyle(fontSize: 27)),
+                ],
               ),
             ),
-            child: const Text(
-              'Save Count',
-              style: TextStyle(fontSize: 16, color: Colors.white),
+            const SizedBox(height: 20),
+
+            /////////////////////////////// SAVE BUTTON /////////////////////////////////////////
+            ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                backgroundColor: BrandColors.purpleDark,
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              child: const Text(
+                'Save Count',
+                style: TextStyle(fontSize: 16, color: Colors.white),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
