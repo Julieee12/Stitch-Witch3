@@ -46,6 +46,7 @@ class _NavBarState extends State<NavBar> {
           setState(() {
             _currentPage = index;
             widget.callback(_pages[_currentPage]);
+
           });
         },
         items: const [

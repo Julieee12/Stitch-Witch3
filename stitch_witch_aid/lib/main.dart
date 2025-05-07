@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stitch_witch_aid/backend-uris.dart';
+import 'package:stitch_witch_aid/blocs/Item-bloc.dart';
 import 'package:stitch_witch_aid/blocs/project-bloc.dart';
 import 'package:stitch_witch_aid/counter/counter.dart';
 import 'package:stitch_witch_aid/root/nav-bar.dart';
@@ -13,8 +14,11 @@ void main() {
   final wsUri = Uri.parse(BackendUris.wsUri.toString() + '?id=' + Uuid().v4());
   final channel = WebSocketChannel.connect(BackendUris.wsUri);
 
-  runApp(BlocProvider(
-      create: (context) => ProjectBloc(channel: channel),
+  runApp(MultiBlocProvider(
+    providers: [
+      BlocProvider(create: (context) => ProjectBloc(channel: channel)),
+      BlocProvider(create: (context) => ItemBloc(channel: channel))
+    ],
       child: const MyApp(),
   ));
 }
