@@ -17,14 +17,7 @@ public class ClientUpdatesItem(IItemRepository itemRepo) : BaseEventHandler<Clie
 {
     public override async Task Handle(ClientUpdatesItemDto dto, IWebSocketConnection socket)
     {
-        Item item = new Item()
-        {
-            Id = dto.UpdateItemDto.Id,
-            Name = dto.UpdateItemDto.Name,
-            Description = dto.UpdateItemDto.Description,
-            Tag = dto.UpdateItemDto.Tag,
-            Picurl = dto.UpdateItemDto.Picurl
-        };
+        Item item = ItemEntityUtil.UpdateItemDtoToItem(dto.UpdateItemDto);
 
         await itemRepo.UpdateItem(item);
         

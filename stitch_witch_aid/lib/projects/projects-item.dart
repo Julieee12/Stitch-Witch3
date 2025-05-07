@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:stitch_witch_aid/inventory/inventory-model.dart';
 import 'package:stitch_witch_aid/projects/projects-model.dart';
 
 class ProjectsItem extends StatefulWidget {
-  final ProjectsItemModel item;
+  final ProjectItemModel item;
   final Color color;
 
   const ProjectsItem({required this.item, required this.color, super.key});
@@ -27,8 +26,7 @@ class ProjectsItemState extends State<ProjectsItem> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(widget.item.id),
-          Text(widget.item.name),
-          Text(widget.item.description),
+          Text(widget.item.name)
         ],
       ),
     );
