@@ -3,7 +3,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:stitch_witch_aid/events/base-event.dart';
+import 'package:stitch_witch_aid/events/events.dart';
 import 'package:stitch_witch_aid/events/item-events/client-gets-all-items-event.dart';
 import 'package:stitch_witch_aid/events/item-events/server-sends-all-items-event.dart';
 import 'package:stitch_witch_aid/states/item-state.dart';
@@ -46,9 +46,11 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
       _channel.sink.add(event.toJson());
   }
 
-  Future<void> _onServerSendsAllItems(BaseEvent event, Emitter<ItemState> emit)async {
+  Future<void> _onServerSendsAllItems(ServerSendsAllItemsEvent event, Emitter<ItemState> emit)async {
     print("recieved state?");
     print(state);
+    state.items.clear();
+    state.items.addAll(event.items);
     emit(state);
   }
 

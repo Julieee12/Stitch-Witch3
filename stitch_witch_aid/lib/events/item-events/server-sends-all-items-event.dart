@@ -1,7 +1,7 @@
 
 
 import 'package:dart_mappable/dart_mappable.dart';
-import 'package:stitch_witch_aid/events/base-event.dart';
+import 'package:stitch_witch_aid/events/events.dart';
 import 'package:stitch_witch_aid/inventory/inventory-model.dart';
 
 part 'server-sends-all-items-event.mapper.dart';

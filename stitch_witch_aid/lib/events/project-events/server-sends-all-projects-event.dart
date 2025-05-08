@@ -1,5 +1,5 @@
 import 'package:dart_mappable/dart_mappable.dart';
-import 'package:stitch_witch_aid/events/base-event.dart';
+import 'package:stitch_witch_aid/events/events.dart';
 
 import '../../projects/projects-model.dart';
 
