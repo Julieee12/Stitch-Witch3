@@ -1,6 +1,7 @@
 
 import 'package:dart_mappable/dart_mappable.dart';
 
+import '../inventory/inventory-model.dart';
 import '../projects/projects-model.dart';
 
 part 'events.mapper.dart';
@@ -21,6 +22,14 @@ class ClientGetsAllProjectsEvent extends BaseEvent with ClientGetsAllProjectsEve
   ClientGetsAllProjectsEvent({required super.eventType, required super.requestId});
 }
 
+@MappableClass(discriminatorValue: ClientGetsAllItemsEvent.name)
+class ClientGetsAllItemsEvent extends BaseEvent with ClientGetsAllItemsEventMappable {
+  static const String name = "ClientGetsAllItems";
+
+  ClientGetsAllItemsEvent({required super.eventType, required super.requestId});
+}
+
+
 ////////// Server events //////////
 @MappableClass(discriminatorValue: ServerSendsAllProjectsEvent.name)
 class ServerSendsAllProjectsEvent extends BaseEvent with ServerSendsAllProjectsEventMappable {
@@ -29,6 +38,15 @@ class ServerSendsAllProjectsEvent extends BaseEvent with ServerSendsAllProjectsE
 
   ServerSendsAllProjectsEvent({required this.projects, required super.eventType, required super.requestId});
 }
+
+@MappableClass(discriminatorValue: ServerSendsAllItemsEvent.name)
+class ServerSendsAllItemsEvent extends BaseEvent with ServerSendsAllItemsEventMappable {
+  static const String name = "ServerSendsAllItems";
+  final List<InventoryItemModel> items;
+
+  ServerSendsAllItemsEvent({required this.items, required super.eventType, required super.requestId});
+}
+
 
 @MappableClass(discriminatorValue: ServerSendsErrorMessageEvent.name)
 class ServerSendsErrorMessageEvent extends BaseEvent with ServerSendsErrorMessageEventMappable {

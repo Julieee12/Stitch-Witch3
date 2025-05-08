@@ -55,6 +55,7 @@ class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
   FutureOr<void> _onServerSendsAllProjects(
       ServerSendsAllProjectsEvent event,
       Emitter<ProjectsState> emit) {
+    print("so this works");
     state.projects.clear();
     state.projects.addAll(event.projects);
     emit(state);

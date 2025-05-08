@@ -4,7 +4,6 @@ import 'package:stitch_witch_aid/blocs/Item-bloc.dart';
 import 'package:stitch_witch_aid/inventory/inventory-item.dart';
 import 'package:stitch_witch_aid/inventory/inventory-model.dart';
 import 'package:stitch_witch_aid/states/item-state.dart';
-import '../events/item-events/client-gets-all-items-event.dart';
 import '../root/brand-colors.dart';
 import '../root/search-bar.dart';
 import '../root/tags.dart';
@@ -50,7 +49,7 @@ class InventoryScreen extends StatelessWidget {
                             name: state.items[index].name,
                             description: state.items[index].description,
                             tag: state.items[index].tag,
-                            picture: state.items[index].picture ),
+                            picUrl: state.items[index].picUrl ),
                         color: BrandColors.purpleSoft);
                   }),
                 ),

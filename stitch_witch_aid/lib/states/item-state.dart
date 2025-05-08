@@ -11,5 +11,5 @@ class ItemState {
   const ItemState({required this.items});
 
   static ItemState empty() =>
-      ItemState(items: List.empty());
+      ItemState(items: List.empty(growable: true));
 }

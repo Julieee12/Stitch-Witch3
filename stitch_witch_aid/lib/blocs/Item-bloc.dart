@@ -4,8 +4,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:stitch_witch_aid/events/events.dart';
-import 'package:stitch_witch_aid/events/item-events/client-gets-all-items-event.dart';
-import 'package:stitch_witch_aid/events/item-events/server-sends-all-items-event.dart';
 import 'package:stitch_witch_aid/states/item-state.dart';
 import 'package:uuid/uuid.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -34,6 +32,7 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
 
   }
 
+  /////////////////////////////////Client events/////////////////////////////////////////////
   void clientWantsToGetAllItems(){
     print("get all items event triggered");
     add(ClientGetsAllItemsEvent(
@@ -46,13 +45,19 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
       _channel.sink.add(event.toJson());
   }
 
-  Future<void> _onServerSendsAllItems(ServerSendsAllItemsEvent event, Emitter<ItemState> emit)async {
-    print("recieved state?");
-    print(state);
+  /////////////////////////////////Server events/////////////////////////////////////////////
+
+  FutureOr<void> _onServerSendsAllItems(ServerSendsAllItemsEvent event, Emitter<ItemState> emit)async {
+    print("received state?");
     state.items.clear();
     state.items.addAll(event.items);
     emit(state);
   }
 
+  FutureOr<void> _onServerSendsErrorMessage(
+      ServerSendsErrorMessageEvent event,
+      Emitter<ItemState> emit) {
+    // TODO let the user know something went wrong
+  }
 
 }

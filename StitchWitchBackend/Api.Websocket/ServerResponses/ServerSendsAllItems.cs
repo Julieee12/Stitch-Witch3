@@ -1,9 +1,10 @@
-﻿using Core.Domain.Entities;
+﻿using Application.Models.DTOs;
+using Core.Domain.Entities;
 using WebSocketBoilerplate;
 
 namespace Api.Websocket.ServerResponses;
 
 public class ServerSendsAllItems : BaseDto
 {
-    public List<Item> items { get; set; }
+    public List<ItemDto> items { get; set; }
 }

@@ -46,4 +46,24 @@ public class ItemEntityUtil
 
         return itemDto;
     }
+    
+    public static List<ItemDto> ItemListToItemDtoList(List<Item> items)
+    {
+        List<ItemDto> returnList = new List<ItemDto>();
+        foreach (var item in items)
+        {
+            ItemDto itemDto = new ItemDto()
+            {
+                Id = item.Id,
+                Name = item.Name,
+                Description = item.Description,
+                Tag = item.Tag,
+                Picurl = item.Picurl
+            };
+            returnList.Add(itemDto);
+        }
+        
+
+        return returnList;
+    }
 }

@@ -9,14 +9,14 @@ class InventoryItemModel with InventoryItemModelMappable{
   final String name;
   final String? description;
   final String? tag;
-  final String? picture;
+  final String? picUrl;
 
   InventoryItemModel({
     required this.id,
     required this.name,
     required this.description,
     required this.tag,
-    required this.picture,
+    required this.picUrl,
   });
 
   Map<String, dynamic> toMap() {
@@ -25,7 +25,7 @@ class InventoryItemModel with InventoryItemModelMappable{
       'name': name,
       'description': description,
       'tag': tag,
-      'picture': picture,
+      'picture': picUrl,
     };
   }
 }

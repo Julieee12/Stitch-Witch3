@@ -30,9 +30,9 @@ class InventoryItemModelMapper extends ClassMapperBase<InventoryItemModel> {
       Field('description', _$description);
   static String? _$tag(InventoryItemModel v) => v.tag;
   static const Field<InventoryItemModel, String> _f$tag = Field('tag', _$tag);
-  static String? _$picture(InventoryItemModel v) => v.picture;
-  static const Field<InventoryItemModel, String> _f$picture =
-      Field('picture', _$picture);
+  static String? _$picUrl(InventoryItemModel v) => v.picUrl;
+  static const Field<InventoryItemModel, String> _f$picUrl =
+      Field('picUrl', _$picUrl);
 
   @override
   final MappableFields<InventoryItemModel> fields = const {
@@ -40,7 +40,7 @@ class InventoryItemModelMapper extends ClassMapperBase<InventoryItemModel> {
     #name: _f$name,
     #description: _f$description,
     #tag: _f$tag,
-    #picture: _f$picture,
+    #picUrl: _f$picUrl,
   };
 
   static InventoryItemModel _instantiate(DecodingData data) {
@@ -49,7 +49,7 @@ class InventoryItemModelMapper extends ClassMapperBase<InventoryItemModel> {
         name: data.dec(_f$name),
         description: data.dec(_f$description),
         tag: data.dec(_f$tag),
-        picture: data.dec(_f$picture));
+        picUrl: data.dec(_f$picUrl));
   }
 
   @override
@@ -112,7 +112,7 @@ abstract class InventoryItemModelCopyWith<$R, $In extends InventoryItemModel,
       String? name,
       String? description,
       String? tag,
-      String? picture});
+      String? picUrl});
   InventoryItemModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
       Then<$Out2, $R2> t);
 }
@@ -131,13 +131,13 @@ class _InventoryItemModelCopyWithImpl<$R, $Out>
           String? name,
           Object? description = $none,
           Object? tag = $none,
-          Object? picture = $none}) =>
+          Object? picUrl = $none}) =>
       $apply(FieldCopyWithData({
         if (id != null) #id: id,
         if (name != null) #name: name,
         if (description != $none) #description: description,
         if (tag != $none) #tag: tag,
-        if (picture != $none) #picture: picture
+        if (picUrl != $none) #picUrl: picUrl
       }));
   @override
   InventoryItemModel $make(CopyWithData data) => InventoryItemModel(
@@ -145,7 +145,7 @@ class _InventoryItemModelCopyWithImpl<$R, $Out>
       name: data.get(#name, or: $value.name),
       description: data.get(#description, or: $value.description),
       tag: data.get(#tag, or: $value.tag),
-      picture: data.get(#picture, or: $value.picture));
+      picUrl: data.get(#picUrl, or: $value.picUrl));
 
   @override
   InventoryItemModelCopyWith<$R2, InventoryItemModel, $Out2> $chain<$R2, $Out2>(

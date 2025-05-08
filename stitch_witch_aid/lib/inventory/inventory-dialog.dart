@@ -153,7 +153,7 @@ class _AddItemDialogState extends State<InventoryDialog> {
                         name: _name,
                         description: _description,
                         tag: _tag,
-                        picture: _picture,
+                        picUrl: _picture,
                       );
 
                       // You can now use this item, e.g., adding to your state or database

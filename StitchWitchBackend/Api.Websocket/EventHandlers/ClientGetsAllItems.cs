@@ -1,5 +1,7 @@
 ﻿using Api.Websocket.ServerResponses;
 using Application.Infrastructure.Postgres;
+using Application.Models.DTOs;
+using Application.Utility;
 using Core.Domain.Entities;
 using Fleck;
 using WebSocketBoilerplate;
@@ -16,11 +18,15 @@ public class ClientGetsAllItems(IItemRepository itemRepo) : BaseEventHandler<Cli
 
         List<Item> allItems = await itemRepo.GetAllItems();
 
+        List<ItemDto> allItemsDto = ItemEntityUtil.ItemListToItemDtoList(allItems);
+
         ServerSendsAllItems responseDto = new ServerSendsAllItems()
         {
             eventType = "ServerSendsAllItems",
-            items =  allItems,
+            items =  allItemsDto,
         };
+        
+        Console.WriteLine("we got the GetAllItems event.. about to send response");
         
         socket.SendDto(responseDto);
         
