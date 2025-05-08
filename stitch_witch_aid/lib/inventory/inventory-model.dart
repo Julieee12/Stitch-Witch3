@@ -1,16 +1,15 @@
 
 import 'package:dart_mappable/dart_mappable.dart';
-import 'package:stitch_witch_aid/projects/projects-model.dart';
 
 part 'inventory-model.mapper.dart';
 
 @MappableClass()
-class InventoryItemModel with ProjectItemModelMappable{
+class InventoryItemModel with InventoryItemModelMappable{
   final String id;
   final String name;
-  final String description;
-  final String tag;
-  final String picture;
+  final String? description;
+  final String? tag;
+  final String? picture;
 
   InventoryItemModel({
     required this.id,

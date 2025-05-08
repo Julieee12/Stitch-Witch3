@@ -42,6 +42,7 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
   }
 
   FutureOr<void> _onClientEvent(BaseEvent event, Emitter<ItemState> emit){
+    print("Some kind of client event triggered");
       _channel.sink.add(event.toJson());
   }
 

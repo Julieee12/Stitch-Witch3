@@ -27,7 +27,7 @@ class InventoryItemState extends State<InventoryItem> {
         children: [
           Text(widget.item.id),
           Text(widget.item.name),
-          Text(widget.item.description),
+          Text(widget.item.description != null ? widget.item.description! : " "),
         ],
       ),
     );

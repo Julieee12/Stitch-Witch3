@@ -16,6 +16,7 @@ class ServerSendsAllItemsEventMapper
       MapperContainer.globals
           .use(_instance = ServerSendsAllItemsEventMapper._());
       BaseEventMapper.ensureInitialized().addSubMapper(_instance!);
+      InventoryItemModelMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -23,6 +24,10 @@ class ServerSendsAllItemsEventMapper
   @override
   final String id = 'ServerSendsAllItemsEvent';
 
+  static List<InventoryItemModel> _$items(ServerSendsAllItemsEvent v) =>
+      v.items;
+  static const Field<ServerSendsAllItemsEvent, List<InventoryItemModel>>
+      _f$items = Field('items', _$items);
   static String _$eventType(ServerSendsAllItemsEvent v) => v.eventType;
   static const Field<ServerSendsAllItemsEvent, String> _f$eventType =
       Field('eventType', _$eventType);
@@ -32,6 +37,7 @@ class ServerSendsAllItemsEventMapper
 
   @override
   final MappableFields<ServerSendsAllItemsEvent> fields = const {
+    #items: _f$items,
     #eventType: _f$eventType,
     #requestId: _f$requestId,
   };
@@ -45,7 +51,9 @@ class ServerSendsAllItemsEventMapper
 
   static ServerSendsAllItemsEvent _instantiate(DecodingData data) {
     return ServerSendsAllItemsEvent(
-        eventType: data.dec(_f$eventType), requestId: data.dec(_f$requestId));
+        items: data.dec(_f$items),
+        eventType: data.dec(_f$eventType),
+        requestId: data.dec(_f$requestId));
   }
 
   @override
@@ -106,8 +114,14 @@ abstract class ServerSendsAllItemsEventCopyWith<
     $R,
     $In extends ServerSendsAllItemsEvent,
     $Out> implements BaseEventCopyWith<$R, $In, $Out> {
+  ListCopyWith<
+      $R,
+      InventoryItemModel,
+      InventoryItemModelCopyWith<$R, InventoryItemModel,
+          InventoryItemModel>> get items;
   @override
-  $R call({String? eventType, String? requestId});
+  $R call(
+      {List<InventoryItemModel>? items, String? eventType, String? requestId});
   ServerSendsAllItemsEventCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
       Then<$Out2, $R2> t);
 }
@@ -122,12 +136,25 @@ class _ServerSendsAllItemsEventCopyWithImpl<$R, $Out>
   late final ClassMapperBase<ServerSendsAllItemsEvent> $mapper =
       ServerSendsAllItemsEventMapper.ensureInitialized();
   @override
-  $R call({String? eventType, String? requestId}) => $apply(FieldCopyWithData({
+  ListCopyWith<
+      $R,
+      InventoryItemModel,
+      InventoryItemModelCopyWith<$R, InventoryItemModel,
+          InventoryItemModel>> get items => ListCopyWith(
+      $value.items, (v, t) => v.copyWith.$chain(t), (v) => call(items: v));
+  @override
+  $R call(
+          {List<InventoryItemModel>? items,
+          String? eventType,
+          String? requestId}) =>
+      $apply(FieldCopyWithData({
+        if (items != null) #items: items,
         if (eventType != null) #eventType: eventType,
         if (requestId != null) #requestId: requestId
       }));
   @override
   ServerSendsAllItemsEvent $make(CopyWithData data) => ServerSendsAllItemsEvent(
+      items: data.get(#items, or: $value.items),
       eventType: data.get(#eventType, or: $value.eventType),
       requestId: data.get(#requestId, or: $value.requestId));
 

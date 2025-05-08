@@ -11,10 +11,10 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 
 void main() {
   ////////////////////// Connect to the backend websocket server //////////////////////
-  //final wsUri = Uri.parse('${BackendUris.wsUri}?id=${Uuid().v4()}');
-  final wsUri = Uri.parse('${BackendUris.wsUri}?id=123');
+  final wsUri = Uri.parse('${BackendUris.wsUri}?id=${Uuid().v4()}');
+  //final wsUri = Uri.parse('${BackendUris.wsUri}?id=123');
   //final wsUri = Uri.parse('${BackendUris.wsUri}');
-  final channel = WebSocketChannel.connect(wsUri);
+  final channel = WebSocketChannel.connect(BackendUris.wsUri);
 
   runApp(MultiBlocProvider(
     providers: [

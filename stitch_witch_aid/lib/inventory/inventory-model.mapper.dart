@@ -25,12 +25,12 @@ class InventoryItemModelMapper extends ClassMapperBase<InventoryItemModel> {
   static String _$name(InventoryItemModel v) => v.name;
   static const Field<InventoryItemModel, String> _f$name =
       Field('name', _$name);
-  static String _$description(InventoryItemModel v) => v.description;
+  static String? _$description(InventoryItemModel v) => v.description;
   static const Field<InventoryItemModel, String> _f$description =
       Field('description', _$description);
-  static String _$tag(InventoryItemModel v) => v.tag;
+  static String? _$tag(InventoryItemModel v) => v.tag;
   static const Field<InventoryItemModel, String> _f$tag = Field('tag', _$tag);
-  static String _$picture(InventoryItemModel v) => v.picture;
+  static String? _$picture(InventoryItemModel v) => v.picture;
   static const Field<InventoryItemModel, String> _f$picture =
       Field('picture', _$picture);
 
@@ -129,15 +129,15 @@ class _InventoryItemModelCopyWithImpl<$R, $Out>
   $R call(
           {String? id,
           String? name,
-          String? description,
-          String? tag,
-          String? picture}) =>
+          Object? description = $none,
+          Object? tag = $none,
+          Object? picture = $none}) =>
       $apply(FieldCopyWithData({
         if (id != null) #id: id,
         if (name != null) #name: name,
-        if (description != null) #description: description,
-        if (tag != null) #tag: tag,
-        if (picture != null) #picture: picture
+        if (description != $none) #description: description,
+        if (tag != $none) #tag: tag,
+        if (picture != $none) #picture: picture
       }));
   @override
   InventoryItemModel $make(CopyWithData data) => InventoryItemModel(
