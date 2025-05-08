@@ -14,7 +14,7 @@ void main() {
   final wsUri = Uri.parse('${BackendUris.wsUri}?id=${Uuid().v4()}');
   //final wsUri = Uri.parse('${BackendUris.wsUri}?id=123');
   //final wsUri = Uri.parse('${BackendUris.wsUri}');
-  final channel = WebSocketChannel.connect(BackendUris.wsUri);
+  final channel = WebSocketChannel.connect(wsUri);
 
   runApp(MultiBlocProvider(
     providers: [

@@ -1,3 +1,3 @@
 class BackendUris {
-  static final Uri wsUri = Uri.parse('ws://127.0.0.1:8181');
+  static final String wsUri = 'ws://127.0.0.1:8181';
 }

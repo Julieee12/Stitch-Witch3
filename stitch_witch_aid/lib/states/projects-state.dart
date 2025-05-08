@@ -7,5 +7,5 @@ class ProjectsState {
   const ProjectsState({required this.projects});
 
   static ProjectsState empty() =>
-      ProjectsState(projects: List.empty());
+      ProjectsState(projects: List.empty(growable: true));
 }
