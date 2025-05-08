@@ -40,16 +40,17 @@ class ProjectsScreen extends StatelessWidget {
                 children:
                   List.generate(state.projects.length, (index) {
                   return ProjectsItem(item: ProjectItemModel(
-                      id:  state.projects[index].id,
-                      name: state.projects[index].name,
-                      description: state.projects[index].description,
-                      tag: state.projects[index].tag,
-                      picurl: state.projects[index].picurl,
-                      stitch: state.projects[index].stitch,
-                      row: state.projects[index].row,
-                      time: state.projects[index].time,
-                      yarn: state.projects[index].yarn,
-                      hook: state.projects[index].hook),
+                      state.projects[index].id,
+                      state.projects[index].name,
+                      state.projects[index].tag,
+                      state.projects[index].stitch,
+                      state.projects[index].row,
+                      state.projects[index].picurl,
+                      state.projects[index].description,
+                      state.projects[index].yarn,
+                      state.projects[index].hook,
+                      state.projects[index].time,
+                      ),
                       color: BrandColors.purpleSoft);
                 }),
               ),

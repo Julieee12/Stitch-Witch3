@@ -5,30 +5,29 @@ import 'package:stitch_witch_aid/states/projects-state.dart';
 import 'package:uuid/uuid.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-import '../events/base-event.dart';
-import '../events/project-events/client-gets-all-projects-event.dart';
-import '../events/project-events/server-sends-all-projects-event.dart';
+import '../events/events.dart';
+
 
 class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
   final WebSocketChannel _channel;
   late StreamSubscription _channelSubscription;
 
-  ProjectBloc({required channel}) : _channel = channel, super(ProjectsState.empty()) {
+  ProjectBloc({required channel})
+      : _channel = channel,
+        super(ProjectsState.empty()) {
     ////////////////////// Handlers for client events //////////////////////
     on<ClientGetsAllProjectsEvent>(_onClientEvent);
 
 
-
     ////////////////////// Handlers for server events //////////////////////
     on<ServerSendsAllProjectsEvent>(_onServerSendsAllProjects);
-
+    on<ServerSendsErrorMessageEvent>(_onServerSendsErrorMessage);
 
 
     ///////////////////// Feed deserialized events from server into this bloc //////////////////////
     _channelSubscription = _channel.stream
         .map((event) => BaseEventMapper.fromJson(event))
         .listen(add, onError: addError);
-
   }
 
   @override
@@ -46,20 +45,24 @@ class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
   }
 
   void clientGetsAllProjects() {
-    print('Client request');
     add(ClientGetsAllProjectsEvent(
         eventType: ClientGetsAllProjectsEvent.name,
         requestId: Uuid().v4()));
   }
 
 
-
   ///////////////////// Receiving server events /////////////////////
   FutureOr<void> _onServerSendsAllProjects(
       ServerSendsAllProjectsEvent event,
       Emitter<ProjectsState> emit) {
-    state.projects.replaceRange(0, state.projects.length, event.projects);
-    print('Server response');
+    state.projects.clear();
+    state.projects.addAll(event.projects);
     emit(state);
+  }
+
+  FutureOr<void> _onServerSendsErrorMessage(
+      ServerSendsErrorMessageEvent event,
+      Emitter<ProjectsState> emit) {
+    // TODO let the user know something went wrong
   }
 }

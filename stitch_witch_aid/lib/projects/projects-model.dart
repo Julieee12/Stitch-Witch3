@@ -13,20 +13,19 @@ class ProjectItemModel with ProjectItemModelMappable {
   String? description;
   String? yarn;
   String? hook;
-  String? time;
+  double? time;
 
-  ProjectItemModel({
-    required this.id,
-    required this.name,
-    required this.tag,
-    required this.stitch,
-    required this.row,
-    required this.picurl,
-    required this.description,
-    required this.yarn,
-    required this.hook,
-    required this.time,
-  });
+  ProjectItemModel(
+      this.id,
+      this.name,
+      this.tag,
+      this.stitch,
+      this.row,
+      this.picurl,
+      this.description,
+      this.yarn,
+      this.hook,
+      this.time);
 
   Map<String, dynamic> toMap() {
     return {
