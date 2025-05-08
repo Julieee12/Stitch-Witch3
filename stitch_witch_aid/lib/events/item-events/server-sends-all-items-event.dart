@@ -5,7 +5,7 @@ import 'package:stitch_witch_aid/events/base-event.dart';
 
 part 'server-sends-all-items-event.mapper.dart';
 
-@MappableClass(discriminatorKey: ServerSendsAllItemsEvent.name)
+@MappableClass(discriminatorValue: ServerSendsAllItemsEvent.name)
 class ServerSendsAllItemsEvent extends BaseEvent with ServerSendsAllItemsEventMappable {
   static const String name = "ServerSendsAllItems";
 

@@ -39,7 +39,7 @@ class ServerSendsAllItemsEventMapper
   @override
   final String discriminatorKey = 'eventType';
   @override
-  final dynamic discriminatorValue = 'ServerSendsAllItemsEvent';
+  final dynamic discriminatorValue = ServerSendsAllItemsEvent.name;
   @override
   late final ClassMapperBase superMapper = BaseEventMapper.ensureInitialized();
 

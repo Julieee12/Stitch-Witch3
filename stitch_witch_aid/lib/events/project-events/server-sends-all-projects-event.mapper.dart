@@ -45,7 +45,7 @@ class ServerSendsAllProjectsEventMapper
   @override
   final String discriminatorKey = 'eventType';
   @override
-  final dynamic discriminatorValue = 'ServerSendsAllProjectsEvent';
+  final dynamic discriminatorValue = ServerSendsAllProjectsEvent.name;
   @override
   late final ClassMapperBase superMapper = BaseEventMapper.ensureInitialized();
 

@@ -5,7 +5,7 @@ import '../../projects/projects-model.dart';
 
 part 'server-sends-all-projects-event.mapper.dart';
 
-@MappableClass(discriminatorKey: ServerSendsAllProjectsEvent.name)
+@MappableClass(discriminatorValue: ServerSendsAllProjectsEvent.name)
 class ServerSendsAllProjectsEvent extends BaseEvent with ServerSendsAllProjectsEventMappable {
   static const String name = 'ServerSendsAllProjects';
   final List<ProjectItemModel> projects;
