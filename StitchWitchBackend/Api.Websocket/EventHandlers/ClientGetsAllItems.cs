@@ -24,6 +24,7 @@ public class ClientGetsAllItems(IItemRepository itemRepo) : BaseEventHandler<Cli
         {
             eventType = "ServerSendsAllItems",
             items =  allItemsDto,
+            requestId = dto.requestId
         };
         
         Console.WriteLine("we got the GetAllItems event.. about to send response");

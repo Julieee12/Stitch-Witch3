@@ -30,7 +30,7 @@ class InventoryItemModelMapper extends ClassMapperBase<InventoryItemModel> {
       Field('description', _$description);
   static String? _$tag(InventoryItemModel v) => v.tag;
   static const Field<InventoryItemModel, String> _f$tag = Field('tag', _$tag);
-  static String? _$picUrl(InventoryItemModel v) => v.picUrl;
+  static String? _$picUrl(InventoryItemModel v) => v.picurl;
   static const Field<InventoryItemModel, String> _f$picUrl =
       Field('picUrl', _$picUrl);
 
@@ -49,7 +49,7 @@ class InventoryItemModelMapper extends ClassMapperBase<InventoryItemModel> {
         name: data.dec(_f$name),
         description: data.dec(_f$description),
         tag: data.dec(_f$tag),
-        picUrl: data.dec(_f$picUrl));
+        picurl: data.dec(_f$picUrl));
   }
 
   @override
@@ -145,7 +145,7 @@ class _InventoryItemModelCopyWithImpl<$R, $Out>
       name: data.get(#name, or: $value.name),
       description: data.get(#description, or: $value.description),
       tag: data.get(#tag, or: $value.tag),
-      picUrl: data.get(#picUrl, or: $value.picUrl));
+      picurl: data.get(#picUrl, or: $value.picurl));
 
   @override
   InventoryItemModelCopyWith<$R2, InventoryItemModel, $Out2> $chain<$R2, $Out2>(

@@ -11,7 +11,6 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 class ItemBloc extends Bloc<BaseEvent, ItemState> {
   final WebSocketChannel _channel;
   late StreamSubscription _channelSubscription;
-  String? _jwt;
 
   ItemBloc ({required channel})
       : _channel = channel,
@@ -22,7 +21,7 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
 
     ////////////////////Server event handlers////////////////////////
     on<ServerSendsAllItemsEvent>(_onServerSendsAllItems);
-
+    on<ServerSendsErrorMessageEvent>(_onServerSendsErrorMessage);
 
     //feed deserialized events into this bloc
     //basically just listening to events
@@ -30,6 +29,13 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
     .map((event) => BaseEventMapper.fromJson(event))
     .listen(add, onError:  addError);
 
+  }
+
+  @override
+  Future<void> close() async {
+    _channelSubscription.cancel();
+    _channel.sink.close();
+    return super.close();
   }
 
   /////////////////////////////////Client events/////////////////////////////////////////////
@@ -47,7 +53,9 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
 
   /////////////////////////////////Server events/////////////////////////////////////////////
 
-  FutureOr<void> _onServerSendsAllItems(ServerSendsAllItemsEvent event, Emitter<ItemState> emit)async {
+  FutureOr<void> _onServerSendsAllItems(
+      ServerSendsAllItemsEvent event,
+      Emitter<ItemState> emit) {
     print("received state?");
     state.items.clear();
     state.items.addAll(event.items);
