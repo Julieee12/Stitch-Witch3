@@ -1,5 +1,6 @@
 
 import 'package:dart_mappable/dart_mappable.dart';
+import 'package:stitch_witch_aid/inventory/inventory-item-dto.dart';
 
 import '../inventory/inventory-model.dart';
 import '../projects/projects-model.dart';
@@ -13,8 +14,12 @@ abstract class BaseEvent with BaseEventMappable {
 
   BaseEvent({required this.eventType, required this.requestId});
 }
-
+///////////////////////////////////
 ////////// Client events //////////
+///////////////////////////////////
+
+
+////////// Project events /////////
 @MappableClass(discriminatorValue: ClientGetsAllProjectsEvent.name)
 class ClientGetsAllProjectsEvent extends BaseEvent with ClientGetsAllProjectsEventMappable {
   static const String name = 'ClientGetsAllProjects';
@@ -22,11 +27,36 @@ class ClientGetsAllProjectsEvent extends BaseEvent with ClientGetsAllProjectsEve
   ClientGetsAllProjectsEvent({required super.eventType, required super.requestId});
 }
 
+///////// Item events ////////////
 @MappableClass(discriminatorValue: ClientGetsAllItemsEvent.name)
 class ClientGetsAllItemsEvent extends BaseEvent with ClientGetsAllItemsEventMappable {
   static const String name = "ClientGetsAllItems";
 
   ClientGetsAllItemsEvent({required super.eventType, required super.requestId});
+}
+
+@MappableClass(discriminatorValue: ClientCreatesNewItemEvent.name)
+class ClientCreatesNewItemEvent extends BaseEvent with ClientCreatesNewItemEventMappable {
+  static const String name = "ClientCreatesNewItem";
+  final List<InventoryItemDto> items;
+
+  ClientCreatesNewItemEvent({required this.items, required super.eventType, required super.requestId});
+}
+
+@MappableClass(discriminatorValue: ClientUpdatesItemEvent.name)
+class ClientUpdatesItemEvent extends BaseEvent with ClientUpdatesItemEventMappable {
+  static const String name = "ClientUpdatesItem";
+  final InventoryItemModel item;
+
+  ClientUpdatesItemEvent({required this.item, required super.eventType, required super.requestId});
+}
+
+@MappableClass(discriminatorValue: ClientDeletesItemEvent.name)
+class ClientDeletesItemEvent extends BaseEvent with ClientDeletesItemEventMappable {
+  static const String name = "ClientDeletesItem";
+  final String id;
+
+  ClientDeletesItemEvent({required this.id, required super.eventType, required super.requestId});
 }
 
 

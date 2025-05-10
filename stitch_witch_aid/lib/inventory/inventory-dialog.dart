@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stitch_witch_aid/inventory/inventory-item-dto.dart';
 
 import '../root/brand-colors.dart';
 import 'inventory-model.dart';
@@ -148,8 +149,7 @@ class _AddItemDialogState extends State<InventoryDialog> {
                       if (!_formKey.currentState!.validate()) return;
 
                       // Create the new item
-                      final newItem = InventoryItemModel(
-                        id: DateTime.now().toString(), // You might want to generate a unique ID
+                      final newItem = InventoryItemDto(
                         name: _name,
                         description: _description,
                         tag: _tag,
