@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stitch_witch_aid/backend-uris.dart';
@@ -12,14 +14,17 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 void main() {
   ////////////////////// Connect to the backend websocket server //////////////////////
   final wsUri = Uri.parse('${BackendUris.wsUri}?id=${Uuid().v4()}');
-  //final wsUri = Uri.parse('${BackendUris.wsUri}?id=123');
-  //final wsUri = Uri.parse('${BackendUris.wsUri}');
-  final channel = WebSocketChannel.connect(wsUri);
 
+  //final channel = WebSocketChannel.connect(wsUri);
+
+  //each Bloc listens to the Websocket server using a different stream
+  //this is most likely bad practice and should probably be
+  //replaced with a StreamController or something like that
+  //but idk how to set that up so for now each page has its own web socket stream
   runApp(MultiBlocProvider(
     providers: [
-      BlocProvider(create: (context) => ProjectBloc(channel: channel)),
-      BlocProvider(create: (context) => ItemBloc(channel: channel))
+      BlocProvider(create: (context) => ProjectBloc(channel: WebSocketChannel.connect(wsUri))),
+      BlocProvider(create: (context) => ItemBloc(channel: WebSocketChannel.connect(wsUri)))
     ],
       child: const MyApp(),
   ));

@@ -25,7 +25,7 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
 
     //feed deserialized events into this bloc
     //basically just listening to events
-    _channelSubscription = _channel.stream
+    _channelSubscription = _channel.stream.asBroadcastStream()
     .map((event) => BaseEventMapper.fromJson(event))
     .listen(add, onError:  addError);
 

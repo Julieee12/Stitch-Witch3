@@ -25,7 +25,7 @@ class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
 
 
     ///////////////////// Feed deserialized events from server into this bloc //////////////////////
-    _channelSubscription = _channel.stream
+    _channelSubscription = _channel.stream.asBroadcastStream()
         .map((event) => BaseEventMapper.fromJson(event))
         .listen(add, onError: addError);
   }
