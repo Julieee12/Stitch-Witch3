@@ -354,9 +354,10 @@ class ClientCreatesNewItemEventMapper
   @override
   final String id = 'ClientCreatesNewItemEvent';
 
-  static List<InventoryItemDto> _$items(ClientCreatesNewItemEvent v) => v.items;
-  static const Field<ClientCreatesNewItemEvent, List<InventoryItemDto>>
-      _f$items = Field('items', _$items);
+  static InventoryItemDto _$newItemDto(ClientCreatesNewItemEvent v) =>
+      v.newItemDto;
+  static const Field<ClientCreatesNewItemEvent, InventoryItemDto>
+      _f$newItemDto = Field('newItemDto', _$newItemDto);
   static String _$eventType(ClientCreatesNewItemEvent v) => v.eventType;
   static const Field<ClientCreatesNewItemEvent, String> _f$eventType =
       Field('eventType', _$eventType);
@@ -366,7 +367,7 @@ class ClientCreatesNewItemEventMapper
 
   @override
   final MappableFields<ClientCreatesNewItemEvent> fields = const {
-    #items: _f$items,
+    #newItemDto: _f$newItemDto,
     #eventType: _f$eventType,
     #requestId: _f$requestId,
   };
@@ -380,7 +381,7 @@ class ClientCreatesNewItemEventMapper
 
   static ClientCreatesNewItemEvent _instantiate(DecodingData data) {
     return ClientCreatesNewItemEvent(
-        items: data.dec(_f$items),
+        newItemDto: data.dec(_f$newItemDto),
         eventType: data.dec(_f$eventType),
         requestId: data.dec(_f$requestId));
   }
@@ -445,12 +446,10 @@ abstract class ClientCreatesNewItemEventCopyWith<
     $R,
     $In extends ClientCreatesNewItemEvent,
     $Out> implements BaseEventCopyWith<$R, $In, $Out> {
-  ListCopyWith<$R, InventoryItemDto,
-          InventoryItemDtoCopyWith<$R, InventoryItemDto, InventoryItemDto>>
-      get items;
+  InventoryItemDtoCopyWith<$R, InventoryItemDto, InventoryItemDto>
+      get newItemDto;
   @override
-  $R call(
-      {List<InventoryItemDto>? items, String? eventType, String? requestId});
+  $R call({InventoryItemDto? newItemDto, String? eventType, String? requestId});
   ClientCreatesNewItemEventCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
       Then<$Out2, $R2> t);
 }
@@ -465,24 +464,23 @@ class _ClientCreatesNewItemEventCopyWithImpl<$R, $Out>
   late final ClassMapperBase<ClientCreatesNewItemEvent> $mapper =
       ClientCreatesNewItemEventMapper.ensureInitialized();
   @override
-  ListCopyWith<$R, InventoryItemDto,
-          InventoryItemDtoCopyWith<$R, InventoryItemDto, InventoryItemDto>>
-      get items => ListCopyWith(
-          $value.items, (v, t) => v.copyWith.$chain(t), (v) => call(items: v));
+  InventoryItemDtoCopyWith<$R, InventoryItemDto, InventoryItemDto>
+      get newItemDto =>
+          $value.newItemDto.copyWith.$chain((v) => call(newItemDto: v));
   @override
   $R call(
-          {List<InventoryItemDto>? items,
+          {InventoryItemDto? newItemDto,
           String? eventType,
           String? requestId}) =>
       $apply(FieldCopyWithData({
-        if (items != null) #items: items,
+        if (newItemDto != null) #newItemDto: newItemDto,
         if (eventType != null) #eventType: eventType,
         if (requestId != null) #requestId: requestId
       }));
   @override
   ClientCreatesNewItemEvent $make(CopyWithData data) =>
       ClientCreatesNewItemEvent(
-          items: data.get(#items, or: $value.items),
+          newItemDto: data.get(#newItemDto, or: $value.newItemDto),
           eventType: data.get(#eventType, or: $value.eventType),
           requestId: data.get(#requestId, or: $value.requestId));
 

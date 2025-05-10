@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stitch_witch_aid/inventory/inventory-item-dto.dart';
 
+import '../blocs/Item-bloc.dart';
 import '../root/brand-colors.dart';
+import '../states/item-state.dart';
 import 'inventory-model.dart';
 
 class InventoryDialog extends StatefulWidget {
-  const InventoryDialog({super.key});
+  final ItemState state;
+  final BuildContext buildContext;
+
+  const InventoryDialog({super.key, required this.state, required this.buildContext});
 
   @override
   State<InventoryDialog> createState() => _AddItemDialogState();
@@ -152,16 +158,20 @@ class _AddItemDialogState extends State<InventoryDialog> {
                       final newItem = InventoryItemDto(
                         name: _name,
                         description: _description,
-                        tag: _tag,
-                        picurl: _picture,
+                        tag: _tag.isNotEmpty ? _tag : null,
+                        picurl: _picture.isNotEmpty ? _picture : null,
                       );
 
                       // You can now use this item, e.g., adding to your state or database
                       print('Item Created: $newItem');
 
+                      widget.buildContext.read<ItemBloc>().clientCreatesNewItemItems(newItem);
+                      widget.buildContext.read<ItemBloc>().clientWantsToGetAllItems();
+
                       Navigator.of(context).pop();
                     },
                     child: const Text("Save"),
+
                   ),
                 ],
               ),

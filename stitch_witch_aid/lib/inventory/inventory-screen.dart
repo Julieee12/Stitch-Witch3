@@ -7,7 +7,7 @@ import 'package:stitch_witch_aid/states/item-state.dart';
 import '../root/brand-colors.dart';
 import '../root/search-bar.dart';
 import '../root/tags.dart';
-import '../root/add-button.dart'; // Make sure this import points to the correct file
+import 'add-item-button.dart'; // Make sure this import points to the correct file
 
 class InventoryScreen extends StatelessWidget {
   const InventoryScreen({super.key});
@@ -62,7 +62,7 @@ class InventoryScreen extends StatelessWidget {
             * The backend then returns the newly created item,
             * which we can then show
             * */
-                child: AddButton(),
+                child: AddItemButton(buildContext: context, state: state,),
 
               ),
             ],

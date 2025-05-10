@@ -5,7 +5,7 @@ import 'package:stitch_witch_aid/blocs/project-bloc.dart';
 import 'package:stitch_witch_aid/projects/projects-item.dart';
 import 'package:stitch_witch_aid/projects/projects-model.dart';
 import 'package:stitch_witch_aid/states/projects-state.dart';
-import '../root/add-button.dart';
+//import '../root/add-button.dart';
 import '../root/brand-colors.dart';
 import '../root/search-bar.dart';
 import '../root/tags.dart';
@@ -58,7 +58,8 @@ class ProjectsScreen extends StatelessWidget {
             Positioned(
               bottom: 30,
               right: 0,
-              child: AddButton(),
+                child: FilledButton(onPressed: () {}, child: Text("+"))
+              //child: AddButton(context: context, state: state,),
             )
           ],
         ),

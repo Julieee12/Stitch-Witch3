@@ -38,9 +38,9 @@ class ClientGetsAllItemsEvent extends BaseEvent with ClientGetsAllItemsEventMapp
 @MappableClass(discriminatorValue: ClientCreatesNewItemEvent.name)
 class ClientCreatesNewItemEvent extends BaseEvent with ClientCreatesNewItemEventMappable {
   static const String name = "ClientCreatesNewItem";
-  final List<InventoryItemDto> items;
+  final InventoryItemDto newItemDto;
 
-  ClientCreatesNewItemEvent({required this.items, required super.eventType, required super.requestId});
+  ClientCreatesNewItemEvent({required this.newItemDto, required super.eventType, required super.requestId});
 }
 
 @MappableClass(discriminatorValue: ClientUpdatesItemEvent.name)

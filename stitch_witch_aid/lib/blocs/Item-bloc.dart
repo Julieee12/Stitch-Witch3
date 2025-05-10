@@ -4,6 +4,8 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:stitch_witch_aid/events/events.dart';
+import 'package:stitch_witch_aid/inventory/inventory-item-dto.dart';
+import 'package:stitch_witch_aid/inventory/inventory-model.dart';
 import 'package:stitch_witch_aid/states/item-state.dart';
 import 'package:uuid/uuid.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -17,6 +19,9 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
         super(ItemState.empty()){
     ////////////////////Client event handlers//////////////////
     on<ClientGetsAllItemsEvent>(_onClientEvent);
+    on<ClientCreatesNewItemEvent>(_onClientEvent);
+    on<ClientUpdatesItemEvent>(_onClientEvent);
+    on<ClientDeletesItemEvent>(_onClientEvent);
 
 
     ////////////////////Server event handlers////////////////////////
@@ -44,6 +49,29 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
     add(ClientGetsAllItemsEvent(
         eventType: ClientGetsAllItemsEvent.name,
         requestId: Uuid().v4()));
+  }
+
+  void clientCreatesNewItemItems(InventoryItemDto item){
+    print("!!!!!!!!!!!!!!! NEW ITEM BEING CREATED !!!!!!!!!!!!!!!!!!");
+    add(ClientCreatesNewItemEvent(
+        eventType: ClientCreatesNewItemEvent.name,
+        requestId: Uuid().v4(),
+        newItemDto: item));
+  }
+
+  void clientUpdatesItemItems(InventoryItemModel item){
+    print("~~~~~~~~~~~~~~~~~UPDARE~~~~~~~~~~~~~~~~~~~~");
+    add(ClientUpdatesItemEvent(
+        eventType: ClientCreatesNewItemEvent.name,
+        requestId: Uuid().v4(),
+        item: item));
+  }
+  void clientDeletesItemItems(String itemId){
+    print("_______--------______ Delete... ______--------________");
+    add(ClientDeletesItemEvent(
+        eventType: ClientCreatesNewItemEvent.name,
+        requestId: Uuid().v4(),
+        id: itemId,));
   }
 
   FutureOr<void> _onClientEvent(BaseEvent event, Emitter<ItemState> emit){
