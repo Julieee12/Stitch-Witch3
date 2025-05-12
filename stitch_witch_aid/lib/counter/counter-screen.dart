@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:stitch_witch_aid/root/brand-colors.dart';
 
@@ -9,13 +10,20 @@ class CounterScreen extends StatefulWidget {
 }
 
 class _CounterScreenState extends State<CounterScreen> {
+  //counter variables
   int stitchesCount = 0;
   int currentRow = 0;
   final TextEditingController stitchesPerRowController = TextEditingController();
 
+  //timer variables
+  Timer? _timer;
+  int _elapsedSeconds = 0;
+  bool _isRunning = false;
+
   @override
   void dispose() {
     stitchesPerRowController.dispose();
+    _timer?.cancel();
     super.dispose();
   }
 
@@ -27,7 +35,7 @@ class _CounterScreenState extends State<CounterScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(height:20),
+            const SizedBox(height: 20),
 
             /////////////////////////////////////// TOGGLE /////////////////////////////////////////////
             Row(
@@ -139,7 +147,7 @@ class _CounterScreenState extends State<CounterScreen> {
               context: context,
               label: 'Rows',
               value: currentRow.toString(),
-              color: BrandColors.purpleSoft,// color for the container (background)
+              color: BrandColors.purpleSoft, // color for the container (background)
               buttonColor: BrandColors.purpleMedium, // color for Rows buttons (inside)
               onIncrement: () => setState(() => currentRow++),
               onDecrement: () => setState(() {
@@ -149,19 +157,33 @@ class _CounterScreenState extends State<CounterScreen> {
             const SizedBox(height: 20),
 
             ///////////////////////////////////// TIMER ///////////////////////////////
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 11),
-              decoration: BoxDecoration(
-                color: BrandColors.purpleLightish,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: const [
-                  Icon(Icons.play_arrow, color: Colors.deepPurple, size: 50,),
-                  SizedBox(width: 8),
-                  Text('00:47:23', style: TextStyle(fontSize: 27)),
-                ],
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  _isRunning ? _stopTimer() : _startTimer();
+                });
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 11),
+                decoration: BoxDecoration(
+                  color: BrandColors.purpleLightish,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      _isRunning ? Icons.pause : Icons.play_arrow,
+                      color: Colors.deepPurple,
+                      size: 50,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      _formatDuration(_elapsedSeconds),
+                      style: const TextStyle(fontSize: 27),
+                    ),
+                  ],
+                ),
               ),
             ),
             const SizedBox(height: 20),
@@ -186,6 +208,32 @@ class _CounterScreenState extends State<CounterScreen> {
       ),
     );
   }
+
+  // Starts the timer and adds _elapsedSeconds every second
+  void _startTimer() {
+    _isRunning = true;
+    _timer = Timer.periodic(const Duration(seconds: 1), (_) {
+      setState(() {
+        _elapsedSeconds++;
+      });
+    });
+  }
+
+  //Stops the timer
+  void _stopTimer() {
+    _isRunning = false;
+    _timer?.cancel();
+  }
+
+  // Formatting the time
+  String _formatDuration(int totalSeconds) {
+    final hours = totalSeconds ~/ 3600;
+    final minutes = (totalSeconds % 3600) ~/ 60;
+    final seconds = totalSeconds % 60;
+    return '${_twoDigits(hours)}:${_twoDigits(minutes)}:${_twoDigits(seconds)}';
+  }
+
+  String _twoDigits(int n) => n.toString().padLeft(2, '0');
 
   ///////// Widget for large counter cards (stitches and rows) with floating buttons///////////
   ///////////////////////////////// it can be reused//////////////////////////////////////////
@@ -220,7 +268,6 @@ class _CounterScreenState extends State<CounterScreen> {
             ),
           ),
         ),
-
 
         Positioned(
           left: 0,
