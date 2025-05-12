@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stitch_witch_aid/blocs/project-bloc.dart';
+import 'package:stitch_witch_aid/projects/project-expanded-view.dart';
 import 'package:stitch_witch_aid/projects/projects-item.dart';
 import 'package:stitch_witch_aid/projects/projects-model.dart';
 import 'package:stitch_witch_aid/states/projects-state.dart';
@@ -11,7 +12,7 @@ import '../root/search-bar.dart';
 import '../root/tags.dart';
 
 class ProjectsScreen extends StatelessWidget {
-  const ProjectsScreen ({super.key});
+  const ProjectsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,21 +38,34 @@ class ProjectsScreen extends StatelessWidget {
                 crossAxisCount: 2,
                 crossAxisSpacing: 30,
                 mainAxisSpacing: 15,
-                children:
-                  List.generate(state.projects.length, (index) {
-                  return ProjectsItem(item: ProjectItemModel(
-                      state.projects[index].id,
-                      state.projects[index].name,
-                      state.projects[index].tag,
-                      state.projects[index].stitch,
-                      state.projects[index].row,
-                      state.projects[index].picurl,
-                      state.projects[index].description,
-                      state.projects[index].yarn,
-                      state.projects[index].hook,
-                      state.projects[index].time,
+                children: List.generate(state.projects.length, (index) {
+                  final project = state.projects[index];
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              ProjectExpandedView(project: project),
+                        ),
+                      );
+                    },
+                    child: ProjectsItem(
+                      item: ProjectItemModel(
+                        project.id,
+                        project.name,
+                        project.tag,
+                        project.stitch,
+                        project.row,
+                        project.picurl,
+                        project.description,
+                        project.yarn,
+                        project.hook,
+                        project.time,
                       ),
-                      color: BrandColors.purpleSoft);
+                      color: BrandColors.purpleSoft,
+                    ),
+                  );
                 }),
               ),
             ),
@@ -59,7 +73,7 @@ class ProjectsScreen extends StatelessWidget {
               bottom: 30,
               right: 0,
               child: AddButton(),
-            )
+            ),
           ],
         ),
       ),
