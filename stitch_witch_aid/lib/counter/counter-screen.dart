@@ -1,8 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:stitch_witch_aid/root/brand-colors.dart';
 
-class Counter extends StatelessWidget {
-  const Counter({super.key});
+class CounterScreen extends StatefulWidget {
+  const CounterScreen({super.key});
+
+  @override
+  State<CounterScreen> createState() => _CounterScreenState();
+}
+
+class _CounterScreenState extends State<CounterScreen> {
+  int stitchesCount = 0;
+  int currentRow = 0;
+  final TextEditingController stitchesPerRowController = TextEditingController();
+
+  @override
+  void dispose() {
+    stitchesPerRowController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +85,7 @@ class Counter extends StatelessWidget {
                   height: 35,
                   width: 80,
                   child: TextField(
+                    controller: stitchesPerRowController,
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
                       filled: true,
@@ -80,7 +96,6 @@ class Counter extends StatelessWidget {
                         borderSide: BorderSide.none,
                       ),
                     ),
-                    controller: TextEditingController(text: '20'),
                   ),
                 ),
               ],
@@ -91,9 +106,25 @@ class Counter extends StatelessWidget {
             _buildLargeCounter(
               context: context,
               label: 'Stitches',
-              value: '26',
+              value: stitchesCount.toString(),
               color: BrandColors.purpleLighter, // color for the container (background)
               buttonColor: BrandColors.purpleLightish, // color for Stitches buttons (inside)
+              onIncrement: () {
+                setState(() {
+                  stitchesCount++;
+                  int? stitchesPerRow = int.tryParse(stitchesPerRowController.text);
+                  if (stitchesPerRow != null && stitchesPerRow > 0) {
+                    if (stitchesCount % stitchesPerRow == 0) {
+                      currentRow++;
+                    }
+                  }
+                });
+              },
+              onDecrement: () {
+                setState(() {
+                  if (stitchesCount > 0) stitchesCount--;
+                });
+              },
             ),
             const SizedBox(height: 10),
 
@@ -101,9 +132,13 @@ class Counter extends StatelessWidget {
             _buildLargeCounter(
               context: context,
               label: 'Rows',
-              value: '12/20',
+              value: currentRow.toString(),
               color: BrandColors.purpleSoft,// color for the container (background)
               buttonColor: BrandColors.purpleMedium, // color for Rows buttons (inside)
+              onIncrement: () => setState(() => currentRow++),
+              onDecrement: () => setState(() {
+                if (currentRow > 0) currentRow--;
+              }),
             ),
             const SizedBox(height: 20),
 
@@ -154,6 +189,8 @@ class Counter extends StatelessWidget {
     required String value,
     required Color color,
     required Color buttonColor,
+    required VoidCallback onIncrement,
+    required VoidCallback onDecrement,
   }) {
     return Stack(
       alignment: Alignment.center,
@@ -181,18 +218,18 @@ class Counter extends StatelessWidget {
 
         Positioned(
           left: 0,
-          child: _buildBigRoundButton(icon: Icons.remove, color: buttonColor),
+          child: _buildBigRoundButton(icon: Icons.remove, color: buttonColor, onPressed: onDecrement),
         ),
         Positioned(
           right: 0,
-          child: _buildBigRoundButton(icon: Icons.add, color: buttonColor),
+          child: _buildBigRoundButton(icon: Icons.add, color: buttonColor, onPressed: onIncrement),
         ),
       ],
     );
   }
 
   ////////////////////////// ROUNDED BUTTONS (+,-)////////////////////////////////////////
-  Widget _buildBigRoundButton({required IconData icon, required Color color}) {
+  Widget _buildBigRoundButton({required IconData icon, required Color color, required VoidCallback onPressed}) {
     return Container(
       width: 80,
       height: 160,
@@ -202,7 +239,7 @@ class Counter extends StatelessWidget {
       ),
       child: IconButton(
         icon: Icon(icon, color: Colors.black, size: 50),
-        onPressed: () {},
+        onPressed: onPressed,
       ),
     );
   }

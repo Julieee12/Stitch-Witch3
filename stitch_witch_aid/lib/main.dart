@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stitch_witch_aid/counter/counter.dart';
+import 'package:stitch_witch_aid/counter/counter-screen.dart';
 import 'package:stitch_witch_aid/root/add-button.dart';
 import 'package:stitch_witch_aid/root/nav-bar.dart';
 
@@ -15,7 +15,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Widget currentWidget = Counter(); // The current page being loaded
+  Widget currentWidget = CounterScreen(); // The current page being loaded
 
   // Callback function to change the current page
   callback(newCurrentWidget) {
