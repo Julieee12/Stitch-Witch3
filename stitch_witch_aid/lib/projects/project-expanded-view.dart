@@ -20,25 +20,27 @@ class ProjectExpandedView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Show the project image
+            //image
             if (project.picurl != null)
               Image.network(project.picurl!),
             SizedBox(height: 20),
-            // Show the project description
+            // description
             Text(
               project.description ?? 'No description available',
               style: TextStyle(fontSize: 16),
             ),
             SizedBox(height: 20),
-            // Show additional project details (you can add more details if needed)
+            //yarn
             Text(
               'Yarn: ${project.yarn ?? 'N/A'}',
               style: TextStyle(fontSize: 14),
             ),
+            //hook
             Text(
               'Hook: ${project.hook ?? 'N/A'}',
               style: TextStyle(fontSize: 14),
             ),
+            //time
             Text(
               'Time: ${project.time ?? 'N/A'}',
               style: TextStyle(fontSize: 14),
