@@ -21,13 +21,6 @@ class _CounterScreenState extends State<CounterScreen> {
   bool _isRunning = false;
 
   @override
-  void dispose() {
-    stitchesPerRowController.dispose();
-    _timer?.cancel();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return SingleChildScrollView( // Make the whole screen scrollable if content exceeds the screen
       child: Padding(
