@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:stitch_witch_aid/counter/counter.dart';
-import 'package:stitch_witch_aid/glossary/glossary.dart';
+import 'package:stitch_witch_aid/counter/counter-screen.dart';
+import 'package:stitch_witch_aid/glossary/glossary-screen.dart';
 import 'package:stitch_witch_aid/inventory/inventory-screen.dart';
 import 'package:stitch_witch_aid/root/brand-colors.dart';
 
@@ -20,7 +20,7 @@ class NavBar extends StatefulWidget {
 class _NavBarState extends State<NavBar> {
   int _currentPage = 0; // Tracks active tab
 
-  final List<Widget> _pages = [Counter(), InventoryScreen(), Glossary(), ProjectsScreen()];
+  final List<Widget> _pages = [CounterScreen(), InventoryScreen(), GlossaryScreen(), ProjectsScreen()];
 
   @override
   Widget build(BuildContext context) {
