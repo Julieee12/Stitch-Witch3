@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stitch_witch_aid/projects/project-bloc.dart';
 import 'package:stitch_witch_aid/projects/projects-model.dart';
+import 'package:stitch_witch_aid/projects/projects-state.dart';
 
 import '../root/brand-colors.dart';
 
@@ -10,42 +13,52 @@ class ProjectExpandedView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(project.name),
-        backgroundColor: BrandColors.purpleSoft,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            //image
-            if (project.picurl != null)
-              Image.network(project.picurl!),
-            SizedBox(height: 20),
-            // description
-            Text(
-              project.description ?? 'No description available',
-              style: TextStyle(fontSize: 16),
-            ),
-            SizedBox(height: 20),
-            //yarn
-            Text(
-              'Yarn: ${project.yarn ?? 'N/A'}',
-              style: TextStyle(fontSize: 14),
-            ),
-            //hook
-            Text(
-              'Hook: ${project.hook ?? 'N/A'}',
-              style: TextStyle(fontSize: 14),
-            ),
-            //time
-            Text(
-              'Time: ${project.time ?? 'N/A'}',
-              style: TextStyle(fontSize: 14),
-            ),
-          ],
+    return BlocConsumer<ProjectBloc, ProjectsState>(
+      listener: (context, state) {},
+      builder: (context, state) => Scaffold(
+        appBar: AppBar(
+          title: Text(project.name),
+          backgroundColor: BrandColors.purpleSoft,
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              //image
+              if (project.picurl != null)
+                Image.network(project.picurl!),
+              SizedBox(height: 20),
+              // description
+              Text(
+                project.description ?? 'No description available',
+                style: TextStyle(fontSize: 16),
+              ),
+              SizedBox(height: 20),
+              //yarn
+              Text(
+                'Yarn: ${project.yarn ?? 'N/A'}',
+                style: TextStyle(fontSize: 14),
+              ),
+              //hook
+              Text(
+                'Hook: ${project.hook ?? 'N/A'}',
+                style: TextStyle(fontSize: 14),
+              ),
+              //time
+              Text(
+                'Time: ${project.time ?? 'N/A'}',
+                style: TextStyle(fontSize: 14),
+              ),
+              TextButton(
+                  onPressed: () {
+                    BlocProvider.of<ProjectBloc>(context).clientDeletesProject(project.id);
+
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Delete'))
+            ],
+          ),
         ),
       ),
     );
