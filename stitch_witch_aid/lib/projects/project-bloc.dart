@@ -65,17 +65,21 @@ class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
   FutureOr<void> _onServerSendsAllProjects(
       ServerSendsAllProjectsEvent event,
       Emitter<ProjectsState> emit) {
-    state.projects.clear();
-    state.projects.addAll(event.projects);
-    emit(state);
+    var stateCopy = ProjectsState.empty();
+
+    stateCopy.projects.addAll(event.projects);
+
+    emit(stateCopy);
   }
 
   FutureOr<void> _onServerSendsCreatedProject(
       ServerSendsCreatedProjectEvent event,
       Emitter<ProjectsState> emit) {
-    print('server sends project');
-    state.projects.add(event.projectDto);
-    emit(state);
+    var stateCopy = ProjectsState(projects: [...state.projects]);
+
+    stateCopy.projects.add(event.projectDto);
+
+    emit(stateCopy);
   }
 
   FutureOr<void> _onServerSendsErrorMessage(
