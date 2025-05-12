@@ -25,7 +25,8 @@ class ProjectItemModelMapper extends ClassMapperBase<ProjectItemModel> {
   static String _$name(ProjectItemModel v) => v.name;
   static const Field<ProjectItemModel, String> _f$name = Field('name', _$name);
   static String? _$tag(ProjectItemModel v) => v.tag;
-  static const Field<ProjectItemModel, String> _f$tag = Field('tag', _$tag);
+  static const Field<ProjectItemModel, String> _f$tag =
+      Field('tag', _$tag, opt: true);
   static int _$stitch(ProjectItemModel v) => v.stitch;
   static const Field<ProjectItemModel, int> _f$stitch =
       Field('stitch', _$stitch);
@@ -33,16 +34,19 @@ class ProjectItemModelMapper extends ClassMapperBase<ProjectItemModel> {
   static const Field<ProjectItemModel, int> _f$row = Field('row', _$row);
   static String? _$picurl(ProjectItemModel v) => v.picurl;
   static const Field<ProjectItemModel, String> _f$picurl =
-      Field('picurl', _$picurl);
+      Field('picurl', _$picurl, opt: true);
   static String? _$description(ProjectItemModel v) => v.description;
   static const Field<ProjectItemModel, String> _f$description =
-      Field('description', _$description);
+      Field('description', _$description, opt: true);
   static String? _$yarn(ProjectItemModel v) => v.yarn;
-  static const Field<ProjectItemModel, String> _f$yarn = Field('yarn', _$yarn);
+  static const Field<ProjectItemModel, String> _f$yarn =
+      Field('yarn', _$yarn, opt: true);
   static String? _$hook(ProjectItemModel v) => v.hook;
-  static const Field<ProjectItemModel, String> _f$hook = Field('hook', _$hook);
+  static const Field<ProjectItemModel, String> _f$hook =
+      Field('hook', _$hook, opt: true);
   static double? _$time(ProjectItemModel v) => v.time;
-  static const Field<ProjectItemModel, double> _f$time = Field('time', _$time);
+  static const Field<ProjectItemModel, double> _f$time =
+      Field('time', _$time, opt: true);
 
   @override
   final MappableFields<ProjectItemModel> fields = const {
@@ -60,16 +64,16 @@ class ProjectItemModelMapper extends ClassMapperBase<ProjectItemModel> {
 
   static ProjectItemModel _instantiate(DecodingData data) {
     return ProjectItemModel(
-        data.dec(_f$id),
-        data.dec(_f$name),
-        data.dec(_f$tag),
-        data.dec(_f$stitch),
-        data.dec(_f$row),
-        data.dec(_f$picurl),
-        data.dec(_f$description),
-        data.dec(_f$yarn),
-        data.dec(_f$hook),
-        data.dec(_f$time));
+        id: data.dec(_f$id),
+        name: data.dec(_f$name),
+        tag: data.dec(_f$tag),
+        stitch: data.dec(_f$stitch),
+        row: data.dec(_f$row),
+        picurl: data.dec(_f$picurl),
+        description: data.dec(_f$description),
+        yarn: data.dec(_f$yarn),
+        hook: data.dec(_f$hook),
+        time: data.dec(_f$time));
   }
 
   @override
@@ -176,16 +180,16 @@ class _ProjectItemModelCopyWithImpl<$R, $Out>
       }));
   @override
   ProjectItemModel $make(CopyWithData data) => ProjectItemModel(
-      data.get(#id, or: $value.id),
-      data.get(#name, or: $value.name),
-      data.get(#tag, or: $value.tag),
-      data.get(#stitch, or: $value.stitch),
-      data.get(#row, or: $value.row),
-      data.get(#picurl, or: $value.picurl),
-      data.get(#description, or: $value.description),
-      data.get(#yarn, or: $value.yarn),
-      data.get(#hook, or: $value.hook),
-      data.get(#time, or: $value.time));
+      id: data.get(#id, or: $value.id),
+      name: data.get(#name, or: $value.name),
+      tag: data.get(#tag, or: $value.tag),
+      stitch: data.get(#stitch, or: $value.stitch),
+      row: data.get(#row, or: $value.row),
+      picurl: data.get(#picurl, or: $value.picurl),
+      description: data.get(#description, or: $value.description),
+      yarn: data.get(#yarn, or: $value.yarn),
+      hook: data.get(#hook, or: $value.hook),
+      time: data.get(#time, or: $value.time));
 
   @override
   ProjectItemModelCopyWith<$R2, ProjectItemModel, $Out2> $chain<$R2, $Out2>(
