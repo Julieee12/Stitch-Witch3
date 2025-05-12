@@ -76,6 +76,12 @@ class _CounterScreenState extends State<CounterScreen> {
             const SizedBox(height: 20), // adds space between dropdown and stitches input
 
             //////////////////////// STITCHES/ROW////////////////////////////////////////
+
+            // COUNTING LOGIC
+            // User inputs stitches per row (if the user doesn't, the count works just normally and rows don't update automatically)
+            // Each + tap adds 1 stitch
+            // If input is valid (>0) and stitch count reaches a multiple of that value,the row count increases automatically
+
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
