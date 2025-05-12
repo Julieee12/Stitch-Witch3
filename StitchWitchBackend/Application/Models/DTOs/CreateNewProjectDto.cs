@@ -6,10 +6,6 @@ public class CreateNewProjectDto
     
     public string? Tag { get; set; }
     
-    public int Stitch { get; set; }
-    
-    public int Row { get; set; }
-    
     public string? Picurl { get; set; }
 
     public string? Description { get; set; }
@@ -17,7 +13,5 @@ public class CreateNewProjectDto
     public string? Yarn { get; set; }
 
     public string? Hook { get; set; }
-
-    public decimal? Time { get; set; }
 
 }

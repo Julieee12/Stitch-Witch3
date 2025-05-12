@@ -213,11 +213,6 @@ class CreateNewProjectDtoMapper extends ClassMapperBase<CreateNewProjectDto> {
   static String? _$tag(CreateNewProjectDto v) => v.tag;
   static const Field<CreateNewProjectDto, String> _f$tag =
       Field('tag', _$tag, opt: true);
-  static int _$stitch(CreateNewProjectDto v) => v.stitch;
-  static const Field<CreateNewProjectDto, int> _f$stitch =
-      Field('stitch', _$stitch);
-  static int _$row(CreateNewProjectDto v) => v.row;
-  static const Field<CreateNewProjectDto, int> _f$row = Field('row', _$row);
   static String? _$picurl(CreateNewProjectDto v) => v.picurl;
   static const Field<CreateNewProjectDto, String> _f$picurl =
       Field('picurl', _$picurl, opt: true);
@@ -230,34 +225,25 @@ class CreateNewProjectDtoMapper extends ClassMapperBase<CreateNewProjectDto> {
   static String? _$hook(CreateNewProjectDto v) => v.hook;
   static const Field<CreateNewProjectDto, String> _f$hook =
       Field('hook', _$hook, opt: true);
-  static double? _$time(CreateNewProjectDto v) => v.time;
-  static const Field<CreateNewProjectDto, double> _f$time =
-      Field('time', _$time, opt: true);
 
   @override
   final MappableFields<CreateNewProjectDto> fields = const {
     #name: _f$name,
     #tag: _f$tag,
-    #stitch: _f$stitch,
-    #row: _f$row,
     #picurl: _f$picurl,
     #description: _f$description,
     #yarn: _f$yarn,
     #hook: _f$hook,
-    #time: _f$time,
   };
 
   static CreateNewProjectDto _instantiate(DecodingData data) {
     return CreateNewProjectDto(
         name: data.dec(_f$name),
         tag: data.dec(_f$tag),
-        stitch: data.dec(_f$stitch),
-        row: data.dec(_f$row),
         picurl: data.dec(_f$picurl),
         description: data.dec(_f$description),
         yarn: data.dec(_f$yarn),
-        hook: data.dec(_f$hook),
-        time: data.dec(_f$time));
+        hook: data.dec(_f$hook));
   }
 
   @override
@@ -318,13 +304,10 @@ abstract class CreateNewProjectDtoCopyWith<$R, $In extends CreateNewProjectDto,
   $R call(
       {String? name,
       String? tag,
-      int? stitch,
-      int? row,
       String? picurl,
       String? description,
       String? yarn,
-      String? hook,
-      double? time});
+      String? hook});
   CreateNewProjectDtoCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
       Then<$Out2, $R2> t);
 }
@@ -341,35 +324,26 @@ class _CreateNewProjectDtoCopyWithImpl<$R, $Out>
   $R call(
           {String? name,
           Object? tag = $none,
-          int? stitch,
-          int? row,
           Object? picurl = $none,
           Object? description = $none,
           Object? yarn = $none,
-          Object? hook = $none,
-          Object? time = $none}) =>
+          Object? hook = $none}) =>
       $apply(FieldCopyWithData({
         if (name != null) #name: name,
         if (tag != $none) #tag: tag,
-        if (stitch != null) #stitch: stitch,
-        if (row != null) #row: row,
         if (picurl != $none) #picurl: picurl,
         if (description != $none) #description: description,
         if (yarn != $none) #yarn: yarn,
-        if (hook != $none) #hook: hook,
-        if (time != $none) #time: time
+        if (hook != $none) #hook: hook
       }));
   @override
   CreateNewProjectDto $make(CopyWithData data) => CreateNewProjectDto(
       name: data.get(#name, or: $value.name),
       tag: data.get(#tag, or: $value.tag),
-      stitch: data.get(#stitch, or: $value.stitch),
-      row: data.get(#row, or: $value.row),
       picurl: data.get(#picurl, or: $value.picurl),
       description: data.get(#description, or: $value.description),
       yarn: data.get(#yarn, or: $value.yarn),
-      hook: data.get(#hook, or: $value.hook),
-      time: data.get(#time, or: $value.time));
+      hook: data.get(#hook, or: $value.hook));
 
   @override
   CreateNewProjectDtoCopyWith<$R2, CreateNewProjectDto, $Out2>

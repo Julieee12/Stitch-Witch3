@@ -42,22 +42,16 @@ class ProjectItemModel with ProjectItemModelMappable {
 class CreateNewProjectDto with CreateNewProjectDtoMappable {
   String name;
   String? tag;
-  int stitch;
-  int row;
   String? picurl;
   String? description;
   String? yarn;
   String? hook;
-  double? time;
 
   CreateNewProjectDto({
     required this.name,
     this.tag,
-    required this.stitch,
-    required this.row,
     this.picurl,
     this.description,
     this.yarn,
-    this.hook,
-    this.time});
+    this.hook});
 }

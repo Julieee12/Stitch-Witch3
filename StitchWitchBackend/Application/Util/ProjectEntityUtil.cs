@@ -11,13 +11,13 @@ public class ProjectEntityUtil
         {
             Name = createNewProjectDto.Name,
             Tag = createNewProjectDto.Tag,
-            Stitch = createNewProjectDto.Stitch,
-            Row = createNewProjectDto.Row,
+            Stitch = 0,
+            Row = 0,
             Picurl = createNewProjectDto.Picurl,
             Description = createNewProjectDto.Description,
             Yarn = createNewProjectDto.Yarn,
             Hook = createNewProjectDto.Hook,
-            Time = createNewProjectDto.Time
+            Time = (decimal?)0.0
         };
 
         return project;
