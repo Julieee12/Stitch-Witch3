@@ -10,7 +10,7 @@ public class ProjectEntityUtil
         var project = new Project
         {
             Name = createNewProjectDto.Name,
-            Tag = createNewProjectDto.Tag,
+            Tag = null, //TODO this needs to be changed once tags are properly implemented
             Stitch = 0,
             Row = 0,
             Picurl = createNewProjectDto.Picurl,
