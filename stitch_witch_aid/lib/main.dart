@@ -6,7 +6,7 @@ import 'package:uuid/uuid.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 import 'backend-uris.dart';
-import 'blocs/project-bloc.dart';
+import 'projects/project-bloc.dart';
 
 void main() {
   ////////////////////// Connect to the backend websocket server //////////////////////

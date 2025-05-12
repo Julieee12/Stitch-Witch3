@@ -1,7 +1,8 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:stitch_witch_aid/states/projects-state.dart';
+import 'package:stitch_witch_aid/projects/projects-model.dart';
+import 'package:stitch_witch_aid/projects/projects-state.dart';
 import 'package:uuid/uuid.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -17,10 +18,12 @@ class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
         super(ProjectsState.empty()) {
     ////////////////////// Handlers for client events //////////////////////
     on<ClientGetsAllProjectsEvent>(_onClientEvent);
+    on<ClientCreatesNewProjectEvent>(_onClientEvent);
 
 
     ////////////////////// Handlers for server events //////////////////////
     on<ServerSendsAllProjectsEvent>(_onServerSendsAllProjects);
+    on<ServerSendsCreatedProjectEvent>(_onServerSendsCreatedProject);
     on<ServerSendsErrorMessageEvent>(_onServerSendsErrorMessage);
 
 
@@ -50,6 +53,13 @@ class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
         requestId: Uuid().v4()));
   }
 
+  void clientCreatesNewProject(CreateNewProjectDto dto) {
+    add(ClientCreatesNewProjectEvent(
+        createNewProjectDto: dto,
+        eventType: ClientCreatesNewProjectEvent.name,
+        requestId: Uuid().v4()));
+  }
+
 
   ///////////////////// Receiving server events /////////////////////
   FutureOr<void> _onServerSendsAllProjects(
@@ -57,6 +67,14 @@ class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
       Emitter<ProjectsState> emit) {
     state.projects.clear();
     state.projects.addAll(event.projects);
+    emit(state);
+  }
+
+  FutureOr<void> _onServerSendsCreatedProject(
+      ServerSendsCreatedProjectEvent event,
+      Emitter<ProjectsState> emit) {
+    print('server sends project');
+    state.projects.add(event.projectDto);
     emit(state);
   }
 

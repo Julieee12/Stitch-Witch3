@@ -192,3 +192,187 @@ class _ProjectItemModelCopyWithImpl<$R, $Out>
           Then<$Out2, $R2> t) =>
       _ProjectItemModelCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }
+
+class CreateNewProjectDtoMapper extends ClassMapperBase<CreateNewProjectDto> {
+  CreateNewProjectDtoMapper._();
+
+  static CreateNewProjectDtoMapper? _instance;
+  static CreateNewProjectDtoMapper ensureInitialized() {
+    if (_instance == null) {
+      MapperContainer.globals.use(_instance = CreateNewProjectDtoMapper._());
+    }
+    return _instance!;
+  }
+
+  @override
+  final String id = 'CreateNewProjectDto';
+
+  static String _$name(CreateNewProjectDto v) => v.name;
+  static const Field<CreateNewProjectDto, String> _f$name =
+      Field('name', _$name);
+  static String? _$tag(CreateNewProjectDto v) => v.tag;
+  static const Field<CreateNewProjectDto, String> _f$tag =
+      Field('tag', _$tag, opt: true);
+  static int _$stitch(CreateNewProjectDto v) => v.stitch;
+  static const Field<CreateNewProjectDto, int> _f$stitch =
+      Field('stitch', _$stitch);
+  static int _$row(CreateNewProjectDto v) => v.row;
+  static const Field<CreateNewProjectDto, int> _f$row = Field('row', _$row);
+  static String? _$picurl(CreateNewProjectDto v) => v.picurl;
+  static const Field<CreateNewProjectDto, String> _f$picurl =
+      Field('picurl', _$picurl, opt: true);
+  static String? _$description(CreateNewProjectDto v) => v.description;
+  static const Field<CreateNewProjectDto, String> _f$description =
+      Field('description', _$description, opt: true);
+  static String? _$yarn(CreateNewProjectDto v) => v.yarn;
+  static const Field<CreateNewProjectDto, String> _f$yarn =
+      Field('yarn', _$yarn, opt: true);
+  static String? _$hook(CreateNewProjectDto v) => v.hook;
+  static const Field<CreateNewProjectDto, String> _f$hook =
+      Field('hook', _$hook, opt: true);
+  static double? _$time(CreateNewProjectDto v) => v.time;
+  static const Field<CreateNewProjectDto, double> _f$time =
+      Field('time', _$time, opt: true);
+
+  @override
+  final MappableFields<CreateNewProjectDto> fields = const {
+    #name: _f$name,
+    #tag: _f$tag,
+    #stitch: _f$stitch,
+    #row: _f$row,
+    #picurl: _f$picurl,
+    #description: _f$description,
+    #yarn: _f$yarn,
+    #hook: _f$hook,
+    #time: _f$time,
+  };
+
+  static CreateNewProjectDto _instantiate(DecodingData data) {
+    return CreateNewProjectDto(
+        name: data.dec(_f$name),
+        tag: data.dec(_f$tag),
+        stitch: data.dec(_f$stitch),
+        row: data.dec(_f$row),
+        picurl: data.dec(_f$picurl),
+        description: data.dec(_f$description),
+        yarn: data.dec(_f$yarn),
+        hook: data.dec(_f$hook),
+        time: data.dec(_f$time));
+  }
+
+  @override
+  final Function instantiate = _instantiate;
+
+  static CreateNewProjectDto fromMap(Map<String, dynamic> map) {
+    return ensureInitialized().decodeMap<CreateNewProjectDto>(map);
+  }
+
+  static CreateNewProjectDto fromJson(String json) {
+    return ensureInitialized().decodeJson<CreateNewProjectDto>(json);
+  }
+}
+
+mixin CreateNewProjectDtoMappable {
+  String toJson() {
+    return CreateNewProjectDtoMapper.ensureInitialized()
+        .encodeJson<CreateNewProjectDto>(this as CreateNewProjectDto);
+  }
+
+  Map<String, dynamic> toMap() {
+    return CreateNewProjectDtoMapper.ensureInitialized()
+        .encodeMap<CreateNewProjectDto>(this as CreateNewProjectDto);
+  }
+
+  CreateNewProjectDtoCopyWith<CreateNewProjectDto, CreateNewProjectDto,
+      CreateNewProjectDto> get copyWith => _CreateNewProjectDtoCopyWithImpl<
+          CreateNewProjectDto, CreateNewProjectDto>(
+      this as CreateNewProjectDto, $identity, $identity);
+  @override
+  String toString() {
+    return CreateNewProjectDtoMapper.ensureInitialized()
+        .stringifyValue(this as CreateNewProjectDto);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return CreateNewProjectDtoMapper.ensureInitialized()
+        .equalsValue(this as CreateNewProjectDto, other);
+  }
+
+  @override
+  int get hashCode {
+    return CreateNewProjectDtoMapper.ensureInitialized()
+        .hashValue(this as CreateNewProjectDto);
+  }
+}
+
+extension CreateNewProjectDtoValueCopy<$R, $Out>
+    on ObjectCopyWith<$R, CreateNewProjectDto, $Out> {
+  CreateNewProjectDtoCopyWith<$R, CreateNewProjectDto, $Out>
+      get $asCreateNewProjectDto => $base.as(
+          (v, t, t2) => _CreateNewProjectDtoCopyWithImpl<$R, $Out>(v, t, t2));
+}
+
+abstract class CreateNewProjectDtoCopyWith<$R, $In extends CreateNewProjectDto,
+    $Out> implements ClassCopyWith<$R, $In, $Out> {
+  $R call(
+      {String? name,
+      String? tag,
+      int? stitch,
+      int? row,
+      String? picurl,
+      String? description,
+      String? yarn,
+      String? hook,
+      double? time});
+  CreateNewProjectDtoCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
+      Then<$Out2, $R2> t);
+}
+
+class _CreateNewProjectDtoCopyWithImpl<$R, $Out>
+    extends ClassCopyWithBase<$R, CreateNewProjectDto, $Out>
+    implements CreateNewProjectDtoCopyWith<$R, CreateNewProjectDto, $Out> {
+  _CreateNewProjectDtoCopyWithImpl(super.value, super.then, super.then2);
+
+  @override
+  late final ClassMapperBase<CreateNewProjectDto> $mapper =
+      CreateNewProjectDtoMapper.ensureInitialized();
+  @override
+  $R call(
+          {String? name,
+          Object? tag = $none,
+          int? stitch,
+          int? row,
+          Object? picurl = $none,
+          Object? description = $none,
+          Object? yarn = $none,
+          Object? hook = $none,
+          Object? time = $none}) =>
+      $apply(FieldCopyWithData({
+        if (name != null) #name: name,
+        if (tag != $none) #tag: tag,
+        if (stitch != null) #stitch: stitch,
+        if (row != null) #row: row,
+        if (picurl != $none) #picurl: picurl,
+        if (description != $none) #description: description,
+        if (yarn != $none) #yarn: yarn,
+        if (hook != $none) #hook: hook,
+        if (time != $none) #time: time
+      }));
+  @override
+  CreateNewProjectDto $make(CopyWithData data) => CreateNewProjectDto(
+      name: data.get(#name, or: $value.name),
+      tag: data.get(#tag, or: $value.tag),
+      stitch: data.get(#stitch, or: $value.stitch),
+      row: data.get(#row, or: $value.row),
+      picurl: data.get(#picurl, or: $value.picurl),
+      description: data.get(#description, or: $value.description),
+      yarn: data.get(#yarn, or: $value.yarn),
+      hook: data.get(#hook, or: $value.hook),
+      time: data.get(#time, or: $value.time));
+
+  @override
+  CreateNewProjectDtoCopyWith<$R2, CreateNewProjectDto, $Out2>
+      $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
+          _CreateNewProjectDtoCopyWithImpl<$R2, $Out2>($value, $cast, t);
+}

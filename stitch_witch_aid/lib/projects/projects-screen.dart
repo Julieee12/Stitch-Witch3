@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:stitch_witch_aid/blocs/project-bloc.dart';
+import 'package:stitch_witch_aid/projects/project-bloc.dart';
 import 'package:stitch_witch_aid/projects/projects-item.dart';
 import 'package:stitch_witch_aid/projects/projects-model.dart';
-import 'package:stitch_witch_aid/states/projects-state.dart';
+import 'package:stitch_witch_aid/projects/projects-state.dart';
 import '../root/add-button.dart';
 import '../root/brand-colors.dart';
 import '../root/search-bar.dart';
@@ -16,11 +16,13 @@ class ProjectsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<ProjectBloc>().clientGetsAllProjects();
+      BlocProvider.of<ProjectBloc>(context).clientGetsAllProjects();
     });
 
     return BlocConsumer<ProjectBloc, ProjectsState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        build(context);
+        },
       builder: (context, state) => Container(
         color: BrandColors.purpleExtraLight,
         child: Stack(
