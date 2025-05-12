@@ -1,23 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stitch_witch_aid/projects/project-bloc.dart';
+import 'package:stitch_witch_aid/projects/project-update-dialog.dart';
 import 'package:stitch_witch_aid/projects/projects-model.dart';
 import 'package:stitch_witch_aid/projects/projects-state.dart';
 
 import '../root/brand-colors.dart';
 
-class ProjectExpandedView extends StatelessWidget {
-  final ProjectItemModel project;
+class ProjectExpandedView extends StatefulWidget {
+  final int projectIndexToUpdate;
 
-  const ProjectExpandedView({Key? key, required this.project}) : super(key: key);
+  const ProjectExpandedView({Key? key, required this.projectIndexToUpdate}) : super(key: key);
 
   @override
+  State<ProjectExpandedView> createState() => _ProjectExpandedViewState();
+}
+
+class _ProjectExpandedViewState extends State<ProjectExpandedView> {
+  @override
   Widget build(BuildContext context) {
+    ProjectItemModel projectToUpdate = BlocProvider.of<ProjectBloc>(context).state.projects[widget.projectIndexToUpdate];
+
     return BlocConsumer<ProjectBloc, ProjectsState>(
-      listener: (context, state) {},
+      listener: (context, state) {setState(() {});},
       builder: (context, state) => Scaffold(
         appBar: AppBar(
-          title: Text(project.name),
+          title: Text(projectToUpdate.name),
           backgroundColor: BrandColors.purpleSoft,
         ),
         body: Padding(
@@ -26,37 +34,46 @@ class ProjectExpandedView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //image
-              if (project.picurl != null)
-                Image.network(project.picurl!),
+              if (projectToUpdate.picurl != null)
+                Image.network(projectToUpdate.picurl!),
               SizedBox(height: 20),
               // description
               Text(
-                project.description ?? 'No description available',
+                projectToUpdate.description ?? 'No description available',
                 style: TextStyle(fontSize: 16),
               ),
               SizedBox(height: 20),
               //yarn
               Text(
-                'Yarn: ${project.yarn ?? 'N/A'}',
+                'Yarn: ${projectToUpdate.yarn ?? 'N/A'}',
                 style: TextStyle(fontSize: 14),
               ),
               //hook
               Text(
-                'Hook: ${project.hook ?? 'N/A'}',
+                'Hook: ${projectToUpdate.hook ?? 'N/A'}',
                 style: TextStyle(fontSize: 14),
               ),
               //time
               Text(
-                'Time: ${project.time ?? 'N/A'}',
+                'Time: ${projectToUpdate.time ?? 'N/A'}',
                 style: TextStyle(fontSize: 14),
               ),
               TextButton(
                   onPressed: () {
-                    BlocProvider.of<ProjectBloc>(context).clientDeletesProject(project.id);
+                    BlocProvider.of<ProjectBloc>(context).clientDeletesProject(projectToUpdate.id);
 
                     Navigator.of(context).pop();
                   },
-                  child: Text('Delete'))
+                  child: Text('Delete')
+              ),
+              TextButton(
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) => UpdateProjectDialog(projectToUpdate: projectToUpdate));
+                  },
+                  child: Text('Update')
+              )
             ],
           ),
         ),

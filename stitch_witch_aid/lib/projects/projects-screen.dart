@@ -46,7 +46,7 @@ class ProjectsScreen extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              ProjectExpandedView(project: project),
+                              ProjectExpandedView(projectIndexToUpdate: state.projects.indexOf(project)),
                         ),
                       );
                     },

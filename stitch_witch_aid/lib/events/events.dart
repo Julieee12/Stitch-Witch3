@@ -37,6 +37,14 @@ class ClientDeletesProjectEvent extends BaseEvent with ClientDeletesProjectEvent
 ClientDeletesProjectEvent({required this.projectId, required super.eventType, required super.requestId});
 }
 
+@MappableClass(discriminatorValue: ClientUpdatesProjectEvent.name)
+class ClientUpdatesProjectEvent extends BaseEvent with ClientUpdatesProjectEventMappable {
+  static const String name = 'ClientUpdatesProject';
+  final UpdateProjectDto updateProjectDto;
+
+  ClientUpdatesProjectEvent({required this.updateProjectDto, required super.eventType, required super.requestId});
+}
+
 ////////// Server events //////////
 @MappableClass(discriminatorValue: ServerSendsAllProjectsEvent.name)
 class ServerSendsAllProjectsEvent extends BaseEvent with ServerSendsAllProjectsEventMappable {
@@ -61,6 +69,14 @@ class ServerDeletedProjectEvent extends BaseEvent with ServerDeletedProjectEvent
 
   ServerDeletedProjectEvent({required this.projectId, required super.eventType, required super.requestId});
 
+}
+
+@MappableClass(discriminatorValue: ServerSendsUpdatedProjectEvent.name)
+class ServerSendsUpdatedProjectEvent extends BaseEvent with ServerSendsUpdatedProjectEventMappable {
+  static const String name = 'ServerSendsUpdatedProject';
+  final ProjectItemModel projectDto;
+
+  ServerSendsUpdatedProjectEvent({required this.projectDto, required super.eventType, required super.requestId});
 }
 
 @MappableClass(discriminatorValue: ServerSendsErrorMessageEvent.name)

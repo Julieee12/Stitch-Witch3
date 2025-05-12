@@ -26,8 +26,8 @@ class ProjectItemModel with ProjectItemModelMappable {
       this.yarn,
       this.hook,
       this.time});
-
 }
+
 @MappableClass()
 class CreateNewProjectDto with CreateNewProjectDtoMappable {
   String name;
@@ -40,6 +40,30 @@ class CreateNewProjectDto with CreateNewProjectDtoMappable {
   CreateNewProjectDto({
     required this.name,
     this.tag,
+    this.picurl,
+    this.description,
+    this.yarn,
+    this.hook});
+}
+
+@MappableClass()
+class UpdateProjectDto with UpdateProjectDtoMappable {
+  String id;
+  String name;
+  String? tag;
+  int stitch;
+  int row;
+  String? picurl;
+  String? description;
+  String? yarn;
+  String? hook;
+
+  UpdateProjectDto({
+    required this.id,
+    required this.name,
+    this.tag,
+    required this.stitch,
+    required this.row,
     this.picurl,
     this.description,
     this.yarn,

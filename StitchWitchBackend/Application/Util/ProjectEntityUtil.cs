@@ -53,7 +53,7 @@ public class ProjectEntityUtil
         {
             Id = updateProjectDto.Id,
             Name = updateProjectDto.Name,
-            Tag = updateProjectDto.Tag,
+            Tag = null, //TODO this needs to be changed once tags are properly implemented
             Stitch = updateProjectDto.Stitch,
             Row = updateProjectDto.Row,
             Picurl = updateProjectDto.Picurl,

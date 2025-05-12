@@ -20,12 +20,14 @@ class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
     on<ClientGetsAllProjectsEvent>(_onClientEvent);
     on<ClientCreatesNewProjectEvent>(_onClientEvent);
     on<ClientDeletesProjectEvent>(_onClientEvent);
+    on<ClientUpdatesProjectEvent>(_onClientEvent);
 
 
     ////////////////////// Handlers for server events //////////////////////
     on<ServerSendsAllProjectsEvent>(_onServerSendsAllProjects);
     on<ServerSendsCreatedProjectEvent>(_onServerSendsCreatedProject);
     on<ServerDeletedProjectEvent>(_onServerDeletedProject);
+    on<ServerSendsUpdatedProjectEvent>(_onServerUpdatedProject);
     on<ServerSendsErrorMessageEvent>(_onServerSendsErrorMessage);
 
 
@@ -69,6 +71,13 @@ class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
         requestId: Uuid().v4()));
   }
 
+  void clientUpdatesProject(UpdateProjectDto dto) {
+    add(ClientUpdatesProjectEvent(
+        updateProjectDto: dto,
+        eventType: ClientUpdatesProjectEvent.name,
+        requestId: Uuid().v4()));
+  }
+
 
   ///////////////////// Receiving server events /////////////////////
   FutureOr<void> _onServerSendsAllProjects(
@@ -97,6 +106,18 @@ class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
     var stateCopy = ProjectsState(projects: [...state.projects]);
 
     stateCopy.projects.removeWhere((project) => project.id == event.projectId);
+
+    emit(stateCopy);
+  }
+
+  FutureOr<void> _onServerUpdatedProject(
+      ServerSendsUpdatedProjectEvent event,
+      Emitter<ProjectsState> emit) {
+    var stateCopy = ProjectsState(projects: [...state.projects]);
+
+    var indexOfProjectToUpdate = stateCopy.projects.indexWhere((project) => project.id == event.projectDto.id);
+
+    stateCopy.projects[indexOfProjectToUpdate] = event.projectDto;
 
     emit(stateCopy);
   }
