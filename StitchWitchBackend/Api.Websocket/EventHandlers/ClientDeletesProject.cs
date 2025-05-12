@@ -16,10 +16,10 @@ public class ClientDeletesProject(IProjectRepository projectRepository) : BaseEv
     {
         await projectRepository.DeleteProjectAsync(dto.ProjectId);
 
-        var serverResponse = new ServerActionSuccess
+        var serverResponse = new ServerDeletedProject()
         {
             requestId = dto.requestId,
-            Message = "Successfully deleted project"
+            ProjectId = dto.ProjectId
         };
         
         socket.SendDto(serverResponse);

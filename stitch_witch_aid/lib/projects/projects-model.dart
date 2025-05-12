@@ -15,25 +15,57 @@ class ProjectItemModel with ProjectItemModelMappable {
   String? hook;
   double? time;
 
-  ProjectItemModel(
-      this.id,
-      this.name,
+  ProjectItemModel({
+      required this.id,
+      required this.name,
       this.tag,
-      this.stitch,
-      this.row,
+      required this.stitch,
+      required this.row,
       this.picurl,
       this.description,
       this.yarn,
       this.hook,
-      this.time);
+      this.time});
+}
 
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'name': name,
-      'description': description,
-      'tag': tag,
-      'picture': picurl,
-    };
-  }
+@MappableClass()
+class CreateNewProjectDto with CreateNewProjectDtoMappable {
+  String name;
+  String? tag;
+  String? picurl;
+  String? description;
+  String? yarn;
+  String? hook;
+
+  CreateNewProjectDto({
+    required this.name,
+    this.tag,
+    this.picurl,
+    this.description,
+    this.yarn,
+    this.hook});
+}
+
+@MappableClass()
+class UpdateProjectDto with UpdateProjectDtoMappable {
+  String id;
+  String name;
+  String? tag;
+  int stitch;
+  int row;
+  String? picurl;
+  String? description;
+  String? yarn;
+  String? hook;
+
+  UpdateProjectDto({
+    required this.id,
+    required this.name,
+    this.tag,
+    required this.stitch,
+    required this.row,
+    this.picurl,
+    this.description,
+    this.yarn,
+    this.hook});
 }

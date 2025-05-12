@@ -10,14 +10,14 @@ public class ProjectEntityUtil
         var project = new Project
         {
             Name = createNewProjectDto.Name,
-            Tag = createNewProjectDto.Tag,
-            Stitch = createNewProjectDto.Stitch,
-            Row = createNewProjectDto.Row,
+            Tag = null, //TODO this needs to be changed once tags are properly implemented
+            Stitch = 0,
+            Row = 0,
             Picurl = createNewProjectDto.Picurl,
             Description = createNewProjectDto.Description,
             Yarn = createNewProjectDto.Yarn,
             Hook = createNewProjectDto.Hook,
-            Time = createNewProjectDto.Time
+            Time = (decimal?)0.0
         };
 
         return project;
@@ -53,7 +53,7 @@ public class ProjectEntityUtil
         {
             Id = updateProjectDto.Id,
             Name = updateProjectDto.Name,
-            Tag = updateProjectDto.Tag,
+            Tag = null, //TODO this needs to be changed once tags are properly implemented
             Stitch = updateProjectDto.Stitch,
             Row = updateProjectDto.Row,
             Picurl = updateProjectDto.Picurl,

@@ -6,10 +6,13 @@ import 'package:stitch_witch_aid/backend-uris.dart';
 import 'package:stitch_witch_aid/blocs/Item-bloc.dart';
 import 'package:stitch_witch_aid/blocs/project-bloc.dart';
 import 'package:stitch_witch_aid/counter/counter.dart';
+import 'package:stitch_witch_aid/counter/counter-screen.dart';
 import 'package:stitch_witch_aid/root/nav-bar.dart';
 import 'package:uuid/uuid.dart';
-import 'package:uuid/v4.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
+
+import 'backend-uris.dart';
+import 'projects/project-bloc.dart';
 
 void main() {
   ////////////////////// Connect to the backend websocket server //////////////////////
@@ -38,7 +41,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Widget currentWidget = Counter(); // The current page being loaded
+  Widget currentWidget = CounterScreen(); // The current page being loaded
 
   // Callback function to change the current page
   callback(newCurrentWidget) {
