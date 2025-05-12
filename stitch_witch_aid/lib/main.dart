@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stitch_witch_aid/backend-uris.dart';
 import 'package:stitch_witch_aid/blocs/Item-bloc.dart';
-import 'package:stitch_witch_aid/blocs/project-bloc.dart';
-import 'package:stitch_witch_aid/counter/counter.dart';
 import 'package:stitch_witch_aid/counter/counter-screen.dart';
 import 'package:stitch_witch_aid/root/nav-bar.dart';
 import 'package:uuid/uuid.dart';

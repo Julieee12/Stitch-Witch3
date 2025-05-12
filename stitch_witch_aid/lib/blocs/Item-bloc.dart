@@ -6,9 +6,10 @@ import 'package:bloc/bloc.dart';
 import 'package:stitch_witch_aid/events/events.dart';
 import 'package:stitch_witch_aid/inventory/inventory-item-dto.dart';
 import 'package:stitch_witch_aid/inventory/inventory-model.dart';
-import 'package:stitch_witch_aid/states/item-state.dart';
 import 'package:uuid/uuid.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
+
+import '../projects/item-state.dart';
 
 class ItemBloc extends Bloc<BaseEvent, ItemState> {
   final WebSocketChannel _channel;

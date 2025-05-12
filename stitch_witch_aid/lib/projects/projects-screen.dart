@@ -5,7 +5,7 @@ import 'package:stitch_witch_aid/projects/project-bloc.dart';
 import 'package:stitch_witch_aid/projects/project-expanded-view.dart';
 import 'package:stitch_witch_aid/projects/projects-item.dart';
 import 'package:stitch_witch_aid/projects/projects-model.dart';
-import 'package:stitch_witch_aid/states/projects-state.dart';
+import 'package:stitch_witch_aid/projects/projects-state.dart';
 //import '../root/add-button.dart';
 import '../root/brand-colors.dart';
 import '../root/search-bar.dart';

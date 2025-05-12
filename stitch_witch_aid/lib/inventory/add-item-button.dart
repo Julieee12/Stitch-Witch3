@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:stitch_witch_aid/root/brand-colors.dart';
-import 'package:stitch_witch_aid/states/item-state.dart';
 
 import '../blocs/Item-bloc.dart';
+import '../projects/item-state.dart';
 import 'inventory-dialog.dart';
 
 class AddItemButton extends StatelessWidget {

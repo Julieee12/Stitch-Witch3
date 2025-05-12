@@ -14,10 +14,15 @@ class BaseEventMapper extends ClassMapperBase<BaseEvent> {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = BaseEventMapper._());
       ClientGetsAllProjectsEventMapper.ensureInitialized();
+      ClientGetsAllItemsEventMapper.ensureInitialized();
+      ClientCreatesNewItemEventMapper.ensureInitialized();
+      ClientUpdatesItemEventMapper.ensureInitialized();
+      ClientDeletesItemEventMapper.ensureInitialized();
       ClientCreatesNewProjectEventMapper.ensureInitialized();
       ClientDeletesProjectEventMapper.ensureInitialized();
       ClientUpdatesProjectEventMapper.ensureInitialized();
       ServerSendsAllProjectsEventMapper.ensureInitialized();
+      ServerSendsAllItemsEventMapper.ensureInitialized();
       ServerSendsCreatedProjectEventMapper.ensureInitialized();
       ServerDeletedProjectEventMapper.ensureInitialized();
       ServerSendsUpdatedProjectEventMapper.ensureInitialized();
@@ -204,6 +209,574 @@ class _ClientGetsAllProjectsEventCopyWithImpl<$R, $Out>
   ClientGetsAllProjectsEventCopyWith<$R2, ClientGetsAllProjectsEvent, $Out2>
       $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
           _ClientGetsAllProjectsEventCopyWithImpl<$R2, $Out2>($value, $cast, t);
+}
+
+class ClientGetsAllItemsEventMapper
+    extends SubClassMapperBase<ClientGetsAllItemsEvent> {
+  ClientGetsAllItemsEventMapper._();
+
+  static ClientGetsAllItemsEventMapper? _instance;
+  static ClientGetsAllItemsEventMapper ensureInitialized() {
+    if (_instance == null) {
+      MapperContainer.globals
+          .use(_instance = ClientGetsAllItemsEventMapper._());
+      BaseEventMapper.ensureInitialized().addSubMapper(_instance!);
+    }
+    return _instance!;
+  }
+
+  @override
+  final String id = 'ClientGetsAllItemsEvent';
+
+  static String _$eventType(ClientGetsAllItemsEvent v) => v.eventType;
+  static const Field<ClientGetsAllItemsEvent, String> _f$eventType =
+      Field('eventType', _$eventType);
+  static String _$requestId(ClientGetsAllItemsEvent v) => v.requestId;
+  static const Field<ClientGetsAllItemsEvent, String> _f$requestId =
+      Field('requestId', _$requestId);
+
+  @override
+  final MappableFields<ClientGetsAllItemsEvent> fields = const {
+    #eventType: _f$eventType,
+    #requestId: _f$requestId,
+  };
+
+  @override
+  final String discriminatorKey = 'eventType';
+  @override
+  final dynamic discriminatorValue = ClientGetsAllItemsEvent.name;
+  @override
+  late final ClassMapperBase superMapper = BaseEventMapper.ensureInitialized();
+
+  static ClientGetsAllItemsEvent _instantiate(DecodingData data) {
+    return ClientGetsAllItemsEvent(
+        eventType: data.dec(_f$eventType), requestId: data.dec(_f$requestId));
+  }
+
+  @override
+  final Function instantiate = _instantiate;
+
+  static ClientGetsAllItemsEvent fromMap(Map<String, dynamic> map) {
+    return ensureInitialized().decodeMap<ClientGetsAllItemsEvent>(map);
+  }
+
+  static ClientGetsAllItemsEvent fromJson(String json) {
+    return ensureInitialized().decodeJson<ClientGetsAllItemsEvent>(json);
+  }
+}
+
+mixin ClientGetsAllItemsEventMappable {
+  String toJson() {
+    return ClientGetsAllItemsEventMapper.ensureInitialized()
+        .encodeJson<ClientGetsAllItemsEvent>(this as ClientGetsAllItemsEvent);
+  }
+
+  Map<String, dynamic> toMap() {
+    return ClientGetsAllItemsEventMapper.ensureInitialized()
+        .encodeMap<ClientGetsAllItemsEvent>(this as ClientGetsAllItemsEvent);
+  }
+
+  ClientGetsAllItemsEventCopyWith<ClientGetsAllItemsEvent,
+          ClientGetsAllItemsEvent, ClientGetsAllItemsEvent>
+      get copyWith => _ClientGetsAllItemsEventCopyWithImpl<
+              ClientGetsAllItemsEvent, ClientGetsAllItemsEvent>(
+          this as ClientGetsAllItemsEvent, $identity, $identity);
+  @override
+  String toString() {
+    return ClientGetsAllItemsEventMapper.ensureInitialized()
+        .stringifyValue(this as ClientGetsAllItemsEvent);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return ClientGetsAllItemsEventMapper.ensureInitialized()
+        .equalsValue(this as ClientGetsAllItemsEvent, other);
+  }
+
+  @override
+  int get hashCode {
+    return ClientGetsAllItemsEventMapper.ensureInitialized()
+        .hashValue(this as ClientGetsAllItemsEvent);
+  }
+}
+
+extension ClientGetsAllItemsEventValueCopy<$R, $Out>
+    on ObjectCopyWith<$R, ClientGetsAllItemsEvent, $Out> {
+  ClientGetsAllItemsEventCopyWith<$R, ClientGetsAllItemsEvent, $Out>
+      get $asClientGetsAllItemsEvent => $base.as((v, t, t2) =>
+          _ClientGetsAllItemsEventCopyWithImpl<$R, $Out>(v, t, t2));
+}
+
+abstract class ClientGetsAllItemsEventCopyWith<
+    $R,
+    $In extends ClientGetsAllItemsEvent,
+    $Out> implements BaseEventCopyWith<$R, $In, $Out> {
+  @override
+  $R call({String? eventType, String? requestId});
+  ClientGetsAllItemsEventCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
+      Then<$Out2, $R2> t);
+}
+
+class _ClientGetsAllItemsEventCopyWithImpl<$R, $Out>
+    extends ClassCopyWithBase<$R, ClientGetsAllItemsEvent, $Out>
+    implements
+        ClientGetsAllItemsEventCopyWith<$R, ClientGetsAllItemsEvent, $Out> {
+  _ClientGetsAllItemsEventCopyWithImpl(super.value, super.then, super.then2);
+
+  @override
+  late final ClassMapperBase<ClientGetsAllItemsEvent> $mapper =
+      ClientGetsAllItemsEventMapper.ensureInitialized();
+  @override
+  $R call({String? eventType, String? requestId}) => $apply(FieldCopyWithData({
+        if (eventType != null) #eventType: eventType,
+        if (requestId != null) #requestId: requestId
+      }));
+  @override
+  ClientGetsAllItemsEvent $make(CopyWithData data) => ClientGetsAllItemsEvent(
+      eventType: data.get(#eventType, or: $value.eventType),
+      requestId: data.get(#requestId, or: $value.requestId));
+
+  @override
+  ClientGetsAllItemsEventCopyWith<$R2, ClientGetsAllItemsEvent, $Out2>
+      $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
+          _ClientGetsAllItemsEventCopyWithImpl<$R2, $Out2>($value, $cast, t);
+}
+
+class ClientCreatesNewItemEventMapper
+    extends SubClassMapperBase<ClientCreatesNewItemEvent> {
+  ClientCreatesNewItemEventMapper._();
+
+  static ClientCreatesNewItemEventMapper? _instance;
+  static ClientCreatesNewItemEventMapper ensureInitialized() {
+    if (_instance == null) {
+      MapperContainer.globals
+          .use(_instance = ClientCreatesNewItemEventMapper._());
+      BaseEventMapper.ensureInitialized().addSubMapper(_instance!);
+      InventoryItemDtoMapper.ensureInitialized();
+    }
+    return _instance!;
+  }
+
+  @override
+  final String id = 'ClientCreatesNewItemEvent';
+
+  static InventoryItemDto _$newItemDto(ClientCreatesNewItemEvent v) =>
+      v.newItemDto;
+  static const Field<ClientCreatesNewItemEvent, InventoryItemDto>
+      _f$newItemDto = Field('newItemDto', _$newItemDto);
+  static String _$eventType(ClientCreatesNewItemEvent v) => v.eventType;
+  static const Field<ClientCreatesNewItemEvent, String> _f$eventType =
+      Field('eventType', _$eventType);
+  static String _$requestId(ClientCreatesNewItemEvent v) => v.requestId;
+  static const Field<ClientCreatesNewItemEvent, String> _f$requestId =
+      Field('requestId', _$requestId);
+
+  @override
+  final MappableFields<ClientCreatesNewItemEvent> fields = const {
+    #newItemDto: _f$newItemDto,
+    #eventType: _f$eventType,
+    #requestId: _f$requestId,
+  };
+
+  @override
+  final String discriminatorKey = 'eventType';
+  @override
+  final dynamic discriminatorValue = ClientCreatesNewItemEvent.name;
+  @override
+  late final ClassMapperBase superMapper = BaseEventMapper.ensureInitialized();
+
+  static ClientCreatesNewItemEvent _instantiate(DecodingData data) {
+    return ClientCreatesNewItemEvent(
+        newItemDto: data.dec(_f$newItemDto),
+        eventType: data.dec(_f$eventType),
+        requestId: data.dec(_f$requestId));
+  }
+
+  @override
+  final Function instantiate = _instantiate;
+
+  static ClientCreatesNewItemEvent fromMap(Map<String, dynamic> map) {
+    return ensureInitialized().decodeMap<ClientCreatesNewItemEvent>(map);
+  }
+
+  static ClientCreatesNewItemEvent fromJson(String json) {
+    return ensureInitialized().decodeJson<ClientCreatesNewItemEvent>(json);
+  }
+}
+
+mixin ClientCreatesNewItemEventMappable {
+  String toJson() {
+    return ClientCreatesNewItemEventMapper.ensureInitialized()
+        .encodeJson<ClientCreatesNewItemEvent>(
+            this as ClientCreatesNewItemEvent);
+  }
+
+  Map<String, dynamic> toMap() {
+    return ClientCreatesNewItemEventMapper.ensureInitialized()
+        .encodeMap<ClientCreatesNewItemEvent>(
+            this as ClientCreatesNewItemEvent);
+  }
+
+  ClientCreatesNewItemEventCopyWith<ClientCreatesNewItemEvent,
+          ClientCreatesNewItemEvent, ClientCreatesNewItemEvent>
+      get copyWith => _ClientCreatesNewItemEventCopyWithImpl<
+              ClientCreatesNewItemEvent, ClientCreatesNewItemEvent>(
+          this as ClientCreatesNewItemEvent, $identity, $identity);
+  @override
+  String toString() {
+    return ClientCreatesNewItemEventMapper.ensureInitialized()
+        .stringifyValue(this as ClientCreatesNewItemEvent);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return ClientCreatesNewItemEventMapper.ensureInitialized()
+        .equalsValue(this as ClientCreatesNewItemEvent, other);
+  }
+
+  @override
+  int get hashCode {
+    return ClientCreatesNewItemEventMapper.ensureInitialized()
+        .hashValue(this as ClientCreatesNewItemEvent);
+  }
+}
+
+extension ClientCreatesNewItemEventValueCopy<$R, $Out>
+    on ObjectCopyWith<$R, ClientCreatesNewItemEvent, $Out> {
+  ClientCreatesNewItemEventCopyWith<$R, ClientCreatesNewItemEvent, $Out>
+      get $asClientCreatesNewItemEvent => $base.as((v, t, t2) =>
+          _ClientCreatesNewItemEventCopyWithImpl<$R, $Out>(v, t, t2));
+}
+
+abstract class ClientCreatesNewItemEventCopyWith<
+    $R,
+    $In extends ClientCreatesNewItemEvent,
+    $Out> implements BaseEventCopyWith<$R, $In, $Out> {
+  InventoryItemDtoCopyWith<$R, InventoryItemDto, InventoryItemDto>
+      get newItemDto;
+  @override
+  $R call({InventoryItemDto? newItemDto, String? eventType, String? requestId});
+  ClientCreatesNewItemEventCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
+      Then<$Out2, $R2> t);
+}
+
+class _ClientCreatesNewItemEventCopyWithImpl<$R, $Out>
+    extends ClassCopyWithBase<$R, ClientCreatesNewItemEvent, $Out>
+    implements
+        ClientCreatesNewItemEventCopyWith<$R, ClientCreatesNewItemEvent, $Out> {
+  _ClientCreatesNewItemEventCopyWithImpl(super.value, super.then, super.then2);
+
+  @override
+  late final ClassMapperBase<ClientCreatesNewItemEvent> $mapper =
+      ClientCreatesNewItemEventMapper.ensureInitialized();
+  @override
+  InventoryItemDtoCopyWith<$R, InventoryItemDto, InventoryItemDto>
+      get newItemDto =>
+          $value.newItemDto.copyWith.$chain((v) => call(newItemDto: v));
+  @override
+  $R call(
+          {InventoryItemDto? newItemDto,
+          String? eventType,
+          String? requestId}) =>
+      $apply(FieldCopyWithData({
+        if (newItemDto != null) #newItemDto: newItemDto,
+        if (eventType != null) #eventType: eventType,
+        if (requestId != null) #requestId: requestId
+      }));
+  @override
+  ClientCreatesNewItemEvent $make(CopyWithData data) =>
+      ClientCreatesNewItemEvent(
+          newItemDto: data.get(#newItemDto, or: $value.newItemDto),
+          eventType: data.get(#eventType, or: $value.eventType),
+          requestId: data.get(#requestId, or: $value.requestId));
+
+  @override
+  ClientCreatesNewItemEventCopyWith<$R2, ClientCreatesNewItemEvent, $Out2>
+      $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
+          _ClientCreatesNewItemEventCopyWithImpl<$R2, $Out2>($value, $cast, t);
+}
+
+class ClientUpdatesItemEventMapper
+    extends SubClassMapperBase<ClientUpdatesItemEvent> {
+  ClientUpdatesItemEventMapper._();
+
+  static ClientUpdatesItemEventMapper? _instance;
+  static ClientUpdatesItemEventMapper ensureInitialized() {
+    if (_instance == null) {
+      MapperContainer.globals.use(_instance = ClientUpdatesItemEventMapper._());
+      BaseEventMapper.ensureInitialized().addSubMapper(_instance!);
+      InventoryItemModelMapper.ensureInitialized();
+    }
+    return _instance!;
+  }
+
+  @override
+  final String id = 'ClientUpdatesItemEvent';
+
+  static InventoryItemModel _$item(ClientUpdatesItemEvent v) => v.item;
+  static const Field<ClientUpdatesItemEvent, InventoryItemModel> _f$item =
+      Field('item', _$item);
+  static String _$eventType(ClientUpdatesItemEvent v) => v.eventType;
+  static const Field<ClientUpdatesItemEvent, String> _f$eventType =
+      Field('eventType', _$eventType);
+  static String _$requestId(ClientUpdatesItemEvent v) => v.requestId;
+  static const Field<ClientUpdatesItemEvent, String> _f$requestId =
+      Field('requestId', _$requestId);
+
+  @override
+  final MappableFields<ClientUpdatesItemEvent> fields = const {
+    #item: _f$item,
+    #eventType: _f$eventType,
+    #requestId: _f$requestId,
+  };
+
+  @override
+  final String discriminatorKey = 'eventType';
+  @override
+  final dynamic discriminatorValue = ClientUpdatesItemEvent.name;
+  @override
+  late final ClassMapperBase superMapper = BaseEventMapper.ensureInitialized();
+
+  static ClientUpdatesItemEvent _instantiate(DecodingData data) {
+    return ClientUpdatesItemEvent(
+        item: data.dec(_f$item),
+        eventType: data.dec(_f$eventType),
+        requestId: data.dec(_f$requestId));
+  }
+
+  @override
+  final Function instantiate = _instantiate;
+
+  static ClientUpdatesItemEvent fromMap(Map<String, dynamic> map) {
+    return ensureInitialized().decodeMap<ClientUpdatesItemEvent>(map);
+  }
+
+  static ClientUpdatesItemEvent fromJson(String json) {
+    return ensureInitialized().decodeJson<ClientUpdatesItemEvent>(json);
+  }
+}
+
+mixin ClientUpdatesItemEventMappable {
+  String toJson() {
+    return ClientUpdatesItemEventMapper.ensureInitialized()
+        .encodeJson<ClientUpdatesItemEvent>(this as ClientUpdatesItemEvent);
+  }
+
+  Map<String, dynamic> toMap() {
+    return ClientUpdatesItemEventMapper.ensureInitialized()
+        .encodeMap<ClientUpdatesItemEvent>(this as ClientUpdatesItemEvent);
+  }
+
+  ClientUpdatesItemEventCopyWith<ClientUpdatesItemEvent, ClientUpdatesItemEvent,
+          ClientUpdatesItemEvent>
+      get copyWith => _ClientUpdatesItemEventCopyWithImpl<
+              ClientUpdatesItemEvent, ClientUpdatesItemEvent>(
+          this as ClientUpdatesItemEvent, $identity, $identity);
+  @override
+  String toString() {
+    return ClientUpdatesItemEventMapper.ensureInitialized()
+        .stringifyValue(this as ClientUpdatesItemEvent);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return ClientUpdatesItemEventMapper.ensureInitialized()
+        .equalsValue(this as ClientUpdatesItemEvent, other);
+  }
+
+  @override
+  int get hashCode {
+    return ClientUpdatesItemEventMapper.ensureInitialized()
+        .hashValue(this as ClientUpdatesItemEvent);
+  }
+}
+
+extension ClientUpdatesItemEventValueCopy<$R, $Out>
+    on ObjectCopyWith<$R, ClientUpdatesItemEvent, $Out> {
+  ClientUpdatesItemEventCopyWith<$R, ClientUpdatesItemEvent, $Out>
+      get $asClientUpdatesItemEvent => $base.as((v, t, t2) =>
+          _ClientUpdatesItemEventCopyWithImpl<$R, $Out>(v, t, t2));
+}
+
+abstract class ClientUpdatesItemEventCopyWith<
+    $R,
+    $In extends ClientUpdatesItemEvent,
+    $Out> implements BaseEventCopyWith<$R, $In, $Out> {
+  InventoryItemModelCopyWith<$R, InventoryItemModel, InventoryItemModel>
+      get item;
+  @override
+  $R call({InventoryItemModel? item, String? eventType, String? requestId});
+  ClientUpdatesItemEventCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
+      Then<$Out2, $R2> t);
+}
+
+class _ClientUpdatesItemEventCopyWithImpl<$R, $Out>
+    extends ClassCopyWithBase<$R, ClientUpdatesItemEvent, $Out>
+    implements
+        ClientUpdatesItemEventCopyWith<$R, ClientUpdatesItemEvent, $Out> {
+  _ClientUpdatesItemEventCopyWithImpl(super.value, super.then, super.then2);
+
+  @override
+  late final ClassMapperBase<ClientUpdatesItemEvent> $mapper =
+      ClientUpdatesItemEventMapper.ensureInitialized();
+  @override
+  InventoryItemModelCopyWith<$R, InventoryItemModel, InventoryItemModel>
+      get item => $value.item.copyWith.$chain((v) => call(item: v));
+  @override
+  $R call({InventoryItemModel? item, String? eventType, String? requestId}) =>
+      $apply(FieldCopyWithData({
+        if (item != null) #item: item,
+        if (eventType != null) #eventType: eventType,
+        if (requestId != null) #requestId: requestId
+      }));
+  @override
+  ClientUpdatesItemEvent $make(CopyWithData data) => ClientUpdatesItemEvent(
+      item: data.get(#item, or: $value.item),
+      eventType: data.get(#eventType, or: $value.eventType),
+      requestId: data.get(#requestId, or: $value.requestId));
+
+  @override
+  ClientUpdatesItemEventCopyWith<$R2, ClientUpdatesItemEvent, $Out2>
+      $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
+          _ClientUpdatesItemEventCopyWithImpl<$R2, $Out2>($value, $cast, t);
+}
+
+class ClientDeletesItemEventMapper
+    extends SubClassMapperBase<ClientDeletesItemEvent> {
+  ClientDeletesItemEventMapper._();
+
+  static ClientDeletesItemEventMapper? _instance;
+  static ClientDeletesItemEventMapper ensureInitialized() {
+    if (_instance == null) {
+      MapperContainer.globals.use(_instance = ClientDeletesItemEventMapper._());
+      BaseEventMapper.ensureInitialized().addSubMapper(_instance!);
+    }
+    return _instance!;
+  }
+
+  @override
+  final String id = 'ClientDeletesItemEvent';
+
+  static String _$id(ClientDeletesItemEvent v) => v.id;
+  static const Field<ClientDeletesItemEvent, String> _f$id = Field('id', _$id);
+  static String _$eventType(ClientDeletesItemEvent v) => v.eventType;
+  static const Field<ClientDeletesItemEvent, String> _f$eventType =
+      Field('eventType', _$eventType);
+  static String _$requestId(ClientDeletesItemEvent v) => v.requestId;
+  static const Field<ClientDeletesItemEvent, String> _f$requestId =
+      Field('requestId', _$requestId);
+
+  @override
+  final MappableFields<ClientDeletesItemEvent> fields = const {
+    #id: _f$id,
+    #eventType: _f$eventType,
+    #requestId: _f$requestId,
+  };
+
+  @override
+  final String discriminatorKey = 'eventType';
+  @override
+  final dynamic discriminatorValue = ClientDeletesItemEvent.name;
+  @override
+  late final ClassMapperBase superMapper = BaseEventMapper.ensureInitialized();
+
+  static ClientDeletesItemEvent _instantiate(DecodingData data) {
+    return ClientDeletesItemEvent(
+        id: data.dec(_f$id),
+        eventType: data.dec(_f$eventType),
+        requestId: data.dec(_f$requestId));
+  }
+
+  @override
+  final Function instantiate = _instantiate;
+
+  static ClientDeletesItemEvent fromMap(Map<String, dynamic> map) {
+    return ensureInitialized().decodeMap<ClientDeletesItemEvent>(map);
+  }
+
+  static ClientDeletesItemEvent fromJson(String json) {
+    return ensureInitialized().decodeJson<ClientDeletesItemEvent>(json);
+  }
+}
+
+mixin ClientDeletesItemEventMappable {
+  String toJson() {
+    return ClientDeletesItemEventMapper.ensureInitialized()
+        .encodeJson<ClientDeletesItemEvent>(this as ClientDeletesItemEvent);
+  }
+
+  Map<String, dynamic> toMap() {
+    return ClientDeletesItemEventMapper.ensureInitialized()
+        .encodeMap<ClientDeletesItemEvent>(this as ClientDeletesItemEvent);
+  }
+
+  ClientDeletesItemEventCopyWith<ClientDeletesItemEvent, ClientDeletesItemEvent,
+          ClientDeletesItemEvent>
+      get copyWith => _ClientDeletesItemEventCopyWithImpl<
+              ClientDeletesItemEvent, ClientDeletesItemEvent>(
+          this as ClientDeletesItemEvent, $identity, $identity);
+  @override
+  String toString() {
+    return ClientDeletesItemEventMapper.ensureInitialized()
+        .stringifyValue(this as ClientDeletesItemEvent);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return ClientDeletesItemEventMapper.ensureInitialized()
+        .equalsValue(this as ClientDeletesItemEvent, other);
+  }
+
+  @override
+  int get hashCode {
+    return ClientDeletesItemEventMapper.ensureInitialized()
+        .hashValue(this as ClientDeletesItemEvent);
+  }
+}
+
+extension ClientDeletesItemEventValueCopy<$R, $Out>
+    on ObjectCopyWith<$R, ClientDeletesItemEvent, $Out> {
+  ClientDeletesItemEventCopyWith<$R, ClientDeletesItemEvent, $Out>
+      get $asClientDeletesItemEvent => $base.as((v, t, t2) =>
+          _ClientDeletesItemEventCopyWithImpl<$R, $Out>(v, t, t2));
+}
+
+abstract class ClientDeletesItemEventCopyWith<
+    $R,
+    $In extends ClientDeletesItemEvent,
+    $Out> implements BaseEventCopyWith<$R, $In, $Out> {
+  @override
+  $R call({String? id, String? eventType, String? requestId});
+  ClientDeletesItemEventCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
+      Then<$Out2, $R2> t);
+}
+
+class _ClientDeletesItemEventCopyWithImpl<$R, $Out>
+    extends ClassCopyWithBase<$R, ClientDeletesItemEvent, $Out>
+    implements
+        ClientDeletesItemEventCopyWith<$R, ClientDeletesItemEvent, $Out> {
+  _ClientDeletesItemEventCopyWithImpl(super.value, super.then, super.then2);
+
+  @override
+  late final ClassMapperBase<ClientDeletesItemEvent> $mapper =
+      ClientDeletesItemEventMapper.ensureInitialized();
+  @override
+  $R call({String? id, String? eventType, String? requestId}) =>
+      $apply(FieldCopyWithData({
+        if (id != null) #id: id,
+        if (eventType != null) #eventType: eventType,
+        if (requestId != null) #requestId: requestId
+      }));
+  @override
+  ClientDeletesItemEvent $make(CopyWithData data) => ClientDeletesItemEvent(
+      id: data.get(#id, or: $value.id),
+      eventType: data.get(#eventType, or: $value.eventType),
+      requestId: data.get(#requestId, or: $value.requestId));
+
+  @override
+  ClientDeletesItemEventCopyWith<$R2, ClientDeletesItemEvent, $Out2>
+      $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
+          _ClientDeletesItemEventCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }
 
 class ClientCreatesNewProjectEventMapper
@@ -829,6 +1402,164 @@ class _ServerSendsAllProjectsEventCopyWithImpl<$R, $Out>
       $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
           _ServerSendsAllProjectsEventCopyWithImpl<$R2, $Out2>(
               $value, $cast, t);
+}
+
+class ServerSendsAllItemsEventMapper
+    extends SubClassMapperBase<ServerSendsAllItemsEvent> {
+  ServerSendsAllItemsEventMapper._();
+
+  static ServerSendsAllItemsEventMapper? _instance;
+  static ServerSendsAllItemsEventMapper ensureInitialized() {
+    if (_instance == null) {
+      MapperContainer.globals
+          .use(_instance = ServerSendsAllItemsEventMapper._());
+      BaseEventMapper.ensureInitialized().addSubMapper(_instance!);
+      InventoryItemModelMapper.ensureInitialized();
+    }
+    return _instance!;
+  }
+
+  @override
+  final String id = 'ServerSendsAllItemsEvent';
+
+  static List<InventoryItemModel> _$items(ServerSendsAllItemsEvent v) =>
+      v.items;
+  static const Field<ServerSendsAllItemsEvent, List<InventoryItemModel>>
+      _f$items = Field('items', _$items);
+  static String _$eventType(ServerSendsAllItemsEvent v) => v.eventType;
+  static const Field<ServerSendsAllItemsEvent, String> _f$eventType =
+      Field('eventType', _$eventType);
+  static String _$requestId(ServerSendsAllItemsEvent v) => v.requestId;
+  static const Field<ServerSendsAllItemsEvent, String> _f$requestId =
+      Field('requestId', _$requestId);
+
+  @override
+  final MappableFields<ServerSendsAllItemsEvent> fields = const {
+    #items: _f$items,
+    #eventType: _f$eventType,
+    #requestId: _f$requestId,
+  };
+
+  @override
+  final String discriminatorKey = 'eventType';
+  @override
+  final dynamic discriminatorValue = ServerSendsAllItemsEvent.name;
+  @override
+  late final ClassMapperBase superMapper = BaseEventMapper.ensureInitialized();
+
+  static ServerSendsAllItemsEvent _instantiate(DecodingData data) {
+    return ServerSendsAllItemsEvent(
+        items: data.dec(_f$items),
+        eventType: data.dec(_f$eventType),
+        requestId: data.dec(_f$requestId));
+  }
+
+  @override
+  final Function instantiate = _instantiate;
+
+  static ServerSendsAllItemsEvent fromMap(Map<String, dynamic> map) {
+    return ensureInitialized().decodeMap<ServerSendsAllItemsEvent>(map);
+  }
+
+  static ServerSendsAllItemsEvent fromJson(String json) {
+    return ensureInitialized().decodeJson<ServerSendsAllItemsEvent>(json);
+  }
+}
+
+mixin ServerSendsAllItemsEventMappable {
+  String toJson() {
+    return ServerSendsAllItemsEventMapper.ensureInitialized()
+        .encodeJson<ServerSendsAllItemsEvent>(this as ServerSendsAllItemsEvent);
+  }
+
+  Map<String, dynamic> toMap() {
+    return ServerSendsAllItemsEventMapper.ensureInitialized()
+        .encodeMap<ServerSendsAllItemsEvent>(this as ServerSendsAllItemsEvent);
+  }
+
+  ServerSendsAllItemsEventCopyWith<ServerSendsAllItemsEvent,
+          ServerSendsAllItemsEvent, ServerSendsAllItemsEvent>
+      get copyWith => _ServerSendsAllItemsEventCopyWithImpl<
+              ServerSendsAllItemsEvent, ServerSendsAllItemsEvent>(
+          this as ServerSendsAllItemsEvent, $identity, $identity);
+  @override
+  String toString() {
+    return ServerSendsAllItemsEventMapper.ensureInitialized()
+        .stringifyValue(this as ServerSendsAllItemsEvent);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return ServerSendsAllItemsEventMapper.ensureInitialized()
+        .equalsValue(this as ServerSendsAllItemsEvent, other);
+  }
+
+  @override
+  int get hashCode {
+    return ServerSendsAllItemsEventMapper.ensureInitialized()
+        .hashValue(this as ServerSendsAllItemsEvent);
+  }
+}
+
+extension ServerSendsAllItemsEventValueCopy<$R, $Out>
+    on ObjectCopyWith<$R, ServerSendsAllItemsEvent, $Out> {
+  ServerSendsAllItemsEventCopyWith<$R, ServerSendsAllItemsEvent, $Out>
+      get $asServerSendsAllItemsEvent => $base.as((v, t, t2) =>
+          _ServerSendsAllItemsEventCopyWithImpl<$R, $Out>(v, t, t2));
+}
+
+abstract class ServerSendsAllItemsEventCopyWith<
+    $R,
+    $In extends ServerSendsAllItemsEvent,
+    $Out> implements BaseEventCopyWith<$R, $In, $Out> {
+  ListCopyWith<
+      $R,
+      InventoryItemModel,
+      InventoryItemModelCopyWith<$R, InventoryItemModel,
+          InventoryItemModel>> get items;
+  @override
+  $R call(
+      {List<InventoryItemModel>? items, String? eventType, String? requestId});
+  ServerSendsAllItemsEventCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
+      Then<$Out2, $R2> t);
+}
+
+class _ServerSendsAllItemsEventCopyWithImpl<$R, $Out>
+    extends ClassCopyWithBase<$R, ServerSendsAllItemsEvent, $Out>
+    implements
+        ServerSendsAllItemsEventCopyWith<$R, ServerSendsAllItemsEvent, $Out> {
+  _ServerSendsAllItemsEventCopyWithImpl(super.value, super.then, super.then2);
+
+  @override
+  late final ClassMapperBase<ServerSendsAllItemsEvent> $mapper =
+      ServerSendsAllItemsEventMapper.ensureInitialized();
+  @override
+  ListCopyWith<
+      $R,
+      InventoryItemModel,
+      InventoryItemModelCopyWith<$R, InventoryItemModel,
+          InventoryItemModel>> get items => ListCopyWith(
+      $value.items, (v, t) => v.copyWith.$chain(t), (v) => call(items: v));
+  @override
+  $R call(
+          {List<InventoryItemModel>? items,
+          String? eventType,
+          String? requestId}) =>
+      $apply(FieldCopyWithData({
+        if (items != null) #items: items,
+        if (eventType != null) #eventType: eventType,
+        if (requestId != null) #requestId: requestId
+      }));
+  @override
+  ServerSendsAllItemsEvent $make(CopyWithData data) => ServerSendsAllItemsEvent(
+      items: data.get(#items, or: $value.items),
+      eventType: data.get(#eventType, or: $value.eventType),
+      requestId: data.get(#requestId, or: $value.requestId));
+
+  @override
+  ServerSendsAllItemsEventCopyWith<$R2, ServerSendsAllItemsEvent, $Out2>
+      $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
+          _ServerSendsAllItemsEventCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }
 
 class ServerSendsCreatedProjectEventMapper

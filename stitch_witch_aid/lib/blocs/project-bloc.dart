@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:stitch_witch_aid/states/projects-state.dart';
 import 'package:uuid/uuid.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../events/events.dart';
+import '../projects/projects-state.dart';
 
 
 class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {

@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stitch_witch_aid/inventory/inventory-item-dto.dart';
 
 import '../blocs/Item-bloc.dart';
+import '../projects/item-state.dart';
 import '../root/brand-colors.dart';
-import '../states/item-state.dart';
 import 'inventory-model.dart';
 
 class InventoryDialog extends StatefulWidget {
