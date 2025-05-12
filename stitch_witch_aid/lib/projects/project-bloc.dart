@@ -19,11 +19,13 @@ class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
     ////////////////////// Handlers for client events //////////////////////
     on<ClientGetsAllProjectsEvent>(_onClientEvent);
     on<ClientCreatesNewProjectEvent>(_onClientEvent);
+    on<ClientDeletesProjectEvent>(_onClientEvent);
 
 
     ////////////////////// Handlers for server events //////////////////////
     on<ServerSendsAllProjectsEvent>(_onServerSendsAllProjects);
     on<ServerSendsCreatedProjectEvent>(_onServerSendsCreatedProject);
+    on<ServerDeletedProjectEvent>(_onServerDeletedProject);
     on<ServerSendsErrorMessageEvent>(_onServerSendsErrorMessage);
 
 
@@ -60,6 +62,13 @@ class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
         requestId: Uuid().v4()));
   }
 
+  void clientDeletesProject(String projectId) {
+    add(ClientDeletesProjectEvent(
+        projectId: projectId,
+        eventType: ClientDeletesProjectEvent.name,
+        requestId: Uuid().v4()));
+  }
+
 
   ///////////////////// Receiving server events /////////////////////
   FutureOr<void> _onServerSendsAllProjects(
@@ -78,6 +87,16 @@ class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
     var stateCopy = ProjectsState(projects: [...state.projects]);
 
     stateCopy.projects.add(event.projectDto);
+
+    emit(stateCopy);
+  }
+
+  FutureOr<void> _onServerDeletedProject(
+      ServerDeletedProjectEvent event,
+      Emitter<ProjectsState> emit) {
+    var stateCopy = ProjectsState(projects: [...state.projects]);
+
+    stateCopy.projects.removeWhere((project) => project.id == event.projectId);
 
     emit(stateCopy);
   }
