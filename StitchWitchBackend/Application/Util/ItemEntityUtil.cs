@@ -62,4 +62,19 @@ public class ItemEntityUtil
 
         return returnList;
     }
+    
+    
+    //ITEM TAGS
+    public static ItemTag CreateItemTagDtoToItemTag(CreateNewItemTagDto dto)
+    {
+        ItemTag item = new ItemTag()
+        {
+            Tagid = dto.Tagid,
+            Itemid = dto.Itemid
+        };
+
+        return item;
+    }
+    
+    
 }
