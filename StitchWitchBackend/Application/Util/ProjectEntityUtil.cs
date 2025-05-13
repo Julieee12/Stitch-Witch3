@@ -61,27 +61,10 @@ public class ProjectEntityUtil
             Description = updateProjectDto.Description,
             Yarn = updateProjectDto.Yarn,
             Hook = updateProjectDto.Hook,
-            Time = updateProjectDto.Time
+            Time = updateProjectDto.Time,
+            Tags = TagTypeEntityUtil.TagDtosToTagTypes(updateProjectDto.tagDtos)
         };
 
         return project;
-    }
-
-    public static List<ProjectTag> InstantiateProjectTags(string projectId, List<string> tagIds)
-    {
-        var projectTags = new List<ProjectTag>();
-
-        foreach (var tagId in tagIds)
-        {
-            var projectTag = new ProjectTag
-            {
-                Projectid = projectId,
-                Tagid = tagId
-            };
-            
-            projectTags.Add(projectTag);
-        }
-
-        return projectTags;
     }
 }

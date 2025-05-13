@@ -51,22 +51,22 @@ class CreateNewProjectDto with CreateNewProjectDtoMappable {
 class UpdateProjectDto with UpdateProjectDtoMappable {
   String id;
   String name;
-  String? tag;
   int stitch;
   int row;
   String? picurl;
   String? description;
   String? yarn;
   String? hook;
+  List<TagDto> tagsDtos = [];
 
   UpdateProjectDto({
     required this.id,
     required this.name,
-    this.tag,
     required this.stitch,
     required this.row,
     this.picurl,
     this.description,
     this.yarn,
-    this.hook});
+    this.hook,
+    required this.tagsDtos});
 }
