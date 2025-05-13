@@ -16,9 +16,6 @@ class CounterScreen extends StatefulWidget {
 class _CounterScreenState extends State<CounterScreen> {
   ProjectItemModel? _selectedProject;
 
-  //counter variables
-  int stitchCount = 0;
-  int currentRow = 0;
   final TextEditingController stitchesPerRowController = TextEditingController();
 
   //timer variables
