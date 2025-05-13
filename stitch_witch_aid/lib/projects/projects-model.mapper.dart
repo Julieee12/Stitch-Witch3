@@ -13,6 +13,7 @@ class ProjectItemModelMapper extends ClassMapperBase<ProjectItemModel> {
   static ProjectItemModelMapper ensureInitialized() {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = ProjectItemModelMapper._());
+      TagDtoMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -44,6 +45,9 @@ class ProjectItemModelMapper extends ClassMapperBase<ProjectItemModel> {
   static double? _$time(ProjectItemModel v) => v.time;
   static const Field<ProjectItemModel, double> _f$time =
       Field('time', _$time, opt: true);
+  static List<TagDto> _$tags(ProjectItemModel v) => v.tags;
+  static const Field<ProjectItemModel, List<TagDto>> _f$tags =
+      Field('tags', _$tags);
 
   @override
   final MappableFields<ProjectItemModel> fields = const {
@@ -56,6 +60,7 @@ class ProjectItemModelMapper extends ClassMapperBase<ProjectItemModel> {
     #yarn: _f$yarn,
     #hook: _f$hook,
     #time: _f$time,
+    #tags: _f$tags,
   };
 
   static ProjectItemModel _instantiate(DecodingData data) {
@@ -68,7 +73,8 @@ class ProjectItemModelMapper extends ClassMapperBase<ProjectItemModel> {
         description: data.dec(_f$description),
         yarn: data.dec(_f$yarn),
         hook: data.dec(_f$hook),
-        time: data.dec(_f$time));
+        time: data.dec(_f$time),
+        tags: data.dec(_f$tags));
   }
 
   @override
@@ -126,6 +132,7 @@ extension ProjectItemModelValueCopy<$R, $Out>
 
 abstract class ProjectItemModelCopyWith<$R, $In extends ProjectItemModel, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
+  ListCopyWith<$R, TagDto, TagDtoCopyWith<$R, TagDto, TagDto>> get tags;
   $R call(
       {String? id,
       String? name,
@@ -135,7 +142,8 @@ abstract class ProjectItemModelCopyWith<$R, $In extends ProjectItemModel, $Out>
       String? description,
       String? yarn,
       String? hook,
-      double? time});
+      double? time,
+      List<TagDto>? tags});
   ProjectItemModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
       Then<$Out2, $R2> t);
 }
@@ -149,6 +157,10 @@ class _ProjectItemModelCopyWithImpl<$R, $Out>
   late final ClassMapperBase<ProjectItemModel> $mapper =
       ProjectItemModelMapper.ensureInitialized();
   @override
+  ListCopyWith<$R, TagDto, TagDtoCopyWith<$R, TagDto, TagDto>> get tags =>
+      ListCopyWith(
+          $value.tags, (v, t) => v.copyWith.$chain(t), (v) => call(tags: v));
+  @override
   $R call(
           {String? id,
           String? name,
@@ -158,7 +170,8 @@ class _ProjectItemModelCopyWithImpl<$R, $Out>
           Object? description = $none,
           Object? yarn = $none,
           Object? hook = $none,
-          Object? time = $none}) =>
+          Object? time = $none,
+          List<TagDto>? tags}) =>
       $apply(FieldCopyWithData({
         if (id != null) #id: id,
         if (name != null) #name: name,
@@ -168,7 +181,8 @@ class _ProjectItemModelCopyWithImpl<$R, $Out>
         if (description != $none) #description: description,
         if (yarn != $none) #yarn: yarn,
         if (hook != $none) #hook: hook,
-        if (time != $none) #time: time
+        if (time != $none) #time: time,
+        if (tags != null) #tags: tags
       }));
   @override
   ProjectItemModel $make(CopyWithData data) => ProjectItemModel(
@@ -180,7 +194,8 @@ class _ProjectItemModelCopyWithImpl<$R, $Out>
       description: data.get(#description, or: $value.description),
       yarn: data.get(#yarn, or: $value.yarn),
       hook: data.get(#hook, or: $value.hook),
-      time: data.get(#time, or: $value.time));
+      time: data.get(#time, or: $value.time),
+      tags: data.get(#tags, or: $value.tags));
 
   @override
   ProjectItemModelCopyWith<$R2, ProjectItemModel, $Out2> $chain<$R2, $Out2>(
@@ -195,6 +210,7 @@ class CreateNewProjectDtoMapper extends ClassMapperBase<CreateNewProjectDto> {
   static CreateNewProjectDtoMapper ensureInitialized() {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = CreateNewProjectDtoMapper._());
+      TagDtoMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -205,9 +221,6 @@ class CreateNewProjectDtoMapper extends ClassMapperBase<CreateNewProjectDto> {
   static String _$name(CreateNewProjectDto v) => v.name;
   static const Field<CreateNewProjectDto, String> _f$name =
       Field('name', _$name);
-  static String? _$tag(CreateNewProjectDto v) => v.tag;
-  static const Field<CreateNewProjectDto, String> _f$tag =
-      Field('tag', _$tag, opt: true);
   static String? _$picurl(CreateNewProjectDto v) => v.picurl;
   static const Field<CreateNewProjectDto, String> _f$picurl =
       Field('picurl', _$picurl, opt: true);
@@ -220,25 +233,28 @@ class CreateNewProjectDtoMapper extends ClassMapperBase<CreateNewProjectDto> {
   static String? _$hook(CreateNewProjectDto v) => v.hook;
   static const Field<CreateNewProjectDto, String> _f$hook =
       Field('hook', _$hook, opt: true);
+  static List<TagDto> _$tagDtos(CreateNewProjectDto v) => v.tagDtos;
+  static const Field<CreateNewProjectDto, List<TagDto>> _f$tagDtos =
+      Field('tagDtos', _$tagDtos);
 
   @override
   final MappableFields<CreateNewProjectDto> fields = const {
     #name: _f$name,
-    #tag: _f$tag,
     #picurl: _f$picurl,
     #description: _f$description,
     #yarn: _f$yarn,
     #hook: _f$hook,
+    #tagDtos: _f$tagDtos,
   };
 
   static CreateNewProjectDto _instantiate(DecodingData data) {
     return CreateNewProjectDto(
         name: data.dec(_f$name),
-        tag: data.dec(_f$tag),
         picurl: data.dec(_f$picurl),
         description: data.dec(_f$description),
         yarn: data.dec(_f$yarn),
-        hook: data.dec(_f$hook));
+        hook: data.dec(_f$hook),
+        tagDtos: data.dec(_f$tagDtos));
   }
 
   @override
@@ -296,13 +312,14 @@ extension CreateNewProjectDtoValueCopy<$R, $Out>
 
 abstract class CreateNewProjectDtoCopyWith<$R, $In extends CreateNewProjectDto,
     $Out> implements ClassCopyWith<$R, $In, $Out> {
+  ListCopyWith<$R, TagDto, TagDtoCopyWith<$R, TagDto, TagDto>> get tagDtos;
   $R call(
       {String? name,
-      String? tag,
       String? picurl,
       String? description,
       String? yarn,
-      String? hook});
+      String? hook,
+      List<TagDto>? tagDtos});
   CreateNewProjectDtoCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
       Then<$Out2, $R2> t);
 }
@@ -316,29 +333,33 @@ class _CreateNewProjectDtoCopyWithImpl<$R, $Out>
   late final ClassMapperBase<CreateNewProjectDto> $mapper =
       CreateNewProjectDtoMapper.ensureInitialized();
   @override
+  ListCopyWith<$R, TagDto, TagDtoCopyWith<$R, TagDto, TagDto>> get tagDtos =>
+      ListCopyWith($value.tagDtos, (v, t) => v.copyWith.$chain(t),
+          (v) => call(tagDtos: v));
+  @override
   $R call(
           {String? name,
-          Object? tag = $none,
           Object? picurl = $none,
           Object? description = $none,
           Object? yarn = $none,
-          Object? hook = $none}) =>
+          Object? hook = $none,
+          List<TagDto>? tagDtos}) =>
       $apply(FieldCopyWithData({
         if (name != null) #name: name,
-        if (tag != $none) #tag: tag,
         if (picurl != $none) #picurl: picurl,
         if (description != $none) #description: description,
         if (yarn != $none) #yarn: yarn,
-        if (hook != $none) #hook: hook
+        if (hook != $none) #hook: hook,
+        if (tagDtos != null) #tagDtos: tagDtos
       }));
   @override
   CreateNewProjectDto $make(CopyWithData data) => CreateNewProjectDto(
       name: data.get(#name, or: $value.name),
-      tag: data.get(#tag, or: $value.tag),
       picurl: data.get(#picurl, or: $value.picurl),
       description: data.get(#description, or: $value.description),
       yarn: data.get(#yarn, or: $value.yarn),
-      hook: data.get(#hook, or: $value.hook));
+      hook: data.get(#hook, or: $value.hook),
+      tagDtos: data.get(#tagDtos, or: $value.tagDtos));
 
   @override
   CreateNewProjectDtoCopyWith<$R2, CreateNewProjectDto, $Out2>

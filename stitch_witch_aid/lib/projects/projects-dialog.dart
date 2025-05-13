@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stitch_witch_aid/projects/project-bloc.dart';
 import 'package:stitch_witch_aid/projects/projects-model.dart';
 import 'package:stitch_witch_aid/projects/projects-state.dart';
+import 'package:stitch_witch_aid/tag/tags-model.dart';
 import '../root/brand-colors.dart';
 
 
@@ -19,7 +20,7 @@ class _AddProjectDialogState extends State<ProjectsDialog> {
 
   late String _name;
   late String _description;
-  late String _tag;
+  late List<TagDto> _tags;
   late String _picture;
   late String _yarn;
   late String _hook;
@@ -29,7 +30,7 @@ class _AddProjectDialogState extends State<ProjectsDialog> {
     super.initState();
     _name = '';
     _description = ''; // Optional
-    _tag = ''; // Optional
+    _tags = []; // Optional
     _picture = ''; // Optional
     _yarn = ''; // Optional
     _hook = ''; // Optional
@@ -92,20 +93,6 @@ class _AddProjectDialogState extends State<ProjectsDialog> {
                     fillColor: BrandColors.purpleVeryLight,
                   ),
                   onChanged: (value) => _description = value,
-                ),
-                const SizedBox(height: 15),
-
-                // Tag input field (optional)
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: 'Tag (optional)',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    filled: true,
-                    fillColor: BrandColors.purpleVeryLight,
-                  ),
-                  onChanged: (value) => _tag = value, // Optional
                 ),
                 const SizedBox(height: 15),
 
@@ -182,10 +169,10 @@ class _AddProjectDialogState extends State<ProjectsDialog> {
                         final newProject = CreateNewProjectDto(
                           name: _name,
                           description: _description,
-                          tag: _tag,
                           picurl: _picture,
                           yarn: _yarn,
-                          hook: _hook
+                          hook: _hook,
+                          tagDtos: _tags
                         );
 
                         // You can now use this item, e.g., adding to your state or database
