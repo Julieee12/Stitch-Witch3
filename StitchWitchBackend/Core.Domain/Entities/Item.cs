@@ -13,5 +13,5 @@ public partial class Item
 
     public string? Description { get; set; }
 
-    public virtual ICollection<TagType> Tags { get; set; } = new List<TagType>();
+    public virtual ItemTag? ItemTag { get; set; }
 }

@@ -19,6 +19,4 @@ public class ProjectDto
     public string? Hook { get; set; }
 
     public decimal? Time { get; set; }
-
-    public List<TagDto> Tags { get; set; } = [];
 }

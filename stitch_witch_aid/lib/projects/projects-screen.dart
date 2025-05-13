@@ -62,7 +62,6 @@ class ProjectsScreen extends StatelessWidget {
                         yarn: project.yarn,
                         hook: project.hook,
                         time: project.time,
-                        tags: project.tags
                       ),
                       color: BrandColors.purpleSoft,
                     ),
@@ -74,7 +73,7 @@ class ProjectsScreen extends StatelessWidget {
               bottom: 30,
               right: 0,
                 //child: FilledButton(onPressed: () {}, child: Text("+"))
-              child: AddButton(),
+                child: AddButton(),
             )
           ],
         ),

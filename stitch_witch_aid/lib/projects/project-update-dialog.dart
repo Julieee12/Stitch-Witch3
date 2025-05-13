@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stitch_witch_aid/projects/project-bloc.dart';
 import 'package:stitch_witch_aid/projects/projects-model.dart';
 import 'package:stitch_witch_aid/projects/projects-state.dart';
-import 'package:stitch_witch_aid/tag/tags-model.dart';
 
 import '../root/brand-colors.dart';
 
@@ -24,7 +23,7 @@ class _UpdateProjectDialogState extends State<UpdateProjectDialog> {
   late String _description;
   late int _stitch;
   late int _row;
-  late List<TagDto> _tags;
+  late String _tag;
   late String _picture;
   late String _yarn;
   late String _hook;
@@ -37,7 +36,6 @@ class _UpdateProjectDialogState extends State<UpdateProjectDialog> {
     _description = widget.projectToUpdate.description ?? ''; // Optional
     _stitch = widget.projectToUpdate.stitch;
     _row = widget.projectToUpdate.row;
-    _tags = []; // Optional
     _picture = widget.projectToUpdate.picurl ?? ''; // Optional
     _yarn = widget.projectToUpdate.yarn ?? ''; // Optional
     _hook = widget.projectToUpdate.hook ?? ''; // Optional
@@ -183,7 +181,7 @@ class _UpdateProjectDialogState extends State<UpdateProjectDialog> {
                             description: _description,
                             stitch: _stitch,
                             row: _row,
-                            tagsDtos: _tags,
+                            tag: _tag,
                             picurl: _picture,
                             yarn: _yarn,
                             hook: _hook
