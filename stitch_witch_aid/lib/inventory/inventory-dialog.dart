@@ -148,7 +148,7 @@ class _AddItemDialogState extends State<InventoryDialog> {
                       // You can now use this item, e.g., adding to your state or database
                       print('Item Created: $newItem');
 
-                      widget.buildContext.read<ItemBloc>().clientCreatesNewItemItems(newItem);
+                      widget.buildContext.read<ItemBloc>().clientCreatesNewItem(newItem);
                       widget.buildContext.read<ItemBloc>().clientWantsToGetAllItems();
 
                       Navigator.of(context).pop();

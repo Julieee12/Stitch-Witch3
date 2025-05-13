@@ -7,7 +7,8 @@ import '../projects/item-state.dart';
 import '../root/brand-colors.dart';
 import '../root/search-bar.dart';
 import '../root/tags.dart';
-import 'add-item-button.dart'; // Make sure this import points to the correct file
+import 'add-item-button.dart';
+import 'inventory-expanded-view.dart'; // Make sure this import points to the correct file
 
 class InventoryScreen extends StatelessWidget {
   const InventoryScreen({super.key});
@@ -43,14 +44,21 @@ class InventoryScreen extends StatelessWidget {
               * */
 
                   children: List.generate(state.items.length, (index) {
-                    return InventoryItem(
+                    return GestureDetector(
+                      onTap: () {Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ItemExpandedView(indexToUpdate: index))
+                        );
+                      },
+                    child: InventoryItem(
                         item: InventoryItemModel(
                             id: state.items[index].id,
                             name: state.items[index].name,
                             description: state.items[index].description,
-                            tag: state.items[index].tag,
                             picurl: state.items[index].picurl ),
-                        color: BrandColors.purpleSoft);
+                        color: BrandColors.purpleSoft)
+                    );
                   }),
                 ),
               ),

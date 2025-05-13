@@ -52,7 +52,7 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
         requestId: Uuid().v4()));
   }
 
-  void clientCreatesNewItemItems(InventoryItemDto item){
+  void clientCreatesNewItem(InventoryItemDto item){
     print("!!!!!!!!!!!!!!! NEW ITEM BEING CREATED !!!!!!!!!!!!!!!!!!");
     add(ClientCreatesNewItemEvent(
         eventType: ClientCreatesNewItemEvent.name,
@@ -60,17 +60,17 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
         newItemDto: item));
   }
 
-  void clientUpdatesItemItems(InventoryItemModel item){
+  void clientUpdatesItem(UpdateItemDto item){
     print("~~~~~~~~~~~~~~~~~UPDARE~~~~~~~~~~~~~~~~~~~~");
     add(ClientUpdatesItemEvent(
-        eventType: ClientCreatesNewItemEvent.name,
+        eventType: ClientUpdatesItemEvent.name,
         requestId: Uuid().v4(),
-        item: item));
+        updateItemDto: item));
   }
   void clientDeletesItemItems(String itemId){
     print("_______--------______ Delete... ______--------________");
     add(ClientDeletesItemEvent(
-        eventType: ClientCreatesNewItemEvent.name,
+        eventType: ClientDeletesItemEvent.name,
         requestId: Uuid().v4(),
         id: itemId,));
   }
