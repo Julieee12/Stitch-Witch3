@@ -12,4 +12,5 @@ public class CreateNewProjectDto
 
     public string? Hook { get; set; }
 
+    public List<TagDto> tagDtos { get; set; } = [];
 }

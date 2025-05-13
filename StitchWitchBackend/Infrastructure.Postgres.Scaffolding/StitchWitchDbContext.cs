@@ -14,11 +14,7 @@ public partial class StitchWitchDbContext : DbContext
 
     public virtual DbSet<Item> Items { get; set; }
 
-    public virtual DbSet<ItemTag> ItemTags { get; set; }
-
     public virtual DbSet<Project> Projects { get; set; }
-
-    public virtual DbSet<ProjectTag> ProjectTags { get; set; }
 
     public virtual DbSet<TagType> TagTypes { get; set; }
 
@@ -34,25 +30,25 @@ public partial class StitchWitchDbContext : DbContext
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.Name).HasColumnName("name");
             entity.Property(e => e.Picurl).HasColumnName("picurl");
-        });
 
-        modelBuilder.Entity<ItemTag>(entity =>
-        {
-            entity.HasKey(e => e.Itemid).HasName("item tag_pk");
-
-            entity.ToTable("item tag");
-
-            entity.Property(e => e.Itemid).HasColumnName("itemid");
-            entity.Property(e => e.Tagid).HasColumnName("tagid");
-
-            entity.HasOne(d => d.Item).WithOne(p => p.ItemTag)
-                .HasForeignKey<ItemTag>(d => d.Itemid)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("item tag_item_id_fk");
-
-            entity.HasOne(d => d.Tag).WithMany(p => p.ItemTags)
-                .HasForeignKey(d => d.Tagid)
-                .HasConstraintName("item tag_tag type_id_fk");
+            entity.HasMany(d => d.Tags).WithMany(p => p.Items)
+                .UsingEntity<Dictionary<string, object>>(
+                    "ItemTag",
+                    r => r.HasOne<TagType>().WithMany()
+                        .HasForeignKey("Tagid")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("item tag_tag type_id_fk"),
+                    l => l.HasOne<Item>().WithMany()
+                        .HasForeignKey("Itemid")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("item tag_item_id_fk"),
+                    j =>
+                    {
+                        j.HasKey("Itemid", "Tagid").HasName("item tag_pk");
+                        j.ToTable("item tag");
+                        j.IndexerProperty<string>("Itemid").HasColumnName("itemid");
+                        j.IndexerProperty<string>("Tagid").HasColumnName("tagid");
+                    });
         });
 
         modelBuilder.Entity<Project>(entity =>
@@ -70,25 +66,25 @@ public partial class StitchWitchDbContext : DbContext
             entity.Property(e => e.Stitch).HasColumnName("stitch");
             entity.Property(e => e.Time).HasColumnName("time");
             entity.Property(e => e.Yarn).HasColumnName("yarn");
-        });
 
-        modelBuilder.Entity<ProjectTag>(entity =>
-        {
-            entity.HasKey(e => e.Projectid).HasName("project tag_pk");
-
-            entity.ToTable("project tag");
-
-            entity.Property(e => e.Projectid).HasColumnName("projectid");
-            entity.Property(e => e.Tagid).HasColumnName("tagid");
-
-            entity.HasOne(d => d.Project).WithOne(p => p.ProjectTag)
-                .HasForeignKey<ProjectTag>(d => d.Projectid)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("project tag_project_id_fk");
-
-            entity.HasOne(d => d.Tag).WithMany(p => p.ProjectTags)
-                .HasForeignKey(d => d.Tagid)
-                .HasConstraintName("project tag_tag type_id_fk");
+            entity.HasMany(d => d.Tags).WithMany(p => p.Projects)
+                .UsingEntity<Dictionary<string, object>>(
+                    "ProjectTag",
+                    r => r.HasOne<TagType>().WithMany()
+                        .HasForeignKey("Tagid")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("project tag_tag type_id_fk"),
+                    l => l.HasOne<Project>().WithMany()
+                        .HasForeignKey("Projectid")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("project tag_project_id_fk"),
+                    j =>
+                    {
+                        j.HasKey("Projectid", "Tagid").HasName("project tag_pk");
+                        j.ToTable("project tag");
+                        j.IndexerProperty<string>("Projectid").HasColumnName("projectid");
+                        j.IndexerProperty<string>("Tagid").HasColumnName("tagid");
+                    });
         });
 
         modelBuilder.Entity<TagType>(entity =>
