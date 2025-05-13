@@ -21,9 +21,14 @@ class _ItemExpandedViewState extends State<ItemExpandedView> {
   @override
   Widget build(BuildContext context) {
 
+    
     InventoryItemModel itemToUpdate = BlocProvider.of<ItemBloc>(context).state.items[widget.indexToUpdate];
     //List<ItemTagModel> tags = BlocProvider.of<ItemBloc>(context).state.tagsForItem!;
 
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ItemBloc>().clientWantsToGetAllItemTagsFromItem(itemToUpdate.id);
+    });
+    
     return BlocConsumer<ItemBloc, ItemState>(
       listener: (context,state) {setState(() {}); },
       builder: (context, state) => Scaffold(
@@ -61,11 +66,15 @@ class _ItemExpandedViewState extends State<ItemExpandedView> {
                 }, child: Text("Update")),
 
                 //TAGS
+                state.tagsForItem != null ?
                 Column(
-                  children: [
-
-                  ],
-                ),
+                  children: List.generate(
+                      state.tagsForItem!.length,
+                          (index) {
+                      return Text(state.tagsForItem![index].itemId);
+                  })
+                )
+                : Text(""),
 
               ],
             ),

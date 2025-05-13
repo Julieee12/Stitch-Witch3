@@ -4,6 +4,7 @@ using Application.Models.DTOs;
 using Application.Utility;
 using Core.Domain.Entities;
 using Fleck;
+using Microsoft.VisualBasic.CompilerServices;
 using WebSocketBoilerplate;
 
 namespace Api.Websocket.EventHandlers;
@@ -20,11 +21,13 @@ public class ClientGetsAllTagsFromItem(IItemRepository itemRepo) : BaseEventHand
     {
         List<ItemTag> itemTags = await itemRepo.GetTagsForItem(dto.itemId);
 
+        List<ItemTagDto> dtos = ItemEntityUtil.ItemTagToItemTagDtoList(itemTags);
+
         ServerSendsAllTagsFromItem response = new ServerSendsAllTagsFromItem()
         {
             eventType = "ServerSendsAllTagsFromItem",
             Message = "added tag to item?",
-            tagsForItem = itemTags,
+            tagsForItem = dtos,
             requestId = dto.requestId,
         };
         

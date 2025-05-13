@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:stitch_witch_aid/events/events.dart';
+import 'package:stitch_witch_aid/events/item-events/server-sends-all-tags-for-item-event.dart';
 import 'package:stitch_witch_aid/inventory/inventory-item-dto.dart';
 import 'package:stitch_witch_aid/inventory/inventory-model.dart';
 import 'package:uuid/uuid.dart';
@@ -28,6 +29,7 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
 
     ////////////////////Server event handlers////////////////////////
     on<ServerSendsAllItemsEvent>(_onServerSendsAllItems);
+    on<ServerSendsAllTagsFromItemEvent>(_onServerSendsAllTagsFromItem);
     on<ServerSendsErrorMessageEvent>(_onServerSendsErrorMessage);
 
     //feed deserialized events into this bloc
@@ -79,7 +81,7 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
   void clientWantsToGetAllItemTagsFromItem(String itemId){
     print("GETTIONG ALL TAGS");
     add(ClientGetsAllTagsFromItemEvent(
-        eventType: ClientGetsAllItemsEvent.name,
+        eventType: ClientGetsAllTagsFromItemEvent.name,
         requestId: Uuid().v4(),
         id: itemId
     ));
@@ -98,6 +100,15 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
     print("received state?");
     state.items.clear();
     state.items.addAll(event.items);
+    emit(state);
+  }
+
+  FutureOr<void> _onServerSendsAllTagsFromItem(
+      ServerSendsAllTagsFromItemEvent event,
+      Emitter<ItemState> emit) {
+    print("received item tags?");
+    state.tagsForItem ?? state.tagsForItem!.clear() ;
+    state.tagsForItem!.addAll(event.tagsForItem);
     emit(state);
   }
 

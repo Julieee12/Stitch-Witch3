@@ -1,8 +1,9 @@
-﻿using Core.Domain.Entities;
+﻿using Application.Models.DTOs;
+using Core.Domain.Entities;
 
 namespace Api.Websocket.ServerResponses;
 
 public class ServerSendsAllTagsFromItem : ServerActionSuccess
 {
-    public List<ItemTag> tagsForItem { get; set; }
+    public List<ItemTagDto> tagsForItem { get; set; }
 }
