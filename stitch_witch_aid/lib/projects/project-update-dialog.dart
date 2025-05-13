@@ -36,7 +36,6 @@ class _UpdateProjectDialogState extends State<UpdateProjectDialog> {
     _description = widget.projectToUpdate.description ?? ''; // Optional
     _stitch = widget.projectToUpdate.stitch;
     _row = widget.projectToUpdate.row;
-    _tag = widget.projectToUpdate.tag ?? ''; // Optional
     _picture = widget.projectToUpdate.picurl ?? ''; // Optional
     _yarn = widget.projectToUpdate.yarn ?? ''; // Optional
     _hook = widget.projectToUpdate.hook ?? ''; // Optional

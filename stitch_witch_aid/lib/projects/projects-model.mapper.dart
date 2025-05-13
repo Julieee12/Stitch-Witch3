@@ -24,9 +24,6 @@ class ProjectItemModelMapper extends ClassMapperBase<ProjectItemModel> {
   static const Field<ProjectItemModel, String> _f$id = Field('id', _$id);
   static String _$name(ProjectItemModel v) => v.name;
   static const Field<ProjectItemModel, String> _f$name = Field('name', _$name);
-  static String? _$tag(ProjectItemModel v) => v.tag;
-  static const Field<ProjectItemModel, String> _f$tag =
-      Field('tag', _$tag, opt: true);
   static int _$stitch(ProjectItemModel v) => v.stitch;
   static const Field<ProjectItemModel, int> _f$stitch =
       Field('stitch', _$stitch);
@@ -52,7 +49,6 @@ class ProjectItemModelMapper extends ClassMapperBase<ProjectItemModel> {
   final MappableFields<ProjectItemModel> fields = const {
     #id: _f$id,
     #name: _f$name,
-    #tag: _f$tag,
     #stitch: _f$stitch,
     #row: _f$row,
     #picurl: _f$picurl,
@@ -66,7 +62,6 @@ class ProjectItemModelMapper extends ClassMapperBase<ProjectItemModel> {
     return ProjectItemModel(
         id: data.dec(_f$id),
         name: data.dec(_f$name),
-        tag: data.dec(_f$tag),
         stitch: data.dec(_f$stitch),
         row: data.dec(_f$row),
         picurl: data.dec(_f$picurl),
@@ -134,7 +129,6 @@ abstract class ProjectItemModelCopyWith<$R, $In extends ProjectItemModel, $Out>
   $R call(
       {String? id,
       String? name,
-      String? tag,
       int? stitch,
       int? row,
       String? picurl,
@@ -158,7 +152,6 @@ class _ProjectItemModelCopyWithImpl<$R, $Out>
   $R call(
           {String? id,
           String? name,
-          Object? tag = $none,
           int? stitch,
           int? row,
           Object? picurl = $none,
@@ -169,7 +162,6 @@ class _ProjectItemModelCopyWithImpl<$R, $Out>
       $apply(FieldCopyWithData({
         if (id != null) #id: id,
         if (name != null) #name: name,
-        if (tag != $none) #tag: tag,
         if (stitch != null) #stitch: stitch,
         if (row != null) #row: row,
         if (picurl != $none) #picurl: picurl,
@@ -182,7 +174,6 @@ class _ProjectItemModelCopyWithImpl<$R, $Out>
   ProjectItemModel $make(CopyWithData data) => ProjectItemModel(
       id: data.get(#id, or: $value.id),
       name: data.get(#name, or: $value.name),
-      tag: data.get(#tag, or: $value.tag),
       stitch: data.get(#stitch, or: $value.stitch),
       row: data.get(#row, or: $value.row),
       picurl: data.get(#picurl, or: $value.picurl),

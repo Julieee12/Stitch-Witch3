@@ -54,7 +54,6 @@ class ProjectsScreen extends StatelessWidget {
                       item: ProjectItemModel(
                         id: project.id,
                         name: project.name,
-                        tag: project.tag,
                         stitch: project.stitch,
                         row: project.row,
                         picurl: project.picurl,

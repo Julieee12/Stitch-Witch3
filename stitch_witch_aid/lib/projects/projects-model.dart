@@ -6,7 +6,6 @@ part 'projects-model.mapper.dart';
 class ProjectItemModel with ProjectItemModelMappable {
   String id;
   String name;
-  String? tag;
   int stitch;
   int row;
   String? picurl;
@@ -18,7 +17,6 @@ class ProjectItemModel with ProjectItemModelMappable {
   ProjectItemModel({
       required this.id,
       required this.name,
-      this.tag,
       required this.stitch,
       required this.row,
       this.picurl,

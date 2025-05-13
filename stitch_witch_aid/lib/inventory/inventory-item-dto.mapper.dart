@@ -25,8 +25,6 @@ class InventoryItemDtoMapper extends ClassMapperBase<InventoryItemDto> {
   static String? _$description(InventoryItemDto v) => v.description;
   static const Field<InventoryItemDto, String> _f$description =
       Field('description', _$description);
-  static String? _$tag(InventoryItemDto v) => v.tag;
-  static const Field<InventoryItemDto, String> _f$tag = Field('tag', _$tag);
   static String? _$picurl(InventoryItemDto v) => v.picurl;
   static const Field<InventoryItemDto, String> _f$picurl =
       Field('picurl', _$picurl);
@@ -35,7 +33,6 @@ class InventoryItemDtoMapper extends ClassMapperBase<InventoryItemDto> {
   final MappableFields<InventoryItemDto> fields = const {
     #name: _f$name,
     #description: _f$description,
-    #tag: _f$tag,
     #picurl: _f$picurl,
   };
 
@@ -43,7 +40,6 @@ class InventoryItemDtoMapper extends ClassMapperBase<InventoryItemDto> {
     return InventoryItemDto(
         name: data.dec(_f$name),
         description: data.dec(_f$description),
-        tag: data.dec(_f$tag),
         picurl: data.dec(_f$picurl));
   }
 
@@ -102,7 +98,7 @@ extension InventoryItemDtoValueCopy<$R, $Out>
 
 abstract class InventoryItemDtoCopyWith<$R, $In extends InventoryItemDto, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
-  $R call({String? name, String? description, String? tag, String? picurl});
+  $R call({String? name, String? description, String? picurl});
   InventoryItemDtoCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
       Then<$Out2, $R2> t);
 }
@@ -119,19 +115,16 @@ class _InventoryItemDtoCopyWithImpl<$R, $Out>
   $R call(
           {String? name,
           Object? description = $none,
-          Object? tag = $none,
           Object? picurl = $none}) =>
       $apply(FieldCopyWithData({
         if (name != null) #name: name,
         if (description != $none) #description: description,
-        if (tag != $none) #tag: tag,
         if (picurl != $none) #picurl: picurl
       }));
   @override
   InventoryItemDto $make(CopyWithData data) => InventoryItemDto(
       name: data.get(#name, or: $value.name),
       description: data.get(#description, or: $value.description),
-      tag: data.get(#tag, or: $value.tag),
       picurl: data.get(#picurl, or: $value.picurl));
 
   @override

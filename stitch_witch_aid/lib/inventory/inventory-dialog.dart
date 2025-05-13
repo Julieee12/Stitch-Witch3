@@ -158,7 +158,6 @@ class _AddItemDialogState extends State<InventoryDialog> {
                       final newItem = InventoryItemDto(
                         name: _name,
                         description: _description,
-                        tag: _tag.isNotEmpty ? _tag : null,
                         picurl: _picture.isNotEmpty ? _picture : null,
                       );
 
