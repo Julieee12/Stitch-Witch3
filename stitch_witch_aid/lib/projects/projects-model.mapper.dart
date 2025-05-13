@@ -403,6 +403,9 @@ class UpdateProjectDtoMapper extends ClassMapperBase<UpdateProjectDto> {
   static String? _$hook(UpdateProjectDto v) => v.hook;
   static const Field<UpdateProjectDto, String> _f$hook =
       Field('hook', _$hook, opt: true);
+  static double? _$time(UpdateProjectDto v) => v.time;
+  static const Field<UpdateProjectDto, double> _f$time =
+      Field('time', _$time, opt: true);
   static List<TagDto> _$tagsDtos(UpdateProjectDto v) => v.tagsDtos;
   static const Field<UpdateProjectDto, List<TagDto>> _f$tagsDtos =
       Field('tagsDtos', _$tagsDtos);
@@ -417,6 +420,7 @@ class UpdateProjectDtoMapper extends ClassMapperBase<UpdateProjectDto> {
     #description: _f$description,
     #yarn: _f$yarn,
     #hook: _f$hook,
+    #time: _f$time,
     #tagsDtos: _f$tagsDtos,
   };
 
@@ -430,6 +434,7 @@ class UpdateProjectDtoMapper extends ClassMapperBase<UpdateProjectDto> {
         description: data.dec(_f$description),
         yarn: data.dec(_f$yarn),
         hook: data.dec(_f$hook),
+        time: data.dec(_f$time),
         tagsDtos: data.dec(_f$tagsDtos));
   }
 
@@ -498,6 +503,7 @@ abstract class UpdateProjectDtoCopyWith<$R, $In extends UpdateProjectDto, $Out>
       String? description,
       String? yarn,
       String? hook,
+      double? time,
       List<TagDto>? tagsDtos});
   UpdateProjectDtoCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
       Then<$Out2, $R2> t);
@@ -525,6 +531,7 @@ class _UpdateProjectDtoCopyWithImpl<$R, $Out>
           Object? description = $none,
           Object? yarn = $none,
           Object? hook = $none,
+          Object? time = $none,
           List<TagDto>? tagsDtos}) =>
       $apply(FieldCopyWithData({
         if (id != null) #id: id,
@@ -535,6 +542,7 @@ class _UpdateProjectDtoCopyWithImpl<$R, $Out>
         if (description != $none) #description: description,
         if (yarn != $none) #yarn: yarn,
         if (hook != $none) #hook: hook,
+        if (time != $none) #time: time,
         if (tagsDtos != null) #tagsDtos: tagsDtos
       }));
   @override
@@ -547,6 +555,7 @@ class _UpdateProjectDtoCopyWithImpl<$R, $Out>
       description: data.get(#description, or: $value.description),
       yarn: data.get(#yarn, or: $value.yarn),
       hook: data.get(#hook, or: $value.hook),
+      time: data.get(#time, or: $value.time),
       tagsDtos: data.get(#tagsDtos, or: $value.tagsDtos));
 
   @override

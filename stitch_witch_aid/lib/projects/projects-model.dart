@@ -57,6 +57,7 @@ class UpdateProjectDto with UpdateProjectDtoMappable {
   String? description;
   String? yarn;
   String? hook;
+  double? time;
   List<TagDto> tagsDtos = [];
 
   UpdateProjectDto({
@@ -68,5 +69,6 @@ class UpdateProjectDto with UpdateProjectDtoMappable {
     this.description,
     this.yarn,
     this.hook,
+    this.time,
     required this.tagsDtos});
 }
