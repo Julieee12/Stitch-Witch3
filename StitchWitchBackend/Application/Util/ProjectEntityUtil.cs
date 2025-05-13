@@ -1,14 +1,16 @@
 using Application.Models.DTOs;
 using Core.Domain.Entities;
+using Microsoft.VisualBasic;
 
 namespace Application.Utility;
 
 public class ProjectEntityUtil
 {
-    public static Project CreateNewProjectDtoToProject(CreateNewProjectDto createNewProjectDto)
+    public static Project CreateNewProjectDtoToProject(CreateNewProjectDto createNewProjectDto, string projectId)
     {
         var project = new Project
         {
+            Id = projectId,
             Name = createNewProjectDto.Name,
             Stitch = 0,
             Row = 0,
@@ -16,7 +18,8 @@ public class ProjectEntityUtil
             Description = createNewProjectDto.Description,
             Yarn = createNewProjectDto.Yarn,
             Hook = createNewProjectDto.Hook,
-            Time = (decimal?)0.0
+            Time = (decimal?)0.0,
+            Tags = TagTypeEntityUtil.TagDtosToTagTypes(createNewProjectDto.tagDtos)
         };
 
         return project;
@@ -34,7 +37,8 @@ public class ProjectEntityUtil
             Description = project.Description,
             Yarn = project.Yarn,
             Hook = project.Hook,
-            Time = project.Time
+            Time = project.Time,
+            Tags = TagTypeEntityUtil.TagTypesToTagDtos(project.Tags.ToList())
         };
 
         return projectDto;
@@ -61,5 +65,23 @@ public class ProjectEntityUtil
         };
 
         return project;
+    }
+
+    public static List<ProjectTag> InstantiateProjectTags(string projectId, List<string> tagIds)
+    {
+        var projectTags = new List<ProjectTag>();
+
+        foreach (var tagId in tagIds)
+        {
+            var projectTag = new ProjectTag
+            {
+                Projectid = projectId,
+                Tagid = tagId
+            };
+            
+            projectTags.Add(projectTag);
+        }
+
+        return projectTags;
     }
 }

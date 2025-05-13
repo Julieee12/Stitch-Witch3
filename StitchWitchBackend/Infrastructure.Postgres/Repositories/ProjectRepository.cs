@@ -11,13 +11,17 @@ public class ProjectRepository(StitchWitchDbContext context) : IProjectRepositor
 {
     public async Task<ProjectDto> CreateNewProjectAsync(CreateNewProjectDto createNewProjectDto)
     {
-        var projectToCreate = ProjectEntityUtil.CreateNewProjectDtoToProject(createNewProjectDto);
-        projectToCreate.Id = Guid.NewGuid().ToString();
+        // Convert the dto to a project
+        // And add it to the database
+        var projectToCreate = ProjectEntityUtil
+            .CreateNewProjectDtoToProject(createNewProjectDto, Guid.NewGuid().ToString());
         
-        var result = await context.Projects.AddAsync(projectToCreate);
+        var projectResult = await context.Projects.AddAsync(projectToCreate);
+        
         await context.SaveChangesAsync();
 
-        var createdProject = result.Entity;
+        // Convert to ProjectDto and return it
+        var createdProject = projectResult.Entity;
 
         var projectDto = ProjectEntityUtil.ProjectToProjectDto(createdProject);
         
@@ -26,7 +30,8 @@ public class ProjectRepository(StitchWitchDbContext context) : IProjectRepositor
 
     public async Task<List<ProjectDto>> GetAllProjectsAsync()
     {
-        var allProjects = await context.Projects.ToListAsync();
+        var allProjects = await context.Projects
+            .ToListAsync();
 
         var projectDtos = ProjectEntityUtil.ProjectsToProjectDtos(allProjects);
         
