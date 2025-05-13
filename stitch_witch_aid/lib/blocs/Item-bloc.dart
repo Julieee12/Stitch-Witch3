@@ -9,7 +9,7 @@ import 'package:stitch_witch_aid/inventory/inventory-model.dart';
 import 'package:uuid/uuid.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-import '../projects/item-state.dart';
+import '../inventory/item-state.dart';
 
 class ItemBloc extends Bloc<BaseEvent, ItemState> {
   final WebSocketChannel _channel;
@@ -23,6 +23,7 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
     on<ClientCreatesNewItemEvent>(_onClientEvent);
     on<ClientUpdatesItemEvent>(_onClientEvent);
     on<ClientDeletesItemEvent>(_onClientEvent);
+    on<ClientGetsAllTagsFromItemEvent>(_onClientEvent);
 
 
     ////////////////////Server event handlers////////////////////////
@@ -73,6 +74,15 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
         eventType: ClientDeletesItemEvent.name,
         requestId: Uuid().v4(),
         id: itemId,));
+  }
+
+  void clientWantsToGetAllItemTagsFromItem(String itemId){
+    print("GETTIONG ALL TAGS");
+    add(ClientGetsAllTagsFromItemEvent(
+        eventType: ClientGetsAllItemsEvent.name,
+        requestId: Uuid().v4(),
+        id: itemId
+    ));
   }
 
   FutureOr<void> _onClientEvent(BaseEvent event, Emitter<ItemState> emit){

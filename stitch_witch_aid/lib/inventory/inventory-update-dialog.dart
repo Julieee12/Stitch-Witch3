@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stitch_witch_aid/blocs/Item-bloc.dart';
 import 'package:stitch_witch_aid/inventory/inventory-item-dto.dart';
 import 'package:stitch_witch_aid/inventory/inventory-model.dart';
-import 'package:stitch_witch_aid/projects/item-state.dart';
+import 'package:stitch_witch_aid/inventory/item-state.dart';
 import 'package:stitch_witch_aid/root/brand-colors.dart';
 
 class UpdateItemDialog extends StatefulWidget {

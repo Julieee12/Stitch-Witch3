@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stitch_witch_aid/blocs/Item-bloc.dart';
 import 'package:stitch_witch_aid/inventory/inventory-model.dart';
-import 'package:stitch_witch_aid/projects/item-state.dart';
+import 'package:stitch_witch_aid/inventory/item-state.dart';
+import 'package:stitch_witch_aid/inventory/item-tag-model.dart';
 
 import '../root/brand-colors.dart';
 import 'inventory-update-dialog.dart';
@@ -21,6 +22,7 @@ class _ItemExpandedViewState extends State<ItemExpandedView> {
   Widget build(BuildContext context) {
 
     InventoryItemModel itemToUpdate = BlocProvider.of<ItemBloc>(context).state.items[widget.indexToUpdate];
+    //List<ItemTagModel> tags = BlocProvider.of<ItemBloc>(context).state.tagsForItem!;
 
     return BlocConsumer<ItemBloc, ItemState>(
       listener: (context,state) {setState(() {}); },
@@ -37,9 +39,11 @@ class _ItemExpandedViewState extends State<ItemExpandedView> {
                 if(itemToUpdate.picurl != null)
                   Image.network(itemToUpdate.picurl!),
                 SizedBox(height: 20,),
+
                 //description
                 Text(itemToUpdate.description ?? "No description available",
                 style: TextStyle(fontSize: 16),),
+
                 //DELETE button
                 TextButton(onPressed: () {
                   BlocProvider.of<ItemBloc>(context).clientDeletesItemItems(itemToUpdate.id);
@@ -47,6 +51,7 @@ class _ItemExpandedViewState extends State<ItemExpandedView> {
                   Navigator.pop(context);
 
                 }, child: Text("Delete")),
+
                 //UPDATE button
                 TextButton(onPressed: () {
                   showDialog(
@@ -54,6 +59,13 @@ class _ItemExpandedViewState extends State<ItemExpandedView> {
                       builder: (context) => UpdateItemDialog(itemToUpdate: itemToUpdate));
 
                 }, child: Text("Update")),
+
+                //TAGS
+                Column(
+                  children: [
+
+                  ],
+                ),
 
               ],
             ),

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stitch_witch_aid/blocs/Item-bloc.dart';
 import 'package:stitch_witch_aid/inventory/inventory-item.dart';
 import 'package:stitch_witch_aid/inventory/inventory-model.dart';
-import '../projects/item-state.dart';
+import 'item-state.dart';
 import '../root/brand-colors.dart';
 import '../root/search-bar.dart';
 import '../root/tags.dart';
@@ -19,6 +19,7 @@ class InventoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<ItemBloc>().clientWantsToGetAllItems();
+
     });
 
     return BlocConsumer<ItemBloc, ItemState>(

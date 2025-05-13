@@ -18,15 +18,6 @@ abstract class BaseEvent with BaseEventMappable {
 ////////// Client events //////////
 ///////////////////////////////////
 
-
-////////// Project events /////////
-@MappableClass(discriminatorValue: ClientGetsAllProjectsEvent.name)
-class ClientGetsAllProjectsEvent extends BaseEvent with ClientGetsAllProjectsEventMappable {
-  static const String name = 'ClientGetsAllProjects';
-
-  ClientGetsAllProjectsEvent({required super.eventType, required super.requestId});
-}
-
 ///////// Item events ////////////
 @MappableClass(discriminatorValue: ClientGetsAllItemsEvent.name)
 class ClientGetsAllItemsEvent extends BaseEvent with ClientGetsAllItemsEventMappable {
@@ -59,6 +50,21 @@ class ClientDeletesItemEvent extends BaseEvent with ClientDeletesItemEventMappab
   ClientDeletesItemEvent({required this.id, required super.eventType, required super.requestId});
 }
 
+@MappableClass(discriminatorValue: ClientGetsAllTagsFromItemEvent.name)
+class ClientGetsAllTagsFromItemEvent extends BaseEvent with ClientGetsAllTagsFromItemEventMappable{
+  static const String name = "ClientGetsAllTagsFromItem";
+  final String id;
+
+  ClientGetsAllTagsFromItemEvent({required this.id, required super.eventType, required super.requestId});
+}
+
+////////// Project events /////////
+@MappableClass(discriminatorValue: ClientGetsAllProjectsEvent.name)
+class ClientGetsAllProjectsEvent extends BaseEvent with ClientGetsAllProjectsEventMappable {
+  static const String name = 'ClientGetsAllProjects';
+
+  ClientGetsAllProjectsEvent({required super.eventType, required super.requestId});
+}
 
 @MappableClass(discriminatorValue: ClientCreatesNewProjectEvent.name)
 class ClientCreatesNewProjectEvent extends BaseEvent with ClientCreatesNewProjectEventMappable {
