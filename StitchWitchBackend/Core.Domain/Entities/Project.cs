@@ -9,8 +9,6 @@ public partial class Project
 
     public string Name { get; set; } = null!;
 
-    public string? Tag { get; set; }
-
     public int Stitch { get; set; }
 
     public int Row { get; set; }
@@ -25,5 +23,5 @@ public partial class Project
 
     public decimal? Time { get; set; }
 
-    public virtual Tag? TagNavigation { get; set; }
+    public virtual ProjectTag? ProjectTag { get; set; }
 }
