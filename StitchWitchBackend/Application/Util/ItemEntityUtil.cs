@@ -12,7 +12,6 @@ public class ItemEntityUtil
             Id = updateItemDto.Id,
             Name = updateItemDto.Name,
             Description = updateItemDto.Description,
-            Tag = updateItemDto.Tag,
             Picurl = updateItemDto.Picurl
         };
 
@@ -26,7 +25,6 @@ public class ItemEntityUtil
             Id = Guid.NewGuid().ToString(),
             Name = addItemDto.Name,
             Description = addItemDto.Description,
-            Tag = addItemDto.Tag,
             Picurl = addItemDto.Picurl
         };
 
@@ -40,7 +38,6 @@ public class ItemEntityUtil
             Id = item.Id,
             Name = item.Name,
             Description = item.Description,
-            Tag = item.Tag,
             Picurl = item.Picurl
         };
 
@@ -57,7 +54,6 @@ public class ItemEntityUtil
                 Id = item.Id,
                 Name = item.Name,
                 Description = item.Description,
-                Tag = item.Tag,
                 Picurl = item.Picurl
             };
             returnList.Add(itemDto);

@@ -6,8 +6,6 @@ public class UpdateProjectDto
     
     public string Name { get; set; } = null!;
 
-    public string? Tag { get; set; }
-
     public int Stitch { get; set; }
 
     public int Row { get; set; }

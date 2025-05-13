@@ -10,7 +10,6 @@ public class ProjectEntityUtil
         var project = new Project
         {
             Name = createNewProjectDto.Name,
-            Tag = null, //TODO this needs to be changed once tags are properly implemented
             Stitch = 0,
             Row = 0,
             Picurl = createNewProjectDto.Picurl,
@@ -29,7 +28,6 @@ public class ProjectEntityUtil
         {
             Id = project.Id,
             Name = project.Name,
-            Tag = project.Tag,
             Stitch = project.Stitch,
             Row = project.Row,
             Picurl = project.Picurl,
@@ -53,7 +51,6 @@ public class ProjectEntityUtil
         {
             Id = updateProjectDto.Id,
             Name = updateProjectDto.Name,
-            Tag = null, //TODO this needs to be changed once tags are properly implemented
             Stitch = updateProjectDto.Stitch,
             Row = updateProjectDto.Row,
             Picurl = updateProjectDto.Picurl,
