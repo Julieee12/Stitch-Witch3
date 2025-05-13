@@ -23,7 +23,6 @@ class _AddItemDialogState extends State<InventoryDialog> {
 
   late String _name;
   late String _description;
-  late String _tag;
   late String _picture;
 
   @override
@@ -31,7 +30,6 @@ class _AddItemDialogState extends State<InventoryDialog> {
     super.initState();
     _name = '';
     _description = '';
-    _tag = ''; // Optional
     _picture = ''; // Optional
   }
 
@@ -96,20 +94,6 @@ class _AddItemDialogState extends State<InventoryDialog> {
                   return null;
                 },
                 onChanged: (value) => _description = value,
-              ),
-              const SizedBox(height: 15),
-
-              // Tag input field (optional)
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Tag (optional)',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  filled: true,
-                  fillColor: BrandColors.purpleVeryLight,
-                ),
-                onChanged: (value) => _tag = value, // Optional
               ),
               const SizedBox(height: 15),
 
