@@ -103,21 +103,6 @@ class _UpdateProjectDialogState extends State<UpdateProjectDialog> {
                 ),
                 const SizedBox(height: 15),
 
-                // Tag input field (optional)
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: 'Tag (optional)',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    filled: true,
-                    fillColor: BrandColors.purpleVeryLight,
-                  ),
-                  initialValue: _tag,
-                  onChanged: (value) => _tag = value, // Optional
-                ),
-                const SizedBox(height: 15),
-
                 // Picture URL input field (optional)
                 TextFormField(
                   decoration: InputDecoration(
