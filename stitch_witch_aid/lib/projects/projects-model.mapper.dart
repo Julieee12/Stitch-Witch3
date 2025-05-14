@@ -353,6 +353,7 @@ class UpdateProjectDtoMapper extends ClassMapperBase<UpdateProjectDto> {
   static UpdateProjectDtoMapper ensureInitialized() {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = UpdateProjectDtoMapper._());
+      TagDtoMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -476,6 +477,7 @@ extension UpdateProjectDtoValueCopy<$R, $Out>
 
 abstract class UpdateProjectDtoCopyWith<$R, $In extends UpdateProjectDto, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
+  ListCopyWith<$R, TagDto, TagDtoCopyWith<$R, TagDto, TagDto>> get tagsDtos;
   $R call(
       {String? id,
       String? name,
@@ -500,6 +502,10 @@ class _UpdateProjectDtoCopyWithImpl<$R, $Out>
   @override
   late final ClassMapperBase<UpdateProjectDto> $mapper =
       UpdateProjectDtoMapper.ensureInitialized();
+  @override
+  ListCopyWith<$R, TagDto, TagDtoCopyWith<$R, TagDto, TagDto>> get tagsDtos =>
+      ListCopyWith($value.tagsDtos, (v, t) => v.copyWith.$chain(t),
+          (v) => call(tagsDtos: v));
   @override
   $R call(
           {String? id,

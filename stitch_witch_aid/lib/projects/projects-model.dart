@@ -1,5 +1,7 @@
 import 'package:dart_mappable/dart_mappable.dart';
 
+import '../tag/tags-model.dart';
+
 part 'projects-model.mapper.dart';
 
 @MappableClass()

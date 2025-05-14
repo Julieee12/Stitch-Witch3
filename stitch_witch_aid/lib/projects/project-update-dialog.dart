@@ -184,7 +184,8 @@ class _UpdateProjectDialogState extends State<UpdateProjectDialog> {
                             tag: _tag,
                             picurl: _picture,
                             yarn: _yarn,
-                            hook: _hook
+                            hook: _hook,
+                            tagsDtos: []
                         );
 
                         // You can now use this item, e.g., adding to your state or database
