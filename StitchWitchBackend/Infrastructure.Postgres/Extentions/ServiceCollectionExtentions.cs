@@ -30,6 +30,7 @@ public static class ServiceCollectionExtentions
         //TODO add repositories here
         services.AddScoped<IItemRepository, ItemRepository>();
         services.AddScoped<IProjectRepository, ProjectRepository>();
+        services.AddScoped<IStitchRepository, StitchRepository>();
 
         return services;
     }
