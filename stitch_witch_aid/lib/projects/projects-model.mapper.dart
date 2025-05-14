@@ -384,6 +384,12 @@ class UpdateProjectDtoMapper extends ClassMapperBase<UpdateProjectDto> {
   static String? _$hook(UpdateProjectDto v) => v.hook;
   static const Field<UpdateProjectDto, String> _f$hook =
       Field('hook', _$hook, opt: true);
+  static double? _$time(UpdateProjectDto v) => v.time;
+  static const Field<UpdateProjectDto, double> _f$time =
+      Field('time', _$time, opt: true);
+  static List<TagDto> _$tagsDtos(UpdateProjectDto v) => v.tagsDtos;
+  static const Field<UpdateProjectDto, List<TagDto>> _f$tagsDtos =
+      Field('tagsDtos', _$tagsDtos);
 
   @override
   final MappableFields<UpdateProjectDto> fields = const {
@@ -396,6 +402,8 @@ class UpdateProjectDtoMapper extends ClassMapperBase<UpdateProjectDto> {
     #description: _f$description,
     #yarn: _f$yarn,
     #hook: _f$hook,
+    #time: _f$time,
+    #tagsDtos: _f$tagsDtos,
   };
 
   static UpdateProjectDto _instantiate(DecodingData data) {
@@ -408,7 +416,9 @@ class UpdateProjectDtoMapper extends ClassMapperBase<UpdateProjectDto> {
         picurl: data.dec(_f$picurl),
         description: data.dec(_f$description),
         yarn: data.dec(_f$yarn),
-        hook: data.dec(_f$hook));
+        hook: data.dec(_f$hook),
+        time: data.dec(_f$time),
+        tagsDtos: data.dec(_f$tagsDtos));
   }
 
   @override
@@ -475,7 +485,9 @@ abstract class UpdateProjectDtoCopyWith<$R, $In extends UpdateProjectDto, $Out>
       String? picurl,
       String? description,
       String? yarn,
-      String? hook});
+      String? hook,
+      double? time,
+      List<TagDto>? tagsDtos});
   UpdateProjectDtoCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
       Then<$Out2, $R2> t);
 }
@@ -498,7 +510,9 @@ class _UpdateProjectDtoCopyWithImpl<$R, $Out>
           Object? picurl = $none,
           Object? description = $none,
           Object? yarn = $none,
-          Object? hook = $none}) =>
+          Object? hook = $none,
+          Object? time = $none,
+          List<TagDto>? tagsDtos}) =>
       $apply(FieldCopyWithData({
         if (id != null) #id: id,
         if (name != null) #name: name,
@@ -508,7 +522,9 @@ class _UpdateProjectDtoCopyWithImpl<$R, $Out>
         if (picurl != $none) #picurl: picurl,
         if (description != $none) #description: description,
         if (yarn != $none) #yarn: yarn,
-        if (hook != $none) #hook: hook
+        if (hook != $none) #hook: hook,
+        if (time != $none) #time: time,
+        if (tagsDtos != null) #tagsDtos: tagsDtos
       }));
   @override
   UpdateProjectDto $make(CopyWithData data) => UpdateProjectDto(
@@ -520,7 +536,9 @@ class _UpdateProjectDtoCopyWithImpl<$R, $Out>
       picurl: data.get(#picurl, or: $value.picurl),
       description: data.get(#description, or: $value.description),
       yarn: data.get(#yarn, or: $value.yarn),
-      hook: data.get(#hook, or: $value.hook));
+      hook: data.get(#hook, or: $value.hook),
+      time: data.get(#time, or: $value.time),
+      tagsDtos: data.get(#tagsDtos, or: $value.tagsDtos));
 
   @override
   UpdateProjectDtoCopyWith<$R2, UpdateProjectDto, $Out2> $chain<$R2, $Out2>(
