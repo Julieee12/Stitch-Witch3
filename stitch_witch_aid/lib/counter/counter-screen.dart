@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:stitch_witch_aid/projects/project-bloc.dart';
 import 'package:stitch_witch_aid/projects/projects-model.dart';
 import 'package:stitch_witch_aid/projects/projects-state.dart';
@@ -20,6 +23,11 @@ class _CounterScreenState extends State<CounterScreen> {
 
   //Bluetooth variables
   bool isBluetooth = false;
+  //presumably We're going to have 2 characteristics
+  // (one to read from and another to Write to, probably on the same service)
+  // these are 2 placeholder IDs for those
+  final String characteristicUUID = "DFCD000A-36E1-4688-B7F5-EA07361B26A8";
+  final String characteristic2UUID = "DFCD0002-36E1-4688-B7F5-EA07361B26A8";
 
   //timer variables
   Timer? _timer;
@@ -77,7 +85,9 @@ class _CounterScreenState extends State<CounterScreen> {
                     children: [
                       Text("BLUETOOTH ON"),
                       ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            await doStuff();
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: BrandColors.purpleDark,
                             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
@@ -353,9 +363,221 @@ class _CounterScreenState extends State<CounterScreen> {
   ////////////////////////////////////////////////////////////////
 
 
+  Future<void> doStuff() async {
+    await tryConnectToBluetooth();
+
+    //delay so that there r no errors caused by the previous process not being done
+    Future.delayed(const Duration(seconds: 1));
+
+    BluetoothDevice stitchWitch = await scanForStitchWitch();
+
+    //delay so that there r no errors caused by the previous process not being done
+    Future.delayed(const Duration(seconds: 1));
+
+    //to Read from
+    BluetoothCharacteristic char1 = await getCharacteristic(characteristicUUID, stitchWitch);
+    //to write to
+    BluetoothCharacteristic char2 = await getCharacteristic(characteristic2UUID, stitchWitch);
+
+    //delay so that there r no errors caused by the previous process not being done
+    Future.delayed(const Duration(seconds: 1));
+
+    subscribeToCharacteristic(char1);
+
+    writeToCharacteristic(char2, 11);
 
 
+  }
 
+  ////////// CONNECT /////////////
+  Future<void> tryConnectToBluetooth() async {
+    //check if bluetooth is supported on this device
+    if(await FlutterBluePlus.isSupported == false){
+      print("BLUETOOTH NOT SUPPORTED DUMMY");
+      return;
+    }
+
+    //check if bluetooth is on or not
+    var subscription = FlutterBluePlus.adapterState.listen((BluetoothAdapterState state) {
+      print(state);
+      if(state == BluetoothAdapterState.on){
+        scanForStitchWitch();
+      } else {
+        //todo actually implement error handling
+        print("BLUETOOTH ISN'T ON DUMMY");
+      }
+    });
+
+    //turn on ourselves if we can
+    if(!kIsWeb && Platform.isAndroid){
+      await FlutterBluePlus.turnOn();
+    }
+
+    //cancel to prevent duplicate listeners
+    subscription.cancel();
+  }
+
+  //////////// SCAN ////////////////
+  Future<BluetoothDevice> scanForStitchWitch() async {
+
+    //variable is not initialized so can't be used, not sure hoW to initialize it
+    //BluetoothDevice latestDevice;
+    List<BluetoothDevice> devices = [];
+
+    //listen for scan results
+    var subscription = FlutterBluePlus.onScanResults.listen((results) {
+      if(results.isNotEmpty){
+        ScanResult r = results.last; //latest result
+        //latestDevice = r.device;
+        print("${r.device.id} : ${r.advertisementData.advName} found ~!!");
+
+        if(!devices.contains(r.device)){
+          devices.add(r.device);
+        }
+
+      }
+    },
+        onError: (e) => print(e)
+    );
+
+    //cancel subscription when scanning stops
+    FlutterBluePlus.cancelWhenScanComplete(subscription);
+
+    //wait for bluetooth state enabled & permission granted
+    await FlutterBluePlus.adapterState.where((val) => val == BluetoothAdapterState.on).first;
+
+
+    //start scan for devices With name Stitch Witch
+    await FlutterBluePlus.startScan(
+      //withServices:[Guid("180D")], // match any of the specified services
+        withNames:["Stitch Witch"], // *or* any of the specified names
+        timeout: Duration(seconds:10)
+    );
+
+    //wait for scanning to stop
+    await FlutterBluePlus.isScanning.where((val) => val == false).first;
+
+    //there can be multiple devices but for noW We just return the first one
+    return devices.first;
+  }
+
+  ////////////// READ (something I can't do) //////////////////
+  Future<BluetoothCharacteristic> getCharacteristic(String UUID, BluetoothDevice device ) async {
+    BluetoothCharacteristic characteristic = device.servicesList.first.characteristics.first ;
+
+    List<BluetoothService> services = await device.discoverServices();
+    services.forEach( (service) async {
+
+      // Reads all characteristics
+      var characteristics = service.characteristics;
+      for(BluetoothCharacteristic c in characteristics) {
+        //if properties can be read?
+        if (c.properties.read) {
+          List<int> value = await c.read();
+          print("CHARACTERISTIC: ${c.uuid}");
+          print("IN SERVICE: ${service.uuid}");
+          print(value);
+
+          if(c.uuid.toString() == UUID.toLowerCase()){
+            characteristic = c;
+          }
+
+        }
+      }
+
+    } );
+    print("RITING TO CHARACTERISTIC ITH ID -------------");
+    print(characteristic.uuid.toString());
+    return characteristic;
+  }
+
+  //so We can listen for any neW values (on Notify)
+  Future<void> subscribeToCharacteristic(BluetoothCharacteristic characteristic) async {
+    //code to be executed When the characteristic gets a neW value (notify called)
+    final subscription = characteristic.onValueReceived.listen((value) {
+      print("VALUE: ");
+      print(value);
+      //values.add(value.first);
+    });
+
+    //subscribe
+    await characteristic.setNotifyValue(true); //so we can get notified of any new values
+
+  }
+
+
+  ////////////// WRITE /////////////////////////////////////////
+
+  //this is for fetching the characteristic, then it writes to it
+  Future<void> writeStitchCount(BluetoothDevice device, int stitchCount, String charUUID ) async {
+    /*List<BluetoothService> services = await device.discoverServices();
+    services.forEach( (service) async {
+
+      // Reads all characteristics
+      var characteristics = service.characteristics;
+      for(BluetoothCharacteristic c in characteristics) {
+        if (c.properties.read) {
+          List<int> value = await c.read();
+          print("CHARACTERISTIC: ${c.uuid}");
+          print("IN SERVICE: ${service.uuid}");
+          print(value);
+
+          if(c.uuid.toString() == characteristicUUID.toLowerCase()){
+            writeToCharacteristic(c, stitchCount);
+          }
+
+        }
+      }
+
+    } );*/
+
+    BluetoothCharacteristic char = await getCharacteristic(charUUID, device);
+
+    writeToCharacteristic(char, stitchCount);
+
+  }
+
+  //method that actually does the writing
+  Future<void> writeToCharacteristic(BluetoothCharacteristic c, int stitchCount) async {
+    List<int> message = numToASCIIHexCode(stitchCount);
+
+    //refer to ASCII tables' hex codes for what to write
+    //https://www.rapidtables.com/code/text/ascii-table.html
+    await  c.write(message);
+    //await  c.write([0x30]);
+
+  }
+
+  //ASCII TABLE CONVERSION STUFF
+  List<int> numToASCIIHexCode(int startNumber) {
+
+    int n = startNumber;
+    List<int> digits = <int>[]; //each digit of the number submitted
+    List<int> returnList = <int>[];
+
+    //getting each digit of number (e.g. 114 = 1, 1, 4)
+    while (n > 0){
+      digits.add(n % 10);
+      //print(n % 10);
+      n = (n / 10).floor();
+      print(n);
+    }
+
+    print("OUT OF LOOP");
+    print(digits.length);
+    //converting each digit to the final string
+    for(var value in digits){
+
+      // 0x = just how return numbers are formatted
+      // +30 = on the ascii table, the number 0 has a hex code of 30
+      // so each number (0-9) would be itself plus 30
+      returnList.add(int.parse("0x${value+30}"));
+      print("DOING SOMETHING");
+      print(value.toString());
+    }
+
+    return returnList.reversed.toList();
+  }
 
 
 
