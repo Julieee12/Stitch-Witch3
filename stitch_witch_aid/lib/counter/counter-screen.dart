@@ -21,6 +21,8 @@ class _CounterScreenState extends State<CounterScreen> {
 
   final TextEditingController stitchesPerRowController = TextEditingController();
 
+
+
   //Bluetooth variables
   bool isBluetooth = false;
   late BluetoothDevice stitchWitch;
@@ -36,9 +38,14 @@ class _CounterScreenState extends State<CounterScreen> {
   bool _isRunning = false;
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   void dispose() async {
-    super.dispose();
     await stitchWitch.disconnect();
+    super.dispose();
 
     //TODO: properly close connection on app close
     // currently, when you close the app it doesn't fully close the connection to the esp (I think)
