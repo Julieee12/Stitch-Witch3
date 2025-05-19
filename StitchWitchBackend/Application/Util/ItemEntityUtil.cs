@@ -62,4 +62,47 @@ public class ItemEntityUtil
 
         return returnList;
     }
+    
+    
+    //ITEM TAGS
+    public static ItemTag CreateItemTagDtoToItemTag(CreateNewItemTagDto dto)
+    {
+        ItemTag item = new ItemTag()
+        {
+            Tagid = dto.Tagid,
+            Itemid = dto.Itemid
+        };
+
+        return item;
+    }
+    
+    public static ItemTagDto ItemTagToItemTagDto(ItemTag tag)
+    {
+        ItemTagDto item = new ItemTagDto()
+        {
+            Tagid = tag.Tagid!,
+            Itemid = tag.Itemid
+        };
+
+        return item;
+    }
+    
+    public static List<ItemTagDto> ItemTagToItemTagDtoList(List<ItemTag> tags)
+    {
+        List<ItemTagDto> dtoList = new List<ItemTagDto>();
+        foreach (var tag in tags)
+        {
+            ItemTagDto item = new ItemTagDto()
+            {
+                Tagid = tag.Tagid!,
+                Itemid = tag.Itemid
+            };
+            dtoList.Add(item);
+        }
+        
+
+        return dtoList;
+    }
+    
+    
 }

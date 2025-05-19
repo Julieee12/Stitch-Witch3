@@ -1,5 +1,6 @@
 import 'package:dart_mappable/dart_mappable.dart';
-import 'package:stitch_witch_aid/tag/tags-model.dart';
+
+import '../tag/tags-model.dart';
 
 part 'projects-model.mapper.dart';
 
@@ -14,7 +15,6 @@ class ProjectItemModel with ProjectItemModelMappable {
   String? yarn;
   String? hook;
   double? time;
-  List<TagDto> tags = [];
 
   ProjectItemModel({
       required this.id,
@@ -25,32 +25,32 @@ class ProjectItemModel with ProjectItemModelMappable {
       this.description,
       this.yarn,
       this.hook,
-      this.time,
-      required this.tags});
+      this.time});
 }
 
 @MappableClass()
 class CreateNewProjectDto with CreateNewProjectDtoMappable {
   String name;
+  String? tag;
   String? picurl;
   String? description;
   String? yarn;
   String? hook;
-  List<TagDto> tagDtos = [];
 
   CreateNewProjectDto({
     required this.name,
+    this.tag,
     this.picurl,
     this.description,
     this.yarn,
-    this.hook,
-    required this.tagDtos});
+    this.hook});
 }
 
 @MappableClass()
 class UpdateProjectDto with UpdateProjectDtoMappable {
   String id;
   String name;
+  String? tag;
   int stitch;
   int row;
   String? picurl;
@@ -63,6 +63,7 @@ class UpdateProjectDto with UpdateProjectDtoMappable {
   UpdateProjectDto({
     required this.id,
     required this.name,
+    this.tag,
     required this.stitch,
     required this.row,
     this.picurl,

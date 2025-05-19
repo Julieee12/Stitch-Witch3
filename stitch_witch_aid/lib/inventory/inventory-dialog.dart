@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stitch_witch_aid/inventory/inventory-item-dto.dart';
 
 import '../blocs/Item-bloc.dart';
-import '../projects/item-state.dart';
+import 'item-state.dart';
 import '../root/brand-colors.dart';
 import 'inventory-model.dart';
 
@@ -148,7 +148,7 @@ class _AddItemDialogState extends State<InventoryDialog> {
                       // You can now use this item, e.g., adding to your state or database
                       print('Item Created: $newItem');
 
-                      widget.buildContext.read<ItemBloc>().clientCreatesNewItemItems(newItem);
+                      widget.buildContext.read<ItemBloc>().clientCreatesNewItem(newItem);
                       widget.buildContext.read<ItemBloc>().clientWantsToGetAllItems();
 
                       Navigator.of(context).pop();

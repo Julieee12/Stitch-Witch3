@@ -8,14 +8,12 @@ class InventoryItemModel with InventoryItemModelMappable{
   final String id;
   final String name;
   final String? description;
-  final String? tag;
   final String? picurl;
 
   InventoryItemModel({
     required this.id,
     required this.name,
     required this.description,
-    required this.tag,
     required this.picurl,
   });
 
@@ -24,7 +22,31 @@ class InventoryItemModel with InventoryItemModelMappable{
       'id': id,
       'name': name,
       'description': description,
-      'tag': tag,
+      'picture': picurl,
+    };
+  }
+}
+
+
+@MappableClass()
+class UpdateItemDto with UpdateItemDtoMappable{
+  final String id;
+  final String name;
+  final String? description;
+  final String? picurl;
+
+  UpdateItemDto({
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.picurl,
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'description': description,
       'picture': picurl,
     };
   }

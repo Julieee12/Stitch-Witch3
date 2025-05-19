@@ -18,8 +18,47 @@ abstract class BaseEvent with BaseEventMappable {
 ////////// Client events //////////
 ///////////////////////////////////
 
+///////// Item events ////////////
+@MappableClass(discriminatorValue: ClientGetsAllItemsEvent.name)
+class ClientGetsAllItemsEvent extends BaseEvent with ClientGetsAllItemsEventMappable {
+  static const String name = "ClientGetsAllItems";
 
-// Client project events
+  ClientGetsAllItemsEvent({required super.eventType, required super.requestId});
+}
+
+@MappableClass(discriminatorValue: ClientCreatesNewItemEvent.name)
+class ClientCreatesNewItemEvent extends BaseEvent with ClientCreatesNewItemEventMappable {
+  static const String name = "ClientCreatesNewItem";
+  final InventoryItemDto newItemDto;
+
+  ClientCreatesNewItemEvent({required this.newItemDto, required super.eventType, required super.requestId});
+}
+
+@MappableClass(discriminatorValue: ClientUpdatesItemEvent.name)
+class ClientUpdatesItemEvent extends BaseEvent with ClientUpdatesItemEventMappable {
+  static const String name = "ClientUpdatesItem";
+  final UpdateItemDto updateItemDto;
+
+  ClientUpdatesItemEvent({required this.updateItemDto, required super.eventType, required super.requestId});
+}
+
+@MappableClass(discriminatorValue: ClientDeletesItemEvent.name)
+class ClientDeletesItemEvent extends BaseEvent with ClientDeletesItemEventMappable {
+  static const String name = "ClientDeletesItem";
+  final String id;
+
+  ClientDeletesItemEvent({required this.id, required super.eventType, required super.requestId});
+}
+
+@MappableClass(discriminatorValue: ClientGetsAllTagsFromItemEvent.name)
+class ClientGetsAllTagsFromItemEvent extends BaseEvent with ClientGetsAllTagsFromItemEventMappable{
+  static const String name = "ClientGetsAllTagsFromItem";
+  final String id;
+
+  ClientGetsAllTagsFromItemEvent({required this.id, required super.eventType, required super.requestId});
+}
+
+////////// Project events /////////
 @MappableClass(discriminatorValue: ClientGetsAllProjectsEvent.name)
 class ClientGetsAllProjectsEvent extends BaseEvent with ClientGetsAllProjectsEventMappable {
   static const String name = 'ClientGetsAllProjects';
@@ -40,7 +79,7 @@ class ClientDeletesProjectEvent extends BaseEvent with ClientDeletesProjectEvent
   static const String name = 'ClientDeletesProject';
   final String projectId;
 
-  ClientDeletesProjectEvent({required this.projectId, required super.eventType, required super.requestId});
+ClientDeletesProjectEvent({required this.projectId, required super.eventType, required super.requestId});
 }
 
 @MappableClass(discriminatorValue: ClientUpdatesProjectEvent.name)
@@ -51,67 +90,21 @@ class ClientUpdatesProjectEvent extends BaseEvent with ClientUpdatesProjectEvent
   ClientUpdatesProjectEvent({required this.updateProjectDto, required super.eventType, required super.requestId});
 }
 
-
-
-///////// Item events ////////////
-@MappableClass(discriminatorValue: ClientGetsAllItemsEvent.name)
-class ClientGetsAllItemsEvent extends BaseEvent with ClientGetsAllItemsEventMappable {
-  static const String name = "ClientGetsAllItems";
-
-  ClientGetsAllItemsEvent({required super.eventType, required super.requestId});
-}
-
-@MappableClass(discriminatorValue: ClientCreatesNewItemEvent.name)
-class ClientCreatesNewItemEvent extends BaseEvent with ClientCreatesNewItemEventMappable {
-  static const String name = "ClientCreatesNewItem";
-  final InventoryItemDto newItemDto;
-
-  ClientCreatesNewItemEvent({required this.newItemDto, required super.eventType, required super.requestId});
-}
-
-@MappableClass(discriminatorValue: ClientUpdatesItemEvent.name)
-class ClientUpdatesItemEvent extends BaseEvent with ClientUpdatesItemEventMappable {
-  static const String name = "ClientUpdatesItem";
-  final InventoryItemModel item;
-
-  ClientUpdatesItemEvent({required this.item, required super.eventType, required super.requestId});
-}
-
-@MappableClass(discriminatorValue: ClientDeletesItemEvent.name)
-class ClientDeletesItemEvent extends BaseEvent with ClientDeletesItemEventMappable {
-  static const String name = "ClientDeletesItem";
-  final String id;
-
-  ClientDeletesItemEvent(
-      {required this.id, required super.eventType, required super.requestId});
-}
-
-
-
-
-
-
-///////////////////////////////////
 ////////// Server events //////////
-///////////////////////////////////
-
-@MappableClass(discriminatorValue: ServerSendsErrorMessageEvent.name)
-class ServerSendsErrorMessageEvent extends BaseEvent with ServerSendsErrorMessageEventMappable {
-  static const String name = 'ServerSendsErrorMessage';
-  final String message;
-
-  ServerSendsErrorMessageEvent({required this.message, required super.eventType, required super.requestId});
-}
-
-
-
-// Server project events
 @MappableClass(discriminatorValue: ServerSendsAllProjectsEvent.name)
 class ServerSendsAllProjectsEvent extends BaseEvent with ServerSendsAllProjectsEventMappable {
   static const String name = 'ServerSendsAllProjects';
   final List<ProjectItemModel> projects;
 
   ServerSendsAllProjectsEvent({required this.projects, required super.eventType, required super.requestId});
+}
+
+@MappableClass(discriminatorValue: ServerSendsAllItemsEvent.name)
+class ServerSendsAllItemsEvent extends BaseEvent with ServerSendsAllItemsEventMappable {
+  static const String name = "ServerSendsAllItems";
+  final List<InventoryItemModel> items;
+
+  ServerSendsAllItemsEvent({required this.items, required super.eventType, required super.requestId});
 }
 
 @MappableClass(discriminatorValue: ServerSendsCreatedProjectEvent.name)
@@ -128,6 +121,7 @@ class ServerDeletedProjectEvent extends BaseEvent with ServerDeletedProjectEvent
   final String projectId;
 
   ServerDeletedProjectEvent({required this.projectId, required super.eventType, required super.requestId});
+
 }
 
 @MappableClass(discriminatorValue: ServerSendsUpdatedProjectEvent.name)
@@ -138,13 +132,10 @@ class ServerSendsUpdatedProjectEvent extends BaseEvent with ServerSendsUpdatedPr
   ServerSendsUpdatedProjectEvent({required this.projectDto, required super.eventType, required super.requestId});
 }
 
+@MappableClass(discriminatorValue: ServerSendsErrorMessageEvent.name)
+class ServerSendsErrorMessageEvent extends BaseEvent with ServerSendsErrorMessageEventMappable {
+  static const String name = 'ServerSendsErrorMessage';
+  final String message;
 
-
-// Server item events
-@MappableClass(discriminatorValue: ServerSendsAllItemsEvent.name)
-class ServerSendsAllItemsEvent extends BaseEvent with ServerSendsAllItemsEventMappable {
-  static const String name = "ServerSendsAllItems";
-  final List<InventoryItemModel> items;
-
-  ServerSendsAllItemsEvent({required this.items, required super.eventType, required super.requestId});
+  ServerSendsErrorMessageEvent({required this.message, required super.eventType, required super.requestId});
 }

@@ -23,5 +23,5 @@ public partial class Project
 
     public decimal? Time { get; set; }
 
-    public virtual ICollection<TagType> Tags { get; set; } = new List<TagType>();
+    public virtual ProjectTag? ProjectTag { get; set; }
 }

@@ -9,7 +9,7 @@ public partial class TagType
 
     public string? Typename { get; set; }
 
-    public virtual ICollection<Item> Items { get; set; } = new List<Item>();
+    public virtual ICollection<ItemTag> ItemTags { get; set; } = new List<ItemTag>();
 
-    public virtual ICollection<Project> Projects { get; set; } = new List<Project>();
+    public virtual ICollection<ProjectTag> ProjectTags { get; set; } = new List<ProjectTag>();
 }
