@@ -18,6 +18,9 @@ class _CounterScreenState extends State<CounterScreen> {
 
   final TextEditingController stitchesPerRowController = TextEditingController();
 
+  //Bluetooth variables
+  bool isBluetooth = false;
+
   //timer variables
   Timer? _timer;
   int _elapsedSeconds = 0;
@@ -46,7 +49,7 @@ class _CounterScreenState extends State<CounterScreen> {
             children: [
               const SizedBox(height: 20),
 
-              /////////////////////////////////////// TOGGLE /////////////////////////////////////////////
+              /////////////////////// TOGGLE /////////////////////////////////////////////
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -54,8 +57,12 @@ class _CounterScreenState extends State<CounterScreen> {
                   const Text('Manual', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                   const SizedBox(width: 20,),
                   Switch(
-                    value: true,
-                    onChanged: (_) {},
+                    value: isBluetooth,
+                    onChanged: (bool value) {
+                      setState(() {
+                        isBluetooth = value;
+                      });
+                      },
                     activeColor: BrandColors.purpleLighter,
                   ),
                   const SizedBox(width: 20,),
@@ -63,6 +70,27 @@ class _CounterScreenState extends State<CounterScreen> {
                 ],
               ),
               const SizedBox(height: 20),
+
+              /////////////////BLUETOOTH TEST BUTTON/////////////////////////////
+              isBluetooth ?
+                  Column(
+                    children: [
+                      Text("BLUETOOTH ON"),
+                      ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: BrandColors.purpleDark,
+                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: Text("Refresh Connection", style: TextStyle(color: Colors.white),)),
+                      const SizedBox(height: 20),
+                    ],
+                  )
+                  : const SizedBox(height: 1) ,
+
 
               ////////////////////////DROPDOWN///////////////////////////////////
               Row(
@@ -318,4 +346,18 @@ class _CounterScreenState extends State<CounterScreen> {
       ),
     );
   }
+
+
+  ////////////////////////////////////////////////////////////////
+  ///////////////////////// BLUE TOOTH ///////////////////////////
+  ////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
 }
