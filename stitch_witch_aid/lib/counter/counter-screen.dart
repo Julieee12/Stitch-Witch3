@@ -36,6 +36,18 @@ class _CounterScreenState extends State<CounterScreen> {
   bool _isRunning = false;
 
   @override
+  void dispose() async {
+    super.dispose();
+    await stitchWitch.disconnect();
+
+    //TODO: properly close connection on app close
+    // currently, when you close the app it doesn't fully close the connection to the esp (I think)
+    // right now you have to turn the ESP on and off again everytime you close and reopen the app
+
+
+  }
+
+  @override
   Widget build(BuildContext context) {
 
     //////////// Retrieve all projects and set default selected project ////////////////////
@@ -387,7 +399,7 @@ class _CounterScreenState extends State<CounterScreen> {
 
     await getCharacteristicAndSubscribe(characteristic1UUID, stitchWitch);
 
-    await writeStitchCount(stitchWitch, 200, characteristic2UUID);
+    await writeStitchCount(stitchWitch, 200, characteristic2UUID); //check serial plotter on Arduino IDE to see if value was recieved
 
   }
 
