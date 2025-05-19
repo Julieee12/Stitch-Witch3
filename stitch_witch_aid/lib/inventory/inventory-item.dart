@@ -17,6 +17,8 @@ class InventoryItem extends StatefulWidget {
 class InventoryItemState extends State<InventoryItem> {
   @override
   Widget build(BuildContext context) {
+    final String? picUrl = widget.item.picurl;
+    final bool hasImage = picUrl != null && picUrl.isNotEmpty;
     return Container(
       decoration: BoxDecoration(
         color: widget.color,
@@ -25,9 +27,26 @@ class InventoryItemState extends State<InventoryItem> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text(widget.item.id),
+          const SizedBox(height: 20),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: hasImage
+            ? Image.network(
+            picUrl,
+          height: 80,
+          fit: BoxFit.cover,
+          )
+          : Image.asset(
+            'assets/invplace.png',
+            height: 80,
+            width: 80,
+            fit: BoxFit.cover,
+          ),
+    ),
+          const SizedBox(height: 10),
           Text(widget.item.name),
-          Text(widget.item.description != null ? widget.item.description! : " "),
+
+
         ],
       ),
     );
