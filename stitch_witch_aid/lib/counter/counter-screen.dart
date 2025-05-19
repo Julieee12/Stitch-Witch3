@@ -23,10 +23,11 @@ class _CounterScreenState extends State<CounterScreen> {
 
   //Bluetooth variables
   bool isBluetooth = false;
+  late BluetoothDevice stitchWitch;
   //presumably We're going to have 2 characteristics
   // (one to read from and another to Write to, probably on the same service)
   // these are 2 placeholder IDs for those
-  final String characteristicUUID = "DFCD000A-36E1-4688-B7F5-EA07361B26A8";
+  final String characteristic1UUID = "DFCD000A-36E1-4688-B7F5-EA07361B26A8";
   final String characteristic2UUID = "DFCD0002-36E1-4688-B7F5-EA07361B26A8";
 
   //timer variables
@@ -362,32 +363,34 @@ class _CounterScreenState extends State<CounterScreen> {
   ///////////////////////// BLUE TOOTH ///////////////////////////
   ////////////////////////////////////////////////////////////////
 
-
+  //test method doing all the basic functionality
   Future<void> doStuff() async {
     await tryConnectToBluetooth();
 
     //delay so that there r no errors caused by the previous process not being done
     Future.delayed(const Duration(seconds: 1));
 
-    BluetoothDevice stitchWitch = await scanForStitchWitch();
+    stitchWitch = await scanForStitchWitch();
 
     //delay so that there r no errors caused by the previous process not being done
-    Future.delayed(const Duration(seconds: 1));
+    Future.delayed(const Duration(seconds: 4));
 
-    //to Read from
-    BluetoothCharacteristic char1 = await getCharacteristic(characteristicUUID, stitchWitch);
-    //to write to
-    BluetoothCharacteristic char2 = await getCharacteristic(characteristic2UUID, stitchWitch);
+
+    print(" ---------   CONNECTING   -----------");
+    print(stitchWitch.remoteId);
+    await connectToDevice(stitchWitch);
 
     //delay so that there r no errors caused by the previous process not being done
-    Future.delayed(const Duration(seconds: 1));
+    Future.delayed(const Duration(seconds: 6));
 
-    subscribeToCharacteristic(char1);
+    //await getCharacteristic(characteristic1UUID, stitchWitch);
 
-    writeToCharacteristic(char2, 11);
+    await getCharacteristicAndSubscribe(characteristic1UUID, stitchWitch);
 
+    await writeStitchCount(stitchWitch, 200, characteristic2UUID);
 
   }
+
 
   ////////// CONNECT /////////////
   Future<void> tryConnectToBluetooth() async {
@@ -416,6 +419,34 @@ class _CounterScreenState extends State<CounterScreen> {
     //cancel to prevent duplicate listeners
     subscription.cancel();
   }
+
+  Future<void> connectToDevice(BluetoothDevice device) async{
+
+    var subscription = device.connectionState.listen((BluetoothConnectionState state) async {
+      if(state == BluetoothConnectionState.disconnected){
+        // 1. typically, start a periodic timer that tries to
+        //    reconnect, or just call connect() again right now
+        // 2. you must always re-discover services after disconnection!
+        print("${device.disconnectReason?.code} ${device.disconnectReason?.description}");
+
+      }
+    });
+
+    //delayed = cancel after small delay, ensure connection state listener
+    // receives "disconnected" event
+    // next = stream will be canceled on *next* disconnection, not this one. good
+    // if you set up subscriptions before you connect to device
+    device.cancelWhenDisconnected(subscription, delayed: true, next: true);
+
+    await device.connect();
+
+    //await device.disconnect();
+
+    subscription.cancel();
+
+  }
+
+
 
   //////////// SCAN ////////////////
   Future<BluetoothDevice> scanForStitchWitch() async {
@@ -451,7 +482,7 @@ class _CounterScreenState extends State<CounterScreen> {
     await FlutterBluePlus.startScan(
       //withServices:[Guid("180D")], // match any of the specified services
         withNames:["Stitch Witch"], // *or* any of the specified names
-        timeout: Duration(seconds:10)
+        timeout: Duration(seconds:5)
     );
 
     //wait for scanning to stop
@@ -462,16 +493,15 @@ class _CounterScreenState extends State<CounterScreen> {
   }
 
   ////////////// READ (something I can't do) //////////////////
-  Future<BluetoothCharacteristic> getCharacteristic(String UUID, BluetoothDevice device ) async {
-    BluetoothCharacteristic characteristic = device.servicesList.first.characteristics.first ;
 
+  Future<void> getCharacteristicAndSubscribe(String UUID, BluetoothDevice device) async{
+    // discover services (which contain characteristics)
     List<BluetoothService> services = await device.discoverServices();
     services.forEach( (service) async {
 
       // Reads all characteristics
       var characteristics = service.characteristics;
       for(BluetoothCharacteristic c in characteristics) {
-        //if properties can be read?
         if (c.properties.read) {
           List<int> value = await c.read();
           print("CHARACTERISTIC: ${c.uuid}");
@@ -479,24 +509,23 @@ class _CounterScreenState extends State<CounterScreen> {
           print(value);
 
           if(c.uuid.toString() == UUID.toLowerCase()){
-            characteristic = c;
+            print("SUBSCRIBING!!");
+            subscribeToCharacteristic(c);
           }
 
         }
       }
 
     } );
-    print("RITING TO CHARACTERISTIC ITH ID -------------");
-    print(characteristic.uuid.toString());
-    return characteristic;
   }
 
   //so We can listen for any neW values (on Notify)
   Future<void> subscribeToCharacteristic(BluetoothCharacteristic characteristic) async {
     //code to be executed When the characteristic gets a neW value (notify called)
     final subscription = characteristic.onValueReceived.listen((value) {
+      print("RECIEVING NE VALUE!!!!!!!!!!");
       print("VALUE: ");
-      print(value);
+      print(value.first);
       //values.add(value.first);
     });
 
@@ -510,7 +539,7 @@ class _CounterScreenState extends State<CounterScreen> {
 
   //this is for fetching the characteristic, then it writes to it
   Future<void> writeStitchCount(BluetoothDevice device, int stitchCount, String charUUID ) async {
-    /*List<BluetoothService> services = await device.discoverServices();
+    List<BluetoothService> services = await device.discoverServices();
     services.forEach( (service) async {
 
       // Reads all characteristics
@@ -522,18 +551,19 @@ class _CounterScreenState extends State<CounterScreen> {
           print("IN SERVICE: ${service.uuid}");
           print(value);
 
-          if(c.uuid.toString() == characteristicUUID.toLowerCase()){
+          if(c.uuid.toString() == charUUID.toLowerCase()){
             writeToCharacteristic(c, stitchCount);
           }
 
         }
       }
 
-    } );*/
+    } );
 
-    BluetoothCharacteristic char = await getCharacteristic(charUUID, device);
+    //this code may look simpler, but it doesn't work
+    /*BluetoothCharacteristic char = await getCharacteristic(charUUID, device);
 
-    writeToCharacteristic(char, stitchCount);
+    writeToCharacteristic(char, stitchCount);*/
 
   }
 
