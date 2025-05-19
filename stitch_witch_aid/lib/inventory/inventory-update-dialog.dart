@@ -48,7 +48,7 @@ class _UpdateItemDialogState extends State<UpdateItemDialog> {
             child: Column(
               children: [
                 Text(
-                  'Update Project',
+                  'Update item',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -120,7 +120,7 @@ class _UpdateItemDialogState extends State<UpdateItemDialog> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
-                        child: const Text("cancel")),
+                        child: const Text("Cancel")),
                       const SizedBox(width: 10),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(

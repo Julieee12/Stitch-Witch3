@@ -8,7 +8,7 @@ import '../root/brand-colors.dart';
 import '../root/search-bar.dart';
 import '../root/tags.dart';
 import 'add-item-button.dart';
-import 'inventory-expanded-view.dart'; // Make sure this import points to the correct file
+import 'inventory-expanded-view.dart';
 
 class InventoryScreen extends StatelessWidget {
   const InventoryScreen({super.key});
