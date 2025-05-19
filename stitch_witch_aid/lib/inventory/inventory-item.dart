@@ -34,17 +34,25 @@ class InventoryItemState extends State<InventoryItem> {
             ? Image.network(
             picUrl,
           height: 80,
-          fit: BoxFit.cover,
+          fit: BoxFit.contain,
           )
           : Image.asset(
             'assets/invplace.png',
             height: 80,
             width: 80,
-            fit: BoxFit.cover,
+            fit: BoxFit.contain,
           ),
     ),
           const SizedBox(height: 10),
-          Text(widget.item.name),
+          Text(
+              widget.item.name,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            textAlign: TextAlign.center,
+          ),
 
 
         ],
