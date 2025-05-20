@@ -31,6 +31,7 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
     on<ServerSendsAllItemsEvent>(_onServerSendsAllItems);
     on<ServerSendsAllTagsFromItemEvent>(_onServerSendsAllTagsFromItem);
     on<ServerSendsErrorMessageEvent>(_onServerSendsErrorMessage);
+    on<ServerSendsUpdatedItemEvent>(_onServerSendsUpdatedItem);
 
     //feed deserialized events into this bloc
     //basically just listening to events
@@ -101,6 +102,20 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
     state.items.clear();
     state.items.addAll(event.items);
     emit(state);
+  }
+
+  FutureOr<void> _onServerSendsUpdatedItem(
+      ServerSendsUpdatedItemEvent event,
+      Emitter<ItemState> emit) {
+    print("received updated item?");
+    var stateCopy = ItemState(items: [...state.items]);
+
+    int indexOfItemToUpdate = stateCopy.items.indexWhere((item) => item.id == event.updatedItem.id);
+
+    stateCopy.items[indexOfItemToUpdate] = event.updatedItem;
+
+    emit(stateCopy);
+
   }
 
   FutureOr<void> _onServerSendsAllTagsFromItem(

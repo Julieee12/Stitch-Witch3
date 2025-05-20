@@ -58,6 +58,24 @@ class ClientGetsAllTagsFromItemEvent extends BaseEvent with ClientGetsAllTagsFro
   ClientGetsAllTagsFromItemEvent({required this.id, required super.eventType, required super.requestId});
 }
 
+////////// Item Server events /////////
+
+@MappableClass(discriminatorValue: ClientUpdatesItemEvent.name)
+class ServerSendsCreatedItemEvent extends BaseEvent with ServerSendsCreatedItemEventMappable {
+  static const String name = "ServerSendsCreatedItem";
+  final InventoryItemModel createdItem;
+
+  ServerSendsCreatedItemEvent({required this.createdItem, required super.eventType, required super.requestId});
+}
+
+@MappableClass(discriminatorValue: ClientUpdatesItemEvent.name)
+class ServerSendsUpdatedItemEvent extends BaseEvent with ServerSendsUpdatedItemEventMappable {
+  static const String name = "ServerSendsUpdatedItem";
+  final InventoryItemModel updatedItem;
+
+  ServerSendsUpdatedItemEvent({required this.updatedItem, required super.eventType, required super.requestId});
+}
+
 ////////// Project events /////////
 @MappableClass(discriminatorValue: ClientGetsAllProjectsEvent.name)
 class ClientGetsAllProjectsEvent extends BaseEvent with ClientGetsAllProjectsEventMappable {

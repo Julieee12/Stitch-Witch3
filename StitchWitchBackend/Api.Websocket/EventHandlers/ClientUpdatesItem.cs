@@ -23,7 +23,8 @@ public class ClientUpdatesItem(IItemRepository itemRepo) : BaseEventHandler<Clie
         
         ServerSendsUpdatedItem responseDto = new ServerSendsUpdatedItem()
         {
-            ItemDto = ItemEntityUtil.ItemToItemDto(item)
+            ItemDto = ItemEntityUtil.ItemToItemDto(item),
+            requestId = dto.requestId,
         };
         socket.SendDto(responseDto);
     }

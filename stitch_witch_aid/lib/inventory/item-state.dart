@@ -7,11 +7,11 @@ import 'package:stitch_witch_aid/inventory/item-tag-model.dart';
 //@MappableClass()
 class ItemState {
   final List<InventoryItemModel> items;
-  final List<ItemTagModel> allTags;
+  final List<ItemTagModel>? allTags;
   final List<ItemTagModel>? tagsForItem;
 
 
-  const ItemState({required this.items, required this.allTags, this.tagsForItem,});
+  const ItemState({required this.items, this.allTags, this.tagsForItem,});
 
   static ItemState empty() =>
       ItemState(items: List.empty(growable: true), allTags: List.empty(growable: true));
