@@ -42,7 +42,7 @@ class _UpdateItemDialogState extends State<UpdateItemDialog> {
           borderRadius: BorderRadius.circular(20),
         ),
         child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(15.0),
             child: Form(
             key: _formKey,
             child: Column(
