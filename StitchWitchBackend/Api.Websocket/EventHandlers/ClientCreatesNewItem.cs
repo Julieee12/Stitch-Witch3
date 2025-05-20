@@ -28,6 +28,7 @@ public class ClientCreatesNewItem(IItemRepository itemRepo) : BaseEventHandler<C
             eventType = "ServerSendsCreatedItem",
             item = item,
             Message = "successfully added item",
+            requestId = dto.requestId,
         };
         
         socket.SendDto(responseDto);

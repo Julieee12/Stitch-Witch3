@@ -18,7 +18,8 @@ public class ClientDeletesItem(IItemRepository itemRepo ) : BaseEventHandler<Cli
         await itemRepo.DeleteItem(dto.id);
         ServerActionSuccess responseDto = new ServerActionSuccess()
         {
-            Message = "success! ... hopefully............"
+            Message = "success! ... hopefully............",
+            requestId = dto.requestId,
         };
         socket.SendDto(responseDto);
     }
