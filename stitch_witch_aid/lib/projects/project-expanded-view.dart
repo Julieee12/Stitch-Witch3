@@ -122,7 +122,19 @@ class _ProjectExpandedViewState extends State<ProjectExpandedView> {
                   Text(
                     "Time spent on project: ${projectToUpdate.time ?? 'N/A'}",
                     style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+
                   ),
+                  const SizedBox(height: 15),
+                  Text(
+                    "Tags:",
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: BrandColors.purpleDark),
+
+                  ),
+                  const SizedBox(height: 10),
+                  const Text("No tags assigned."),
 
                 ],
               ),
