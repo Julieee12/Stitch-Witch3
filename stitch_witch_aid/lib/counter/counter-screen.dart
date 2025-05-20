@@ -32,7 +32,11 @@ class _CounterScreenState extends State<CounterScreen> {
 
       projectBloc.clientGetsAllProjects();
 
-      _selectedProject ??= projectBloc.state.projects.firstOrNull;
+      if (_selectedProject == null) {
+        _selectedProject = projectBloc.state.projects.firstOrNull;
+
+        setElapsedSeconds();
+      }
     });
 
 
@@ -94,6 +98,8 @@ class _CounterScreenState extends State<CounterScreen> {
                         onChanged: (String? selectedValue) {
                           setState(() {
                             _selectedProject = state.projects.firstWhere((project) => project.id == selectedValue);
+
+                            setElapsedSeconds();
                           });
                         },
                       ),
@@ -210,7 +216,19 @@ class _CounterScreenState extends State<CounterScreen> {
 
               /////////////////////////////// SAVE BUTTON /////////////////////////////////////////
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  if (_selectedProject == null) return;
+
+                  UpdateProjectDto updateProjectDto = UpdateProjectDto(
+                      id: _selectedProject!.id,
+                      name: _selectedProject!.name,
+                      stitch: _selectedProject!.stitch,
+                      row: _selectedProject!.row,
+                      tagsDtos: [],
+                      time: double.parse(_elapsedSeconds.toString()));
+
+                  BlocProvider.of<ProjectBloc>(context).clientUpdatesProject(updateProjectDto);
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: BrandColors.purpleDark,
                   padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
@@ -230,6 +248,9 @@ class _CounterScreenState extends State<CounterScreen> {
     );
   }
 
+  void setElapsedSeconds() {
+    _elapsedSeconds = int.parse(_selectedProject?.time?.toString() ?? '0');
+  }
 
   // Starts the timer and adds _elapsedSeconds every second
   void _startTimer() {
