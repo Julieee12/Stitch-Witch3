@@ -32,6 +32,8 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
     on<ServerSendsAllTagsFromItemEvent>(_onServerSendsAllTagsFromItem);
     on<ServerSendsErrorMessageEvent>(_onServerSendsErrorMessage);
     on<ServerSendsUpdatedItemEvent>(_onServerSendsUpdatedItem);
+    on<ServerSendsCreatedItemEvent>(_onServerSendsCreatedItem);
+    on<ServerDeletedItemEvent>(_onServerDeletedItem);
 
     //feed deserialized events into this bloc
     //basically just listening to events
@@ -73,6 +75,7 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
   }
   void clientDeletesItemItems(String itemId){
     print("_______--------______ Delete... ______--------________");
+
     add(ClientDeletesItemEvent(
         eventType: ClientDeletesItemEvent.name,
         requestId: Uuid().v4(),
@@ -113,6 +116,31 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
     int indexOfItemToUpdate = stateCopy.items.indexWhere((item) => item.id == event.itemDto.id);
 
     stateCopy.items[indexOfItemToUpdate] = event.itemDto;
+
+    emit(stateCopy);
+
+  }
+
+  FutureOr<void> _onServerSendsCreatedItem(
+      ServerSendsCreatedItemEvent event,
+      Emitter<ItemState> emit) {
+    print("received new item?");
+    var stateCopy = ItemState(items: [...state.items]);
+
+    stateCopy.items.add(event.item);
+
+    emit(stateCopy);
+
+  }
+
+  FutureOr<void> _onServerDeletedItem(
+      ServerDeletedItemEvent event,
+      Emitter<ItemState> emit) {
+    print("received deleted item ID?");
+
+    var stateCopy = ItemState(items: state.items);
+
+    stateCopy.items.removeWhere((item) => item.id == event.itemId);
 
     emit(stateCopy);
 

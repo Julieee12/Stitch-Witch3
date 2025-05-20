@@ -76,6 +76,14 @@ class ServerSendsUpdatedItemEvent extends BaseEvent with ServerSendsUpdatedItemE
   ServerSendsUpdatedItemEvent({required this.itemDto, required super.eventType, required super.requestId});
 }
 
+@MappableClass(discriminatorValue: ServerDeletedItemEvent.name)
+class ServerDeletedItemEvent extends BaseEvent with ServerDeletedItemEventMappable {
+  static const String name = "ServerDeletedItem";
+  final String itemId;
+
+  ServerDeletedItemEvent({required this.itemId, required super.eventType, required super.requestId});
+}
+
 ////////// Project events /////////
 @MappableClass(discriminatorValue: ClientGetsAllProjectsEvent.name)
 class ClientGetsAllProjectsEvent extends BaseEvent with ClientGetsAllProjectsEventMappable {

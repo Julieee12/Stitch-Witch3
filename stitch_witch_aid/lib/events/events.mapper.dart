@@ -20,6 +20,7 @@ class BaseEventMapper extends ClassMapperBase<BaseEvent> {
       ClientGetsAllTagsFromItemEventMapper.ensureInitialized();
       ServerSendsCreatedItemEventMapper.ensureInitialized();
       ServerSendsUpdatedItemEventMapper.ensureInitialized();
+      ServerDeletedItemEventMapper.ensureInitialized();
       ClientGetsAllProjectsEventMapper.ensureInitialized();
       ClientCreatesNewProjectEventMapper.ensureInitialized();
       ClientDeletesProjectEventMapper.ensureInitialized();
@@ -1103,6 +1104,145 @@ class _ServerSendsUpdatedItemEventCopyWithImpl<$R, $Out>
       $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
           _ServerSendsUpdatedItemEventCopyWithImpl<$R2, $Out2>(
               $value, $cast, t);
+}
+
+class ServerDeletedItemEventMapper
+    extends SubClassMapperBase<ServerDeletedItemEvent> {
+  ServerDeletedItemEventMapper._();
+
+  static ServerDeletedItemEventMapper? _instance;
+  static ServerDeletedItemEventMapper ensureInitialized() {
+    if (_instance == null) {
+      MapperContainer.globals.use(_instance = ServerDeletedItemEventMapper._());
+      BaseEventMapper.ensureInitialized().addSubMapper(_instance!);
+    }
+    return _instance!;
+  }
+
+  @override
+  final String id = 'ServerDeletedItemEvent';
+
+  static String _$itemId(ServerDeletedItemEvent v) => v.itemId;
+  static const Field<ServerDeletedItemEvent, String> _f$itemId =
+      Field('itemId', _$itemId);
+  static String _$eventType(ServerDeletedItemEvent v) => v.eventType;
+  static const Field<ServerDeletedItemEvent, String> _f$eventType =
+      Field('eventType', _$eventType);
+  static String _$requestId(ServerDeletedItemEvent v) => v.requestId;
+  static const Field<ServerDeletedItemEvent, String> _f$requestId =
+      Field('requestId', _$requestId);
+
+  @override
+  final MappableFields<ServerDeletedItemEvent> fields = const {
+    #itemId: _f$itemId,
+    #eventType: _f$eventType,
+    #requestId: _f$requestId,
+  };
+
+  @override
+  final String discriminatorKey = 'eventType';
+  @override
+  final dynamic discriminatorValue = ServerDeletedItemEvent.name;
+  @override
+  late final ClassMapperBase superMapper = BaseEventMapper.ensureInitialized();
+
+  static ServerDeletedItemEvent _instantiate(DecodingData data) {
+    return ServerDeletedItemEvent(
+        itemId: data.dec(_f$itemId),
+        eventType: data.dec(_f$eventType),
+        requestId: data.dec(_f$requestId));
+  }
+
+  @override
+  final Function instantiate = _instantiate;
+
+  static ServerDeletedItemEvent fromMap(Map<String, dynamic> map) {
+    return ensureInitialized().decodeMap<ServerDeletedItemEvent>(map);
+  }
+
+  static ServerDeletedItemEvent fromJson(String json) {
+    return ensureInitialized().decodeJson<ServerDeletedItemEvent>(json);
+  }
+}
+
+mixin ServerDeletedItemEventMappable {
+  String toJson() {
+    return ServerDeletedItemEventMapper.ensureInitialized()
+        .encodeJson<ServerDeletedItemEvent>(this as ServerDeletedItemEvent);
+  }
+
+  Map<String, dynamic> toMap() {
+    return ServerDeletedItemEventMapper.ensureInitialized()
+        .encodeMap<ServerDeletedItemEvent>(this as ServerDeletedItemEvent);
+  }
+
+  ServerDeletedItemEventCopyWith<ServerDeletedItemEvent, ServerDeletedItemEvent,
+          ServerDeletedItemEvent>
+      get copyWith => _ServerDeletedItemEventCopyWithImpl<
+              ServerDeletedItemEvent, ServerDeletedItemEvent>(
+          this as ServerDeletedItemEvent, $identity, $identity);
+  @override
+  String toString() {
+    return ServerDeletedItemEventMapper.ensureInitialized()
+        .stringifyValue(this as ServerDeletedItemEvent);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return ServerDeletedItemEventMapper.ensureInitialized()
+        .equalsValue(this as ServerDeletedItemEvent, other);
+  }
+
+  @override
+  int get hashCode {
+    return ServerDeletedItemEventMapper.ensureInitialized()
+        .hashValue(this as ServerDeletedItemEvent);
+  }
+}
+
+extension ServerDeletedItemEventValueCopy<$R, $Out>
+    on ObjectCopyWith<$R, ServerDeletedItemEvent, $Out> {
+  ServerDeletedItemEventCopyWith<$R, ServerDeletedItemEvent, $Out>
+      get $asServerDeletedItemEvent => $base.as((v, t, t2) =>
+          _ServerDeletedItemEventCopyWithImpl<$R, $Out>(v, t, t2));
+}
+
+abstract class ServerDeletedItemEventCopyWith<
+    $R,
+    $In extends ServerDeletedItemEvent,
+    $Out> implements BaseEventCopyWith<$R, $In, $Out> {
+  @override
+  $R call({String? itemId, String? eventType, String? requestId});
+  ServerDeletedItemEventCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
+      Then<$Out2, $R2> t);
+}
+
+class _ServerDeletedItemEventCopyWithImpl<$R, $Out>
+    extends ClassCopyWithBase<$R, ServerDeletedItemEvent, $Out>
+    implements
+        ServerDeletedItemEventCopyWith<$R, ServerDeletedItemEvent, $Out> {
+  _ServerDeletedItemEventCopyWithImpl(super.value, super.then, super.then2);
+
+  @override
+  late final ClassMapperBase<ServerDeletedItemEvent> $mapper =
+      ServerDeletedItemEventMapper.ensureInitialized();
+  @override
+  $R call({String? itemId, String? eventType, String? requestId}) =>
+      $apply(FieldCopyWithData({
+        if (itemId != null) #itemId: itemId,
+        if (eventType != null) #eventType: eventType,
+        if (requestId != null) #requestId: requestId
+      }));
+  @override
+  ServerDeletedItemEvent $make(CopyWithData data) => ServerDeletedItemEvent(
+      itemId: data.get(#itemId, or: $value.itemId),
+      eventType: data.get(#eventType, or: $value.eventType),
+      requestId: data.get(#requestId, or: $value.requestId));
+
+  @override
+  ServerDeletedItemEventCopyWith<$R2, ServerDeletedItemEvent, $Out2>
+      $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
+          _ServerDeletedItemEventCopyWithImpl<$R2, $Out2>($value, $cast, t);
 }
 
 class ClientGetsAllProjectsEventMapper

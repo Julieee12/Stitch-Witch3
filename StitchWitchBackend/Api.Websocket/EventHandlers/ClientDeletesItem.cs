@@ -16,11 +16,14 @@ public class ClientDeletesItem(IItemRepository itemRepo ) : BaseEventHandler<Cli
     public override async Task Handle(ClientDeletesItemDto dto, IWebSocketConnection socket)
     {
         await itemRepo.DeleteItem(dto.id);
-        ServerActionSuccess responseDto = new ServerActionSuccess()
+
+        ServerDeletedItem responseDto = new ServerDeletedItem()
         {
             Message = "success! ... hopefully............",
             requestId = dto.requestId,
+            itemId = dto.id,
         };
+            
         socket.SendDto(responseDto);
     }
 }
