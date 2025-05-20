@@ -61,7 +61,7 @@ class ProjectsScreen extends StatelessWidget {
                         yarn: project.yarn,
                         hook: project.hook,
                         time: project.time,
-                        tags: project.tags
+                        // tags: project.tags
                       ),
                       color: BrandColors.purpleSoft,
                     ),

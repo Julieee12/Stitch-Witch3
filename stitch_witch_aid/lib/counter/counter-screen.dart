@@ -63,7 +63,11 @@ class _CounterScreenState extends State<CounterScreen> {
 
       projectBloc.clientGetsAllProjects();
 
-      _selectedProject ??= projectBloc.state.projects.firstOrNull;
+      if (_selectedProject == null) {
+        _selectedProject = projectBloc.state.projects.firstOrNull;
+
+        setElapsedSeconds();
+      }
     });
 
 
@@ -129,44 +133,50 @@ class _CounterScreenState extends State<CounterScreen> {
                   const Text('Project:', style: TextStyle(fontSize: 16)),
                   const SizedBox(width: 15), // adds space between label and dropdown
                   Container(
-                    height: 30,
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    decoration: BoxDecoration(
-                      color: BrandColors.purpleVeryLight,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        value: _selectedProject?.id,
-                        items: List.generate(state.projects.length, (index) {
-                          return DropdownMenuItem(
-                              value: state.projects[index].id,
-                              child: Text(state.projects[index].name)
-                          );
-                        }),
-
-                          /*const [
-                          DropdownMenuItem(value: 'Wool Scarf', child: Text('Wool Scarf')),
-                          DropdownMenuItem(value: 'Blanket', child: Text('Blanket')),
-                        ],*/
-                        onChanged: (String? selectedValue) {
-                          setState(() {
-                            _selectedProject = state.projects.firstWhere((project) => project.id == selectedValue);
-                          });
-                        },
+                    width: 200,
+                    child: DropdownButtonFormField<String>(
+                      value: _selectedProject?.id,
+                      isExpanded: true,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: BrandColors.purpleVeryLight,
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: BrandColors.purpleLightish, width: 1),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: BrandColors.purpleLightish, width: 1),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: BrandColors.purpleLightish, width: 1.5),
+                        ),
                       ),
+                      items: state.projects.map((project) {
+                        return DropdownMenuItem<String>(
+                          value: project.id,
+                          child: Text(project.name),
+                        );
+                      }).toList(),
+                      onChanged: (String? selectedValue) {
+                        setState(() {
+                          _selectedProject = state.projects.firstWhere((project) => project.id == selectedValue);
+                          setElapsedSeconds();
+                        });
+                      },
                     ),
                   ),
                 ],
               ),
               const SizedBox(height: 20), // adds space between dropdown and stitches input
 
-              //////////////////////// STITCHES/ROW////////////////////////////////////////
-
-              // COUNTING LOGIC
-              // User inputs stitches per row (if the user doesn't, the count works just normally and rows don't update automatically)
-              // Each + tap adds 1 stitch
-              // If input is valid (>0) and stitch count reaches a multiple of that value,the row count increases automatically
+//////////////////////// STITCHES/ROW////////////////////////////////////////
+// COUNTING LOGIC
+// User inputs stitches per row (if the user doesn't, the count works just normally and rows don't update automatically)
+// Each + tap adds 1 stitch
+// If input is valid (>0) and stitch count reaches a multiple of that value,the row count increases automatically
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -174,8 +184,8 @@ class _CounterScreenState extends State<CounterScreen> {
                   const Text('Stitches/ row:', style: TextStyle(fontSize: 16)),
                   const SizedBox(width: 8), // adds space between label and input field
                   SizedBox(
-                    height: 35,
-                    width: 80,
+                    height: 40,
+                    width: 90,
                     child: TextField(
                       controller: stitchesPerRowController,
                       textAlign: TextAlign.center,
@@ -183,9 +193,13 @@ class _CounterScreenState extends State<CounterScreen> {
                         filled: true,
                         fillColor: BrandColors.purpleVeryLight,
                         contentPadding: const EdgeInsets.symmetric(vertical: 10),
-                        border: OutlineInputBorder(
+                        enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide.none,
+                          borderSide: BorderSide(color: BrandColors.purpleLightish, width: 1),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: BrandColors.purpleLight, width: 1.5),
                         ),
                       ),
                     ),
@@ -193,6 +207,7 @@ class _CounterScreenState extends State<CounterScreen> {
                 ],
               ),
               const SizedBox(height: 20),
+
 
               //////////////////////////////// STITCHES CONTAINER////////////////////////////////////////////
               _buildLargeCounter(
@@ -268,7 +283,19 @@ class _CounterScreenState extends State<CounterScreen> {
 
               /////////////////////////////// SAVE BUTTON /////////////////////////////////////////
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  if (_selectedProject == null) return;
+
+                  UpdateProjectDto updateProjectDto = UpdateProjectDto(
+                      id: _selectedProject!.id,
+                      name: _selectedProject!.name,
+                      stitch: _selectedProject!.stitch,
+                      row: _selectedProject!.row,
+                      tagsDtos: [],
+                      time: double.parse(_elapsedSeconds.toString()));
+
+                  BlocProvider.of<ProjectBloc>(context).clientUpdatesProject(updateProjectDto);
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: BrandColors.purpleDark,
                   padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
@@ -288,6 +315,9 @@ class _CounterScreenState extends State<CounterScreen> {
     );
   }
 
+  void setElapsedSeconds() {
+    _elapsedSeconds = int.parse(_selectedProject?.time?.toString() ?? '0');
+  }
 
   // Starts the timer and adds _elapsedSeconds every second
   void _startTimer() {

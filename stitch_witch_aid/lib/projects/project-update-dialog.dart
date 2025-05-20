@@ -23,7 +23,6 @@ class _UpdateProjectDialogState extends State<UpdateProjectDialog> {
   late String _description;
   late int _stitch;
   late int _row;
-  late String _tag;
   late String _picture;
   late String _yarn;
   late String _hook;
@@ -181,7 +180,6 @@ class _UpdateProjectDialogState extends State<UpdateProjectDialog> {
                             description: _description,
                             stitch: _stitch,
                             row: _row,
-                            tag: _tag,
                             picurl: _picture,
                             yarn: _yarn,
                             hook: _hook,

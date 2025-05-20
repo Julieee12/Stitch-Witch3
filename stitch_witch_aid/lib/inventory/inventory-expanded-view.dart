@@ -20,64 +20,117 @@ class ItemExpandedView extends StatefulWidget {
 class _ItemExpandedViewState extends State<ItemExpandedView> {
   @override
   Widget build(BuildContext context) {
+    InventoryItemModel itemToUpdate =
+    BlocProvider.of<ItemBloc>(context).state.items[widget.indexToUpdate];
 
-    
-    InventoryItemModel itemToUpdate = BlocProvider.of<ItemBloc>(context).state.items[widget.indexToUpdate];
-    //List<ItemTagModel> tags = BlocProvider.of<ItemBloc>(context).state.tagsForItem!;
-
+    // Trigger tag fetching after build
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<ItemBloc>().clientWantsToGetAllItemTagsFromItem(itemToUpdate.id);
     });
-    
+
     return BlocConsumer<ItemBloc, ItemState>(
-      listener: (context,state) {setState(() {}); },
+      listener: (context, state) {
+        setState(() {});
+      },
       builder: (context, state) => Scaffold(
+        backgroundColor: BrandColors.purpleExtraLight,
         appBar: AppBar(
-          title: Text(itemToUpdate.name),
+          title: Text(
+            itemToUpdate.name,
+            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          ),
           backgroundColor: BrandColors.purpleSoft,
-        ),
-        body: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              children: [
-                //picture
-                if(itemToUpdate.picurl != null)
-                  Image.network(itemToUpdate.picurl!),
-                SizedBox(height: 20,),
-
-                //description
-                Text(itemToUpdate.description ?? "No description available",
-                style: TextStyle(fontSize: 16),),
-
-                //DELETE button
-                TextButton(onPressed: () {
-                  BlocProvider.of<ItemBloc>(context).clientDeletesItemItems(itemToUpdate.id);
-
-                  Navigator.pop(context);
-
-                }, child: Text("Delete")),
-
-                //UPDATE button
-                TextButton(onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) => UpdateItemDialog(itemToUpdate: itemToUpdate));
-
-                }, child: Text("Update")),
-
-                //TAGS
-                state.tagsForItem != null ?
-                Column(
-                  children: List.generate(
-                      state.tagsForItem!.length,
-                          (index) {
-                      return Text(state.tagsForItem![index].itemId);
-                  })
-                )
-                : Text(""),
-
-              ],
+          foregroundColor: Colors.white,
+          elevation: 0,
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.delete),
+              onPressed: () {
+                BlocProvider.of<ItemBloc>(context).clientDeletesItemItems(itemToUpdate.id);
+                Navigator.pop(context);
+              },
             ),
+            IconButton(
+              icon: const Icon(Icons.edit),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => Center(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(
+                        maxWidth: 320,
+                        maxHeight: 400,
+                      ),
+                      child: Material(
+                        color: BrandColors.purpleExtraLight,
+                        borderRadius: BorderRadius.circular(20),
+                        child: UpdateItemDialog(itemToUpdate: itemToUpdate),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+            const SizedBox(width: 8),
+          ],
+        ),
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // Image display
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: itemToUpdate.picurl != null && itemToUpdate.picurl!.isNotEmpty
+                        ? Image.network(
+                      itemToUpdate.picurl!,
+                      height: 200,
+                      fit: BoxFit.contain,
+                    )
+                        : Image.asset(
+                      'assets/invplace.png',
+                      height: 200,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Description
+                  Text(
+                    itemToUpdate.description ?? "No description available",
+                    style: const TextStyle(fontSize: 18),
+                  ),
+                  const SizedBox(height: 30),
+
+                  // Tags
+                  Text(
+                    "Tags:",
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: BrandColors.purpleDark),
+                  ),
+                  const SizedBox(height: 10),
+                  if (state.tagsForItem != null && state.tagsForItem!.isNotEmpty)
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: state.tagsForItem!
+                          .map((tag) => Chip(
+                        label: Text(tag.itemId),
+                        backgroundColor: BrandColors.purpleVeryLight,
+                      ))
+                          .toList(),
+                    )
+                  else
+                    const Text("No tags assigned."),
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );
