@@ -141,9 +141,9 @@ class _UpdateItemDialogState extends State<UpdateItemDialog> {
                         );
 
                         BlocProvider.of<ItemBloc>(context).clientUpdatesItem(updateItemDto);
-                        BlocProvider.of<ItemBloc>(context).clientWantsToGetAllItems();
 
                         Navigator.of(context).pop();
+
                       },
                       child: Text("Save"),
                     ),

@@ -110,9 +110,9 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
     print("received updated item?");
     var stateCopy = ItemState(items: [...state.items]);
 
-    int indexOfItemToUpdate = stateCopy.items.indexWhere((item) => item.id == event.updatedItem.id);
+    int indexOfItemToUpdate = stateCopy.items.indexWhere((item) => item.id == event.itemDto.id);
 
-    stateCopy.items[indexOfItemToUpdate] = event.updatedItem;
+    stateCopy.items[indexOfItemToUpdate] = event.itemDto;
 
     emit(stateCopy);
 

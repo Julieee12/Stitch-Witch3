@@ -815,10 +815,9 @@ class ServerSendsCreatedItemEventMapper
   @override
   final String id = 'ServerSendsCreatedItemEvent';
 
-  static InventoryItemModel _$createdItem(ServerSendsCreatedItemEvent v) =>
-      v.createdItem;
-  static const Field<ServerSendsCreatedItemEvent, InventoryItemModel>
-      _f$createdItem = Field('createdItem', _$createdItem);
+  static InventoryItemModel _$item(ServerSendsCreatedItemEvent v) => v.item;
+  static const Field<ServerSendsCreatedItemEvent, InventoryItemModel> _f$item =
+      Field('item', _$item);
   static String _$eventType(ServerSendsCreatedItemEvent v) => v.eventType;
   static const Field<ServerSendsCreatedItemEvent, String> _f$eventType =
       Field('eventType', _$eventType);
@@ -828,7 +827,7 @@ class ServerSendsCreatedItemEventMapper
 
   @override
   final MappableFields<ServerSendsCreatedItemEvent> fields = const {
-    #createdItem: _f$createdItem,
+    #item: _f$item,
     #eventType: _f$eventType,
     #requestId: _f$requestId,
   };
@@ -836,13 +835,13 @@ class ServerSendsCreatedItemEventMapper
   @override
   final String discriminatorKey = 'eventType';
   @override
-  final dynamic discriminatorValue = ClientUpdatesItemEvent.name;
+  final dynamic discriminatorValue = ServerSendsCreatedItemEvent.name;
   @override
   late final ClassMapperBase superMapper = BaseEventMapper.ensureInitialized();
 
   static ServerSendsCreatedItemEvent _instantiate(DecodingData data) {
     return ServerSendsCreatedItemEvent(
-        createdItem: data.dec(_f$createdItem),
+        item: data.dec(_f$item),
         eventType: data.dec(_f$eventType),
         requestId: data.dec(_f$requestId));
   }
@@ -908,10 +907,9 @@ abstract class ServerSendsCreatedItemEventCopyWith<
     $In extends ServerSendsCreatedItemEvent,
     $Out> implements BaseEventCopyWith<$R, $In, $Out> {
   InventoryItemModelCopyWith<$R, InventoryItemModel, InventoryItemModel>
-      get createdItem;
+      get item;
   @override
-  $R call(
-      {InventoryItemModel? createdItem, String? eventType, String? requestId});
+  $R call({InventoryItemModel? item, String? eventType, String? requestId});
   ServerSendsCreatedItemEventCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
       Then<$Out2, $R2> t);
 }
@@ -929,22 +927,18 @@ class _ServerSendsCreatedItemEventCopyWithImpl<$R, $Out>
       ServerSendsCreatedItemEventMapper.ensureInitialized();
   @override
   InventoryItemModelCopyWith<$R, InventoryItemModel, InventoryItemModel>
-      get createdItem =>
-          $value.createdItem.copyWith.$chain((v) => call(createdItem: v));
+      get item => $value.item.copyWith.$chain((v) => call(item: v));
   @override
-  $R call(
-          {InventoryItemModel? createdItem,
-          String? eventType,
-          String? requestId}) =>
+  $R call({InventoryItemModel? item, String? eventType, String? requestId}) =>
       $apply(FieldCopyWithData({
-        if (createdItem != null) #createdItem: createdItem,
+        if (item != null) #item: item,
         if (eventType != null) #eventType: eventType,
         if (requestId != null) #requestId: requestId
       }));
   @override
   ServerSendsCreatedItemEvent $make(CopyWithData data) =>
       ServerSendsCreatedItemEvent(
-          createdItem: data.get(#createdItem, or: $value.createdItem),
+          item: data.get(#item, or: $value.item),
           eventType: data.get(#eventType, or: $value.eventType),
           requestId: data.get(#requestId, or: $value.requestId));
 
@@ -973,10 +967,10 @@ class ServerSendsUpdatedItemEventMapper
   @override
   final String id = 'ServerSendsUpdatedItemEvent';
 
-  static InventoryItemModel _$updatedItem(ServerSendsUpdatedItemEvent v) =>
-      v.updatedItem;
+  static InventoryItemModel _$itemDto(ServerSendsUpdatedItemEvent v) =>
+      v.itemDto;
   static const Field<ServerSendsUpdatedItemEvent, InventoryItemModel>
-      _f$updatedItem = Field('updatedItem', _$updatedItem);
+      _f$itemDto = Field('itemDto', _$itemDto);
   static String _$eventType(ServerSendsUpdatedItemEvent v) => v.eventType;
   static const Field<ServerSendsUpdatedItemEvent, String> _f$eventType =
       Field('eventType', _$eventType);
@@ -986,7 +980,7 @@ class ServerSendsUpdatedItemEventMapper
 
   @override
   final MappableFields<ServerSendsUpdatedItemEvent> fields = const {
-    #updatedItem: _f$updatedItem,
+    #itemDto: _f$itemDto,
     #eventType: _f$eventType,
     #requestId: _f$requestId,
   };
@@ -994,13 +988,13 @@ class ServerSendsUpdatedItemEventMapper
   @override
   final String discriminatorKey = 'eventType';
   @override
-  final dynamic discriminatorValue = ClientUpdatesItemEvent.name;
+  final dynamic discriminatorValue = ServerSendsUpdatedItemEvent.name;
   @override
   late final ClassMapperBase superMapper = BaseEventMapper.ensureInitialized();
 
   static ServerSendsUpdatedItemEvent _instantiate(DecodingData data) {
     return ServerSendsUpdatedItemEvent(
-        updatedItem: data.dec(_f$updatedItem),
+        itemDto: data.dec(_f$itemDto),
         eventType: data.dec(_f$eventType),
         requestId: data.dec(_f$requestId));
   }
@@ -1066,10 +1060,9 @@ abstract class ServerSendsUpdatedItemEventCopyWith<
     $In extends ServerSendsUpdatedItemEvent,
     $Out> implements BaseEventCopyWith<$R, $In, $Out> {
   InventoryItemModelCopyWith<$R, InventoryItemModel, InventoryItemModel>
-      get updatedItem;
+      get itemDto;
   @override
-  $R call(
-      {InventoryItemModel? updatedItem, String? eventType, String? requestId});
+  $R call({InventoryItemModel? itemDto, String? eventType, String? requestId});
   ServerSendsUpdatedItemEventCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
       Then<$Out2, $R2> t);
 }
@@ -1087,22 +1080,21 @@ class _ServerSendsUpdatedItemEventCopyWithImpl<$R, $Out>
       ServerSendsUpdatedItemEventMapper.ensureInitialized();
   @override
   InventoryItemModelCopyWith<$R, InventoryItemModel, InventoryItemModel>
-      get updatedItem =>
-          $value.updatedItem.copyWith.$chain((v) => call(updatedItem: v));
+      get itemDto => $value.itemDto.copyWith.$chain((v) => call(itemDto: v));
   @override
   $R call(
-          {InventoryItemModel? updatedItem,
+          {InventoryItemModel? itemDto,
           String? eventType,
           String? requestId}) =>
       $apply(FieldCopyWithData({
-        if (updatedItem != null) #updatedItem: updatedItem,
+        if (itemDto != null) #itemDto: itemDto,
         if (eventType != null) #eventType: eventType,
         if (requestId != null) #requestId: requestId
       }));
   @override
   ServerSendsUpdatedItemEvent $make(CopyWithData data) =>
       ServerSendsUpdatedItemEvent(
-          updatedItem: data.get(#updatedItem, or: $value.updatedItem),
+          itemDto: data.get(#itemDto, or: $value.itemDto),
           eventType: data.get(#eventType, or: $value.eventType),
           requestId: data.get(#requestId, or: $value.requestId));
 
