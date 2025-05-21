@@ -1,10 +1,12 @@
-﻿using Core.Domain.Entities;
+﻿using Application.Models.DTOs;
+using Core.Domain.Entities;
 
 namespace Application.Infrastructure.Postgres;
 
 public interface IItemRepository
 {
     public Task<List<Item>> GetAllItems();
+    public Task<List<ItemDtoWithTags>> GetAllItemsWithTags();
 
     public Task<Item> GetItemById(string id);
     public Task AddItem(Item item);

@@ -1,7 +1,9 @@
 using Application.Infrastructure.Postgres;
+using Application.Models.DTOs;
 using Core.Domain.Entities;
 using Infrastructure.Postgres.Scaffolding;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Infrastructure.Postgres.repositories;
 
@@ -10,6 +12,44 @@ public class ItemRepository(StitchWitchDbContext context) : IItemRepository
     public async Task<List<Item>> GetAllItems()
     {
         return await context.Items.ToListAsync();
+    }
+    
+    public async Task<List<ItemDtoWithTags>> GetAllItemsWithTags()
+    {
+        
+        /*var query = await (from item in context.Items
+                join tag in context.ItemTags on item.Id equals tag.Itemid into gj
+                from subgroup in gj.DefaultIfEmpty()
+                select new ItemDtoWithTags()
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    Description = item.Description,
+                    Picurl = item.Picurl,
+                    TagId = subgroup.Tagid ?? " "
+                }).ToListAsync();
+
+        return query;*/
+
+        return await context.Items.GroupJoin(
+            context.ItemTags,
+            item => item.Id,
+            itemTag => itemTag.Itemid,
+            (item, itemTag ) => new ItemDtoWithTags()
+            {
+                Id = item.Id,
+                Name = item.Name,
+                Description = item.Description,
+                Picurl = item.Picurl,
+                Tags = itemTag.Select(i => i.Tag).ToList(),
+            }).Select(i => new ItemDtoWithTags()
+        {
+            Id = i.Id,
+            Name = i.Name,
+            Description = i.Description,
+            Picurl = i.Picurl,
+            Tags = i.Tags,
+        }).ToListAsync();
     }
     
     public async Task<Item> GetItemById(string id)
