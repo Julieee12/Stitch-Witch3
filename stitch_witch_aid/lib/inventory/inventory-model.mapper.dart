@@ -13,6 +13,7 @@ class InventoryItemModelMapper extends ClassMapperBase<InventoryItemModel> {
   static InventoryItemModelMapper ensureInitialized() {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = InventoryItemModelMapper._());
+      TagDtoMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -31,8 +32,8 @@ class InventoryItemModelMapper extends ClassMapperBase<InventoryItemModel> {
   static String? _$picurl(InventoryItemModel v) => v.picurl;
   static const Field<InventoryItemModel, String> _f$picurl =
       Field('picurl', _$picurl);
-  static List<Tags>? _$tags(InventoryItemModel v) => v.tags;
-  static const Field<InventoryItemModel, List<Tags>> _f$tags =
+  static List<TagDto>? _$tags(InventoryItemModel v) => v.tags;
+  static const Field<InventoryItemModel, List<TagDto>> _f$tags =
       Field('tags', _$tags, opt: true);
 
   @override
@@ -108,13 +109,13 @@ extension InventoryItemModelValueCopy<$R, $Out>
 
 abstract class InventoryItemModelCopyWith<$R, $In extends InventoryItemModel,
     $Out> implements ClassCopyWith<$R, $In, $Out> {
-  ListCopyWith<$R, Tags, ObjectCopyWith<$R, Tags, Tags>>? get tags;
+  ListCopyWith<$R, TagDto, TagDtoCopyWith<$R, TagDto, TagDto>>? get tags;
   $R call(
       {String? id,
       String? name,
       String? description,
       String? picurl,
-      List<Tags>? tags});
+      List<TagDto>? tags});
   InventoryItemModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
       Then<$Out2, $R2> t);
 }
@@ -128,10 +129,10 @@ class _InventoryItemModelCopyWithImpl<$R, $Out>
   late final ClassMapperBase<InventoryItemModel> $mapper =
       InventoryItemModelMapper.ensureInitialized();
   @override
-  ListCopyWith<$R, Tags, ObjectCopyWith<$R, Tags, Tags>>? get tags =>
+  ListCopyWith<$R, TagDto, TagDtoCopyWith<$R, TagDto, TagDto>>? get tags =>
       $value.tags != null
-          ? ListCopyWith($value.tags!,
-              (v, t) => ObjectCopyWith(v, $identity, t), (v) => call(tags: v))
+          ? ListCopyWith($value.tags!, (v, t) => v.copyWith.$chain(t),
+              (v) => call(tags: v))
           : null;
   @override
   $R call(

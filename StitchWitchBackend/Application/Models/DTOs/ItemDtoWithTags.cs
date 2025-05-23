@@ -12,5 +12,5 @@ public class ItemDtoWithTags
 
     public string? Description { get; set; }
 
-    public List<TagType> Tags { get; set; } = null!;
+    public List<TagDto> Tags { get; set; } = null!;
 }

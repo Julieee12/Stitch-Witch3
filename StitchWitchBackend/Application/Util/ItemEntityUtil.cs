@@ -65,15 +65,31 @@ public class ItemEntityUtil
     
     
     //ITEM TAGS
-    public static ItemTag CreateItemTagDtoToItemTag(CreateNewItemTagDto dto)
+    public static TagDto TagTypeToTagDto(TagType tag)
     {
-        ItemTag item = new ItemTag()
+        TagDto dto = new TagDto()
         {
-            Tagid = dto.Tagid,
-            Itemid = dto.Itemid
+            TagTypeId = tag.Id,
+            Typename = tag.Typename,
         };
 
-        return item;
+        return dto;
+    }
+    
+    public static List<TagDto> TagTypeListToTagDtoList(List<TagType> tags)
+    {
+        List<TagDto> returnList = new List<TagDto>();
+        foreach (var tagType in tags)
+        {
+            TagDto dto = new TagDto()
+            {
+                TagTypeId = tagType.Id,
+                Typename = tagType.Typename,
+            };
+            returnList.Add(dto);
+        }
+        
+        return returnList;
     }
     
     

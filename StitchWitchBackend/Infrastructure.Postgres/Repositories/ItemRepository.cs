@@ -1,5 +1,6 @@
 using Application.Infrastructure.Postgres;
 using Application.Models.DTOs;
+using Application.Utility;
 using Core.Domain.Entities;
 using Infrastructure.Postgres.Scaffolding;
 using Microsoft.EntityFrameworkCore;
@@ -41,7 +42,7 @@ public class ItemRepository(StitchWitchDbContext context) : IItemRepository
                 Name = item.Name,
                 Description = item.Description,
                 Picurl = item.Picurl,
-                Tags = itemTag.Select(i => i.Tag).ToList(),
+                Tags = ItemEntityUtil.TagTypeListToTagDtoList(itemTag.Select(i => i.Tag).ToList()) ,
             }).Select(i => new ItemDtoWithTags()
         {
             Id = i.Id,

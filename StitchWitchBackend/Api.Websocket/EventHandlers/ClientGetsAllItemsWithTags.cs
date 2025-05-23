@@ -12,13 +12,14 @@ public class ClientGetsAllItemsWithTags(IItemRepository itemRepo) : BaseEventHan
 {
     public override async Task Handle(ClientGetsAllItemsWithTagsDto dto, IWebSocketConnection socket)
     {
-        List<ItemDtoWithTags> itemsWithTags = await itemRepo.GetAllItemsWithTags();
+        List<ItemDtoWithTags> _itemsWithTags = await itemRepo.GetAllItemsWithTags();
 
         ServerSendsAllItemsWithTags responseDto = new ServerSendsAllItemsWithTags()
         {
             eventType = "ServerSendsAllItemsWithTags",
+            Message = "all items with tags?",
             requestId = dto.requestId,
-            itemsWithTags = itemsWithTags,
+            itemsWithTags = _itemsWithTags,
         };
         
         

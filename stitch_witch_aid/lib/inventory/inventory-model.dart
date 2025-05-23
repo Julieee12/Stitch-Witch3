@@ -1,6 +1,7 @@
 
 import 'package:dart_mappable/dart_mappable.dart';
-import 'package:stitch_witch_aid/root/tags.dart';
+
+import '../tag/tags-model.dart';
 
 part 'inventory-model.mapper.dart';
 
@@ -10,7 +11,7 @@ class InventoryItemModel with InventoryItemModelMappable{
   final String name;
   final String? description;
   final String? picurl;
-  final List<Tags>? tags;
+  List<TagDto>? tags = [];
 
   InventoryItemModel( {
     required this.id,
