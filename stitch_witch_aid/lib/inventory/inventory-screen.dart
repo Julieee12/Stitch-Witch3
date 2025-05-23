@@ -18,7 +18,7 @@ class InventoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<ItemBloc>().clientWantsToGetAllItems();
+      context.read<ItemBloc>().clientWantsToGetAllItemsWithTags();
 
     });
 
@@ -40,9 +40,6 @@ class InventoryScreen extends StatelessWidget {
                   crossAxisCount: 2,
                   crossAxisSpacing: 30,
                   mainAxisSpacing: 15,
-                  /*
-              * Get list of all items from the backend
-              * */
 
                   children: List.generate(state.items.length, (index) {
                     return GestureDetector(

@@ -31,6 +31,9 @@ class InventoryItemModelMapper extends ClassMapperBase<InventoryItemModel> {
   static String? _$picurl(InventoryItemModel v) => v.picurl;
   static const Field<InventoryItemModel, String> _f$picurl =
       Field('picurl', _$picurl);
+  static List<Tags>? _$tags(InventoryItemModel v) => v.tags;
+  static const Field<InventoryItemModel, List<Tags>> _f$tags =
+      Field('tags', _$tags, opt: true);
 
   @override
   final MappableFields<InventoryItemModel> fields = const {
@@ -38,6 +41,7 @@ class InventoryItemModelMapper extends ClassMapperBase<InventoryItemModel> {
     #name: _f$name,
     #description: _f$description,
     #picurl: _f$picurl,
+    #tags: _f$tags,
   };
 
   static InventoryItemModel _instantiate(DecodingData data) {
@@ -45,7 +49,8 @@ class InventoryItemModelMapper extends ClassMapperBase<InventoryItemModel> {
         id: data.dec(_f$id),
         name: data.dec(_f$name),
         description: data.dec(_f$description),
-        picurl: data.dec(_f$picurl));
+        picurl: data.dec(_f$picurl),
+        tags: data.dec(_f$tags));
   }
 
   @override
@@ -103,7 +108,13 @@ extension InventoryItemModelValueCopy<$R, $Out>
 
 abstract class InventoryItemModelCopyWith<$R, $In extends InventoryItemModel,
     $Out> implements ClassCopyWith<$R, $In, $Out> {
-  $R call({String? id, String? name, String? description, String? picurl});
+  ListCopyWith<$R, Tags, ObjectCopyWith<$R, Tags, Tags>>? get tags;
+  $R call(
+      {String? id,
+      String? name,
+      String? description,
+      String? picurl,
+      List<Tags>? tags});
   InventoryItemModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
       Then<$Out2, $R2> t);
 }
@@ -117,23 +128,32 @@ class _InventoryItemModelCopyWithImpl<$R, $Out>
   late final ClassMapperBase<InventoryItemModel> $mapper =
       InventoryItemModelMapper.ensureInitialized();
   @override
+  ListCopyWith<$R, Tags, ObjectCopyWith<$R, Tags, Tags>>? get tags =>
+      $value.tags != null
+          ? ListCopyWith($value.tags!,
+              (v, t) => ObjectCopyWith(v, $identity, t), (v) => call(tags: v))
+          : null;
+  @override
   $R call(
           {String? id,
           String? name,
           Object? description = $none,
-          Object? picurl = $none}) =>
+          Object? picurl = $none,
+          Object? tags = $none}) =>
       $apply(FieldCopyWithData({
         if (id != null) #id: id,
         if (name != null) #name: name,
         if (description != $none) #description: description,
-        if (picurl != $none) #picurl: picurl
+        if (picurl != $none) #picurl: picurl,
+        if (tags != $none) #tags: tags
       }));
   @override
   InventoryItemModel $make(CopyWithData data) => InventoryItemModel(
       id: data.get(#id, or: $value.id),
       name: data.get(#name, or: $value.name),
       description: data.get(#description, or: $value.description),
-      picurl: data.get(#picurl, or: $value.picurl));
+      picurl: data.get(#picurl, or: $value.picurl),
+      tags: data.get(#tags, or: $value.tags));
 
   @override
   InventoryItemModelCopyWith<$R2, InventoryItemModel, $Out2> $chain<$R2, $Out2>(

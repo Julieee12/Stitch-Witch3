@@ -4,7 +4,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:stitch_witch_aid/events/events.dart';
-import 'package:stitch_witch_aid/events/item-events/server-sends-all-tags-for-item-event.dart';
 import 'package:stitch_witch_aid/inventory/inventory-item-dto.dart';
 import 'package:stitch_witch_aid/inventory/inventory-model.dart';
 import 'package:uuid/uuid.dart';
@@ -24,16 +23,16 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
     on<ClientCreatesNewItemEvent>(_onClientEvent);
     on<ClientUpdatesItemEvent>(_onClientEvent);
     on<ClientDeletesItemEvent>(_onClientEvent);
-    on<ClientGetsAllTagsFromItemEvent>(_onClientEvent);
+    on<ClientGetsAllItemsWithTagsEvent>(_onClientEvent);
 
 
     ////////////////////Server event handlers////////////////////////
     on<ServerSendsAllItemsEvent>(_onServerSendsAllItems);
-    on<ServerSendsAllTagsFromItemEvent>(_onServerSendsAllTagsFromItem);
     on<ServerSendsErrorMessageEvent>(_onServerSendsErrorMessage);
     on<ServerSendsUpdatedItemEvent>(_onServerSendsUpdatedItem);
     on<ServerSendsCreatedItemEvent>(_onServerSendsCreatedItem);
     on<ServerDeletedItemEvent>(_onServerDeletedItem);
+    on<ServerSendsAllItemsWithTagsEvent>(_onServerSendsAllItemsWithTags);
 
     //feed deserialized events into this bloc
     //basically just listening to events
@@ -55,6 +54,13 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
     print("get all items event triggered");
     add(ClientGetsAllItemsEvent(
         eventType: ClientGetsAllItemsEvent.name,
+        requestId: Uuid().v4()));
+  }
+
+  void clientWantsToGetAllItemsWithTags(){
+    print("get all items **WITH TAGS** event triggered");
+    add(ClientGetsAllItemsWithTagsEvent(
+        eventType: ClientGetsAllItemsWithTagsEvent.name,
         requestId: Uuid().v4()));
   }
 
@@ -82,14 +88,6 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
         id: itemId,));
   }
 
-  void clientWantsToGetAllItemTagsFromItem(String itemId){
-    print("GETTIONG ALL TAGS");
-    add(ClientGetsAllTagsFromItemEvent(
-        eventType: ClientGetsAllTagsFromItemEvent.name,
-        requestId: Uuid().v4(),
-        id: itemId
-    ));
-  }
 
   FutureOr<void> _onClientEvent(BaseEvent event, Emitter<ItemState> emit){
     print("Some kind of client event triggered");
@@ -100,6 +98,15 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
 
   FutureOr<void> _onServerSendsAllItems(
       ServerSendsAllItemsEvent event,
+      Emitter<ItemState> emit) {
+    print("received state?");
+    state.items.clear();
+    state.items.addAll(event.items);
+    emit(state);
+  }
+
+  FutureOr<void> _onServerSendsAllItemsWithTags(
+      ServerSendsAllItemsWithTagsEvent event,
       Emitter<ItemState> emit) {
     print("received state?");
     state.items.clear();
@@ -144,15 +151,6 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
 
     emit(stateCopy);
 
-  }
-
-  FutureOr<void> _onServerSendsAllTagsFromItem(
-      ServerSendsAllTagsFromItemEvent event,
-      Emitter<ItemState> emit) {
-    print("received item tags?");
-    state.tagsForItem ?? state.tagsForItem!.clear() ;
-    state.tagsForItem!.addAll(event.tagsForItem);
-    emit(state);
   }
 
   FutureOr<void> _onServerSendsErrorMessage(

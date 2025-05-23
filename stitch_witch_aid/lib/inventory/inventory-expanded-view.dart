@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stitch_witch_aid/blocs/Item-bloc.dart';
 import 'package:stitch_witch_aid/inventory/inventory-model.dart';
 import 'package:stitch_witch_aid/inventory/item-state.dart';
-import 'package:stitch_witch_aid/inventory/item-tag-model.dart';
 
 import '../root/brand-colors.dart';
 import 'inventory-update-dialog.dart';
@@ -24,9 +23,9 @@ class _ItemExpandedViewState extends State<ItemExpandedView> {
     BlocProvider.of<ItemBloc>(context).state.items[widget.indexToUpdate];
 
     // Trigger tag fetching after build
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    /*WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<ItemBloc>().clientWantsToGetAllItemTagsFromItem(itemToUpdate.id);
-    });
+    });*/
 
     return BlocConsumer<ItemBloc, ItemState>(
       listener: (context, state) {
@@ -114,19 +113,19 @@ class _ItemExpandedViewState extends State<ItemExpandedView> {
                         color: BrandColors.purpleDark),
                   ),
                   const SizedBox(height: 10),
-                  if (state.tagsForItem != null && state.tagsForItem!.isNotEmpty)
+                  /*if (state.tagsForItem != null && state.tagsForItem!.isNotEmpty)
                     Wrap(
                       spacing: 8,
                       runSpacing: 8,
                       children: state.tagsForItem!
                           .map((tag) => Chip(
-                        label: Text(tag.itemId),
+                        label: Text("nothing yet"),
                         backgroundColor: BrandColors.purpleVeryLight,
                       ))
                           .toList(),
                     )
                   else
-                    const Text("No tags assigned."),
+                    const Text("No tags assigned."),*/
                 ],
               ),
             ),
