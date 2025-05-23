@@ -54,7 +54,8 @@ class InventoryScreen extends StatelessWidget {
                             id: state.items[index].id,
                             name: state.items[index].name,
                             description: state.items[index].description,
-                            picurl: state.items[index].picurl ),
+                            picurl: state.items[index].picurl,
+                            tags: [] ),
                         color: BrandColors.purpleSoft)
                     );
                   }),

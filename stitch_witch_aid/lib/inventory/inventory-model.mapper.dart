@@ -34,7 +34,7 @@ class InventoryItemModelMapper extends ClassMapperBase<InventoryItemModel> {
       Field('picurl', _$picurl);
   static List<TagDto>? _$tags(InventoryItemModel v) => v.tags;
   static const Field<InventoryItemModel, List<TagDto>> _f$tags =
-      Field('tags', _$tags, opt: true);
+      Field('tags', _$tags);
 
   @override
   final MappableFields<InventoryItemModel> fields = const {

@@ -23,19 +23,19 @@ class TagDtoMapper extends ClassMapperBase<TagDto> {
   static String _$tagTypeId(TagDto v) => v.tagTypeId;
   static const Field<TagDto, String> _f$tagTypeId =
       Field('tagTypeId', _$tagTypeId);
-  static String _$typeName(TagDto v) => v.typeName;
-  static const Field<TagDto, String> _f$typeName =
-      Field('typeName', _$typeName);
+  static String _$typename(TagDto v) => v.typename;
+  static const Field<TagDto, String> _f$typename =
+      Field('typename', _$typename);
 
   @override
   final MappableFields<TagDto> fields = const {
     #tagTypeId: _f$tagTypeId,
-    #typeName: _f$typeName,
+    #typename: _f$typename,
   };
 
   static TagDto _instantiate(DecodingData data) {
     return TagDto(
-        tagTypeId: data.dec(_f$tagTypeId), typeName: data.dec(_f$typeName));
+        tagTypeId: data.dec(_f$tagTypeId), typename: data.dec(_f$typename));
   }
 
   @override
@@ -84,7 +84,7 @@ extension TagDtoValueCopy<$R, $Out> on ObjectCopyWith<$R, TagDto, $Out> {
 
 abstract class TagDtoCopyWith<$R, $In extends TagDto, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
-  $R call({String? tagTypeId, String? typeName});
+  $R call({String? tagTypeId, String? typename});
   TagDtoCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -95,14 +95,14 @@ class _TagDtoCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, TagDto, $Out>
   @override
   late final ClassMapperBase<TagDto> $mapper = TagDtoMapper.ensureInitialized();
   @override
-  $R call({String? tagTypeId, String? typeName}) => $apply(FieldCopyWithData({
+  $R call({String? tagTypeId, String? typename}) => $apply(FieldCopyWithData({
         if (tagTypeId != null) #tagTypeId: tagTypeId,
-        if (typeName != null) #typeName: typeName
+        if (typename != null) #typename: typename
       }));
   @override
   TagDto $make(CopyWithData data) => TagDto(
       tagTypeId: data.get(#tagTypeId, or: $value.tagTypeId),
-      typeName: data.get(#typeName, or: $value.typeName));
+      typename: data.get(#typename, or: $value.typename));
 
   @override
   TagDtoCopyWith<$R2, TagDto, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>

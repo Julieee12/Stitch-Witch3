@@ -58,7 +58,7 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
   }
 
   void clientWantsToGetAllItemsWithTags(){
-    print("get all items **WITH TAGS** event triggered");
+    print("get all items ****WITH TAGS**** event triggered");
     add(ClientGetsAllItemsWithTagsEvent(
         eventType: ClientGetsAllItemsWithTagsEvent.name,
         requestId: Uuid().v4()));
@@ -108,11 +108,14 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
   FutureOr<void> _onServerSendsAllItemsWithTags(
       ServerSendsAllItemsWithTagsEvent event,
       Emitter<ItemState> emit) {
-    print("received items... WITH TAGS?!?!?!");
+    print("PLESASE GOT WORK -------------- TAGS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     state.items.clear();
     state.items.addAll(event.itemsWithTags);
     emit(state);
+
   }
+
+
 
   FutureOr<void> _onServerSendsUpdatedItem(
       ServerSendsUpdatedItemEvent event,

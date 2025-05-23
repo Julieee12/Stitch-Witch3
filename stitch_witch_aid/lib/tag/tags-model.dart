@@ -5,7 +5,7 @@ part 'tags-model.mapper.dart';
 @MappableClass()
 class TagDto with TagDtoMappable {
   String tagTypeId;
-  String typeName;
+  String typename;
 
-  TagDto({required this.tagTypeId, required this.typeName});
+  TagDto({required this.tagTypeId, required this.typename});
 }
