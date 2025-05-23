@@ -108,9 +108,9 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
   FutureOr<void> _onServerSendsAllItemsWithTags(
       ServerSendsAllItemsWithTagsEvent event,
       Emitter<ItemState> emit) {
-    print("received state?");
+    print("received items... WITH TAGS?!?!?!");
     state.items.clear();
-    state.items.addAll(event.items);
+    state.items.addAll(event.itemsWithTags);
     emit(state);
   }
 

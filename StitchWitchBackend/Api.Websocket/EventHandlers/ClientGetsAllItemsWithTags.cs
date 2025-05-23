@@ -16,10 +16,14 @@ public class ClientGetsAllItemsWithTags(IItemRepository itemRepo) : BaseEventHan
 
         ServerSendsAllItemsWithTags responseDto = new ServerSendsAllItemsWithTags()
         {
+            eventType = "ServerSendsAllItemsWithTags",
             requestId = dto.requestId,
             itemsWithTags = itemsWithTags,
         };
         
+        
         socket.SendDto(responseDto);
+        
+        Console.WriteLine("SENDING ITEMS WITH TAGGGSSSS");
     }
 }

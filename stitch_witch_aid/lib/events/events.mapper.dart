@@ -968,10 +968,11 @@ class ServerSendsAllItemsWithTagsEventMapper
   @override
   final String id = 'ServerSendsAllItemsWithTagsEvent';
 
-  static List<InventoryItemModel> _$items(ServerSendsAllItemsWithTagsEvent v) =>
-      v.items;
+  static List<InventoryItemModel> _$itemsWithTags(
+          ServerSendsAllItemsWithTagsEvent v) =>
+      v.itemsWithTags;
   static const Field<ServerSendsAllItemsWithTagsEvent, List<InventoryItemModel>>
-      _f$items = Field('items', _$items);
+      _f$itemsWithTags = Field('itemsWithTags', _$itemsWithTags);
   static String _$eventType(ServerSendsAllItemsWithTagsEvent v) => v.eventType;
   static const Field<ServerSendsAllItemsWithTagsEvent, String> _f$eventType =
       Field('eventType', _$eventType);
@@ -981,7 +982,7 @@ class ServerSendsAllItemsWithTagsEventMapper
 
   @override
   final MappableFields<ServerSendsAllItemsWithTagsEvent> fields = const {
-    #items: _f$items,
+    #itemsWithTags: _f$itemsWithTags,
     #eventType: _f$eventType,
     #requestId: _f$requestId,
   };
@@ -995,7 +996,7 @@ class ServerSendsAllItemsWithTagsEventMapper
 
   static ServerSendsAllItemsWithTagsEvent _instantiate(DecodingData data) {
     return ServerSendsAllItemsWithTagsEvent(
-        items: data.dec(_f$items),
+        itemsWithTags: data.dec(_f$itemsWithTags),
         eventType: data.dec(_f$eventType),
         requestId: data.dec(_f$requestId));
   }
@@ -1067,10 +1068,12 @@ abstract class ServerSendsAllItemsWithTagsEventCopyWith<
       $R,
       InventoryItemModel,
       InventoryItemModelCopyWith<$R, InventoryItemModel,
-          InventoryItemModel>> get items;
+          InventoryItemModel>> get itemsWithTags;
   @override
   $R call(
-      {List<InventoryItemModel>? items, String? eventType, String? requestId});
+      {List<InventoryItemModel>? itemsWithTags,
+      String? eventType,
+      String? requestId});
   ServerSendsAllItemsWithTagsEventCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
       Then<$Out2, $R2> t);
 }
@@ -1091,22 +1094,24 @@ class _ServerSendsAllItemsWithTagsEventCopyWithImpl<$R, $Out>
       $R,
       InventoryItemModel,
       InventoryItemModelCopyWith<$R, InventoryItemModel,
-          InventoryItemModel>> get items => ListCopyWith(
-      $value.items, (v, t) => v.copyWith.$chain(t), (v) => call(items: v));
+          InventoryItemModel>> get itemsWithTags => ListCopyWith(
+      $value.itemsWithTags,
+      (v, t) => v.copyWith.$chain(t),
+      (v) => call(itemsWithTags: v));
   @override
   $R call(
-          {List<InventoryItemModel>? items,
+          {List<InventoryItemModel>? itemsWithTags,
           String? eventType,
           String? requestId}) =>
       $apply(FieldCopyWithData({
-        if (items != null) #items: items,
+        if (itemsWithTags != null) #itemsWithTags: itemsWithTags,
         if (eventType != null) #eventType: eventType,
         if (requestId != null) #requestId: requestId
       }));
   @override
   ServerSendsAllItemsWithTagsEvent $make(CopyWithData data) =>
       ServerSendsAllItemsWithTagsEvent(
-          items: data.get(#items, or: $value.items),
+          itemsWithTags: data.get(#itemsWithTags, or: $value.itemsWithTags),
           eventType: data.get(#eventType, or: $value.eventType),
           requestId: data.get(#requestId, or: $value.requestId));
 

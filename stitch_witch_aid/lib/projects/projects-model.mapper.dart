@@ -45,8 +45,8 @@ class ProjectItemModelMapper extends ClassMapperBase<ProjectItemModel> {
   static double? _$time(ProjectItemModel v) => v.time;
   static const Field<ProjectItemModel, double> _f$time =
       Field('time', _$time, opt: true);
-  static List<TagDto>? _$tags(ProjectItemModel v) => v.tags;
-  static const Field<ProjectItemModel, List<TagDto>> _f$tags =
+  static List<TagType>? _$tags(ProjectItemModel v) => v.tags;
+  static const Field<ProjectItemModel, List<TagType>> _f$tags =
       Field('tags', _$tags, opt: true);
 
   @override
@@ -132,7 +132,7 @@ extension ProjectItemModelValueCopy<$R, $Out>
 
 abstract class ProjectItemModelCopyWith<$R, $In extends ProjectItemModel, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
-  ListCopyWith<$R, TagDto, TagDtoCopyWith<$R, TagDto, TagDto>>? get tags;
+  ListCopyWith<$R, TagType, TagDtoCopyWith<$R, TagType, TagType>>? get tags;
   $R call(
       {String? id,
       String? name,
@@ -143,7 +143,7 @@ abstract class ProjectItemModelCopyWith<$R, $In extends ProjectItemModel, $Out>
       String? yarn,
       String? hook,
       double? time,
-      List<TagDto>? tags});
+      List<TagType>? tags});
   ProjectItemModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
       Then<$Out2, $R2> t);
 }
@@ -157,7 +157,7 @@ class _ProjectItemModelCopyWithImpl<$R, $Out>
   late final ClassMapperBase<ProjectItemModel> $mapper =
       ProjectItemModelMapper.ensureInitialized();
   @override
-  ListCopyWith<$R, TagDto, TagDtoCopyWith<$R, TagDto, TagDto>>? get tags =>
+  ListCopyWith<$R, TagType, TagDtoCopyWith<$R, TagType, TagType>>? get tags =>
       $value.tags != null
           ? ListCopyWith($value.tags!, (v, t) => v.copyWith.$chain(t),
               (v) => call(tags: v))
@@ -405,8 +405,8 @@ class UpdateProjectDtoMapper extends ClassMapperBase<UpdateProjectDto> {
   static double? _$time(UpdateProjectDto v) => v.time;
   static const Field<UpdateProjectDto, double> _f$time =
       Field('time', _$time, opt: true);
-  static List<TagDto> _$tagsDtos(UpdateProjectDto v) => v.tagsDtos;
-  static const Field<UpdateProjectDto, List<TagDto>> _f$tagsDtos =
+  static List<TagType> _$tagsDtos(UpdateProjectDto v) => v.tagsDtos;
+  static const Field<UpdateProjectDto, List<TagType>> _f$tagsDtos =
       Field('tagsDtos', _$tagsDtos);
 
   @override
@@ -494,7 +494,7 @@ extension UpdateProjectDtoValueCopy<$R, $Out>
 
 abstract class UpdateProjectDtoCopyWith<$R, $In extends UpdateProjectDto, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
-  ListCopyWith<$R, TagDto, TagDtoCopyWith<$R, TagDto, TagDto>> get tagsDtos;
+  ListCopyWith<$R, TagType, TagDtoCopyWith<$R, TagType, TagType>> get tagsDtos;
   $R call(
       {String? id,
       String? name,
@@ -506,7 +506,7 @@ abstract class UpdateProjectDtoCopyWith<$R, $In extends UpdateProjectDto, $Out>
       String? yarn,
       String? hook,
       double? time,
-      List<TagDto>? tagsDtos});
+      List<TagType>? tagsDtos});
   UpdateProjectDtoCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
       Then<$Out2, $R2> t);
 }
@@ -520,7 +520,7 @@ class _UpdateProjectDtoCopyWithImpl<$R, $Out>
   late final ClassMapperBase<UpdateProjectDto> $mapper =
       UpdateProjectDtoMapper.ensureInitialized();
   @override
-  ListCopyWith<$R, TagDto, TagDtoCopyWith<$R, TagDto, TagDto>> get tagsDtos =>
+  ListCopyWith<$R, TagType, TagDtoCopyWith<$R, TagType, TagType>> get tagsDtos =>
       ListCopyWith($value.tagsDtos, (v, t) => v.copyWith.$chain(t),
           (v) => call(tagsDtos: v));
   @override
@@ -535,7 +535,7 @@ class _UpdateProjectDtoCopyWithImpl<$R, $Out>
           Object? yarn = $none,
           Object? hook = $none,
           Object? time = $none,
-          List<TagDto>? tagsDtos}) =>
+          List<TagType>? tagsDtos}) =>
       $apply(FieldCopyWithData({
         if (id != null) #id: id,
         if (name != null) #name: name,

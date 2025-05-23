@@ -84,29 +84,5 @@ public class ItemRepository(StitchWitchDbContext context) : IItemRepository
         await context.SaveChangesAsync();
     }
     
-    /////////////////// item TAGS /////////////////////
-    
-    public async Task<List<ItemTag>> GetAllItemTags()
-    {
-        return await context.ItemTags.ToListAsync();
-    }
-    
-    public async Task<List<ItemTag>> GetTagsForItem(string itemId)
-    {
-        return await context.ItemTags.Where(t => t.Itemid == itemId).ToListAsync();
-    }
-    
-    public async Task AddItemTag(ItemTag item)
-    {
-        await context.ItemTags.AddAsync(item);
-        await context.SaveChangesAsync();
-    }
-    
-    public async Task DeleteItemTag(string itemId, string tagId)
-    {
-        ItemTag itemTagToDelete = context.ItemTags.Where(t => t.Itemid == itemId && t.Tagid == tagId).SingleOrDefault();
-        context.ItemTags.Remove(itemTagToDelete);
-        await context.SaveChangesAsync();
-    }
     
 }

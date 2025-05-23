@@ -72,9 +72,9 @@ class ServerSendsAllItemsEvent extends BaseEvent with ServerSendsAllItemsEventMa
 @MappableClass(discriminatorValue: ServerSendsAllItemsWithTagsEvent.name)
 class ServerSendsAllItemsWithTagsEvent extends BaseEvent with ServerSendsAllItemsWithTagsEventMappable {
   static const String name = "ServerSendsAllItemsWithTags";
-  final List<InventoryItemModel> items;
+  final List<InventoryItemModel> itemsWithTags;
 
-  ServerSendsAllItemsWithTagsEvent({required this.items, required super.eventType, required super.requestId});
+  ServerSendsAllItemsWithTagsEvent({required this.itemsWithTags, required super.eventType, required super.requestId});
 }
 
 
