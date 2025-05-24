@@ -29,8 +29,9 @@ class _CounterScreenState extends State<CounterScreen> {
   //presumably We're going to have 2 characteristics
   // (one to read from and another to Write to, probably on the same service)
   // these are 2 placeholder IDs for those
-  final String characteristic1UUID = "DFCD000A-36E1-4688-B7F5-EA07361B26A8";
-  final String characteristic2UUID = "DFCD0002-36E1-4688-B7F5-EA07361B26A8";
+  final String characteristicXUUID = "87654321-4321-4321-4321-210987654329";
+  final String characteristicYUUID = "87654321-4321-4321-4321-210987654328";
+  final String characteristicZUUID = "87654321-4321-4321-4321-210987654327";
 
   //timer variables
   Timer? _timer;
@@ -99,7 +100,7 @@ class _CounterScreenState extends State<CounterScreen> {
                       Text("BLUETOOTH ON"),
                       ElevatedButton(
                           onPressed: () async {
-                            await doStuff();
+                            await bleConnection();
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: BrandColors.purpleDark,
@@ -402,7 +403,7 @@ class _CounterScreenState extends State<CounterScreen> {
   ////////////////////////////////////////////////////////////////
 
   //test method doing all the basic functionality
-  Future<void> doStuff() async {
+  Future<void> bleConnection() async {
     await tryConnectToBluetooth();
 
     //delay so that there r no errors caused by the previous process not being done
@@ -423,9 +424,16 @@ class _CounterScreenState extends State<CounterScreen> {
 
     //await getCharacteristic(characteristic1UUID, stitchWitch);
 
-    await getCharacteristicAndSubscribe(characteristic1UUID, stitchWitch);
+    await getCharacteristicAndSubscribe(characteristicXUUID, stitchWitch);
+    Future.delayed(const Duration(seconds: 1));
+    await getCharacteristicAndSubscribe(characteristicYUUID, stitchWitch);
+    Future.delayed(const Duration(seconds: 1));
+    await getCharacteristicAndSubscribe(characteristicZUUID, stitchWitch);
+    Future.delayed(const Duration(seconds: 1));
 
-    await writeStitchCount(stitchWitch, 200, characteristic2UUID); //check serial plotter on Arduino IDE to see if value was recieved
+
+
+    // await writeStitchCount(stitchWitch, 200, characteristic2UUID); //check serial plotter on Arduino IDE to see if value was recieved
 
   }
 
