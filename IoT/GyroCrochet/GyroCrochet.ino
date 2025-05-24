@@ -17,7 +17,26 @@ int16_t gx, gy, gz;
 #define SERVICE_UUID        "12345678-1234-1234-1234-123456789012"
 #define CHARACTERISTIC_UUID "87654321-4321-4321-4321-210987654321"
 
-BLECharacteristic sensorCharacteristic(CHARACTERISTIC_UUID, BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY);
+BLECharacteristic xCharacteristic("0001", BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY | BLECharacteristic::PROPERTY_WRITE);
+BLECharacteristic yCharacteristic("0002", BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY | BLECharacteristic::PROPERTY_WRITE);
+BLECharacteristic zCharacteristic("0003", BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY | BLECharacteristic::PROPERTY_WRITE);
+BLECharacteristic cuntCharacteristic("0004", BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY | BLECharacteristic::PROPERTY_WRITE);
+
+
+
+bool deviceConnected = false; 
+
+class MyServerCallbacks: public BLEServerCallbacks {
+    void onConnect(BLEServer* pServer) {
+      deviceConnected = true;
+    };
+
+    void onDisconnect(BLEServer* pServer) {
+      deviceConnected = false;
+    }
+};
+
+
 
 struct MyData {
   int16_t ax;
@@ -49,8 +68,12 @@ void setup() {
   // Initialize BLE
   BLEDevice::init("Stitch Witch");
   BLEServer *pServer = BLEDevice::createServer();
+  pServer->setCallbacks(new MyServerCallbacks());
   BLEService *pService = pServer->createService(SERVICE_UUID);
-  pService->addCharacteristic(&sensorCharacteristic);
+  pService->addCharacteristic(&xCharacteristic);
+  pService->addCharacteristic(&yCharacteristic);
+  pService->addCharacteristic(&zCharacteristic);
+  pService->addCharacteristic(&cuntCharacteristic);
   pService->start();
   BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
   pAdvertising->addServiceUUID(SERVICE_UUID);
@@ -68,7 +91,9 @@ void setup() {
 }
 
 void loop() {
-  mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
+
+  if (deviceConnected) {
+ mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
 
   data.ax = ax;
   data.ay = ay;
@@ -78,9 +103,12 @@ void loop() {
   Serial.print("  AY = "); Serial.print(data.ay);
   Serial.print("  AZ = "); Serial.println(data.az);
 
-  // Send raw data via BLE
-  sensorCharacteristic.setValue((uint8_t *)&data, sizeof(data));
-  sensorCharacteristic.notify();
+  // // Send raw data via BLE
+  // sensorCharacteristic.setValue((uint8_t *)&data, sizeof(data));
+  // sensorCharacteristic.notify();
 
   delay(100);
+
+  }
+ 
 }
