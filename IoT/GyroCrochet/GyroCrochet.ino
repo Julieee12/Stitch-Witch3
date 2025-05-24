@@ -103,17 +103,22 @@ void loop() {
   Serial.print("  AY = "); Serial.print(data.ay);
   Serial.print("  AZ = "); Serial.println(data.az);
 
-xCharacteristic->setValue(data.ax);
-    xCharacteristic->notify();
+int axVal = data.ax;
+int ayVal = data.ay;
+int azVal = data.az;
+int cuntVal = 10;
 
-yCharacteristic->setValue(data.ay);
-    yCharacteristic->notify();
+xCharacteristic.setValue(axVal);
+yCharacteristic.setValue(ayVal);
+zCharacteristic.setValue(azVal);
+cuntCharacteristic.setValue(cuntVal);
 
-zCharacteristic->setValue(data.az);
-    zCharacteristic->notify();
+xCharacteristic.notify();
+yCharacteristic.notify();
+zCharacteristic.notify();
+cuntCharacteristic.notify();
 
-cuntCharacteristic->setValue(10);
-    cuntCharacteristic->notify();
+
   // // Send raw data via BLE
   // sensorCharacteristic.setValue((uint8_t *)&data, sizeof(data));
   // sensorCharacteristic.notify();
