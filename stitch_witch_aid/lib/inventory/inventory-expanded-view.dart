@@ -118,10 +118,11 @@ class _ItemExpandedViewState extends State<ItemExpandedView> {
                         crossAxisCount: itemToUpdate.tags!.length,
                         crossAxisSpacing: 20,
                         mainAxisSpacing: 2,
-                        childAspectRatio: 4,
+                        childAspectRatio: 5,
                       children: List.generate(itemToUpdate.tags!.length, (index) {
                         return ButtonTheme(
-                          height: 10,
+                          height: 5,
+                          minWidth: 10,
                           child: FilledButton(
                             onPressed: () {},
                             style: FilledButton.styleFrom(
@@ -129,7 +130,7 @@ class _ItemExpandedViewState extends State<ItemExpandedView> {
                             ),
                             child: Text(
                               itemToUpdate.tags![index].typename,
-                              style: TextStyle(fontSize: 12,),),
+                              style: TextStyle(fontSize: 15,),),
                           ),
                         );
                       }),
