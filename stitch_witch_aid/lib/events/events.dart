@@ -1,6 +1,6 @@
 
 import 'package:dart_mappable/dart_mappable.dart';
-import 'package:stitch_witch_aid/counter/coordinates-model.dart';
+
 import 'package:stitch_witch_aid/inventory/inventory-item-dto.dart';
 
 import '../inventory/inventory-model.dart';
@@ -16,32 +16,9 @@ abstract class BaseEvent with BaseEventMappable {
   BaseEvent({required this.eventType, required this.requestId});
 }
 
-
 ///////////////////////////////////
 ////////// Client events //////////
 ///////////////////////////////////
-
-///////////// Counter events //////////////
-
-@MappableClass(discriminatorValue: ClientSendsCoordinatesEvent.name)
-class ClientSendsCoordinatesEvent extends BaseEvent with ClientSendsCoordinatesEventMappable{
-  static const String name = "ClientSendsCoordinates";
-  final CoordinatesModel coordinates;
-
-  ClientSendsCoordinatesEvent({required super.eventType, required super.requestId, required this.coordinates});
-
-}
-
-@MappableClass(discriminatorValue: ServerSendsCoordsEvent.name)
-class ServerSendsCoordsEvent extends BaseEvent with ServerSendsCoordsEventMappable {
-  static const String name = "ClientSendsCoordinates";
-  final List<CoordinatesModel> coordinates;
-  final CoordinatesModel latestCoords;
-  final bool stitchCounted;
-
-  ServerSendsCoordsEvent({required super.eventType, required super.requestId, required this.coordinates, required this.latestCoords, required this.stitchCounted});
-}
-
 
 ///////// Item events ////////////
 @MappableClass(discriminatorValue: ClientGetsAllItemsEvent.name)

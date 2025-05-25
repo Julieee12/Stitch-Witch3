@@ -29,9 +29,11 @@ class _CounterScreenState extends State<CounterScreen> {
   //presumably We're going to have 2 characteristics
   // (one to read from and another to Write to, probably on the same service)
   // these are 2 placeholder IDs for those
-  final String characteristicXUUID = "87654321-4321-4321-4321-210987654329";
-  final String characteristicYUUID = "87654321-4321-4321-4321-210987654328";
-  final String characteristicZUUID = "87654321-4321-4321-4321-210987654327";
+  final serviceUuid = Guid("12345678-1234-1234-1234-123456789012");
+  final xCharUuid = Guid("0001");
+  final yCharUuid = Guid("0002");
+  final zCharUuid = Guid("0003");
+  final cuntCharUuid = Guid("0004");
 
   //timer variables
   Timer? _timer;
@@ -424,12 +426,9 @@ class _CounterScreenState extends State<CounterScreen> {
 
     //await getCharacteristic(characteristic1UUID, stitchWitch);
 
-    await getCharacteristicAndSubscribe(characteristicXUUID, stitchWitch);
-    Future.delayed(const Duration(seconds: 1));
-    await getCharacteristicAndSubscribe(characteristicYUUID, stitchWitch);
-    Future.delayed(const Duration(seconds: 1));
-    await getCharacteristicAndSubscribe(characteristicZUUID, stitchWitch);
-    Future.delayed(const Duration(seconds: 1));
+    await getCharacteristicAndSubscribe(xCharUuid.toString(), stitchWitch);
+    await getCharacteristicAndSubscribe(yCharUuid.toString(), stitchWitch);
+    await getCharacteristicAndSubscribe(zCharUuid.toString(), stitchWitch);
 
 
 
@@ -545,34 +544,58 @@ class _CounterScreenState extends State<CounterScreen> {
     List<BluetoothService> services = await device.discoverServices();
     services.forEach( (service) async {
 
-      // Reads all characteristics
-      var characteristics = service.characteristics;
-      for(BluetoothCharacteristic c in characteristics) {
-        if (c.properties.read) {
-          List<int> value = await c.read();
-          print("CHARACTERISTIC: ${c.uuid}");
-          print("IN SERVICE: ${service.uuid}");
-          print(value);
+      try {
+        // discover services (which contain characteristics)
+        List<BluetoothService> services = await device.discoverServices();
+        bool characteristicFound = false;
 
-          if(c.uuid.toString() == UUID.toLowerCase()){
-            print("SUBSCRIBING!!");
-            subscribeToCharacteristic(c);
+        for (BluetoothService service in services) {
+          print("SERVICE: ${service.uuid}");
+
+          // Check all characteristics in this service
+          for(BluetoothCharacteristic c in service.characteristics) {
+            print("  CHARACTERISTIC: ${c.uuid}");
+            print("  PROPERTIES: read=${c.properties.read}, notify=${c.properties.notify}, write=${c.properties.write}");
+
+            if(c.uuid.toString().toLowerCase() == UUID.toLowerCase()){
+              print("✅ Found characteristic ${UUID}");
+              characteristicFound = true;
+              await subscribeToCharacteristic(c);
+              break;
+            }
           }
 
+          if (characteristicFound) break;
         }
-      }
 
-    } );
+        if (!characteristicFound) {
+      print("❌ [$UUID] Characteristic not found.");
+    }
+
+  } catch (e) {
+  print("Error in getCharacteristicAndSubscribe: $e");
   }
-
+  });
+  }
   //so We can listen for any neW values (on Notify)
   Future<void> subscribeToCharacteristic(BluetoothCharacteristic characteristic) async {
     //code to be executed When the characteristic gets a neW value (notify called)
     final subscription = characteristic.onValueReceived.listen((value) {
-      print("RECIEVING NE VALUE!!!!!!!!!!");
-      print("VALUE: ");
-      print(value.first);
-      //values.add(value.first);
+      print("RECEIVING NEW VALUE FOR ${characteristic.uuid}!!!!!!!!!!");
+
+      // Convert bytes back to int16_t (2 bytes, little endian)
+      if (value.length >= 2) {
+        int intValue = value[0] | (value[1] << 8);
+        // Handle signed 16-bit values
+        if (intValue > 32767) {
+          intValue = intValue - 65536;
+        }
+        print("CHARACTERISTIC ${characteristic.uuid}: $intValue");
+      } else if (value.length == 1) {
+        print("CHARACTERISTIC ${characteristic.uuid}: ${value[0]}");
+      } else {
+        print("RAW BYTES: $value");
+      }
     });
 
     //subscribe
