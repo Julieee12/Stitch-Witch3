@@ -1,5 +1,9 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_field/image_field.dart';
 import 'package:stitch_witch_aid/projects/project-bloc.dart';
 import 'package:stitch_witch_aid/projects/projects-model.dart';
 import 'package:stitch_witch_aid/projects/projects-state.dart';
@@ -19,8 +23,8 @@ class _AddProjectDialogState extends State<ProjectsDialog> {
 
   late String _name;
   late String _description;
+  late String _image;
   late String _tag;
-  late String _picture;
   late String _yarn;
   late String _hook;
 
@@ -29,8 +33,8 @@ class _AddProjectDialogState extends State<ProjectsDialog> {
     super.initState();
     _name = '';
     _description = ''; // Optional
+    _image = ''; // Optional
     _tag = ''; // Optional
-    _picture = ''; // Optional
     _yarn = ''; // Optional
     _hook = ''; // Optional
   }
@@ -95,6 +99,20 @@ class _AddProjectDialogState extends State<ProjectsDialog> {
                 ),
                 const SizedBox(height: 15),
 
+                ImageField(
+                  enabledCaption: false,
+                  multipleUpload: false,
+                  cardinality: 1,
+                  onSave: (List<ImageAndCaptionModel>? imageAndCaptionList) {
+                    ImageAndCaptionModel? firstImage = imageAndCaptionList?.elementAt(0);
+                    if (firstImage != null) {
+                      String base64Image = base64Encode(firstImage.file);
+
+                      _image = base64Image;
+                    }
+                  },
+                ),
+
                 // Tag input field (optional)
                 TextFormField(
                   decoration: InputDecoration(
@@ -108,20 +126,6 @@ class _AddProjectDialogState extends State<ProjectsDialog> {
                   onChanged: (value) => _tag = value, // Optional
                 ),
                 const SizedBox(height: 15),
-
-                // Picture URL input field (optional)
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: 'Picture (optional)',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    filled: true,
-                    fillColor: BrandColors.purpleVeryLight,
-                  ),
-                  onChanged: (value) => _picture = value, // Optional
-                ),
-                const SizedBox(height: 20),
 
                 // Yarn type input field (optional)
                 TextFormField(
@@ -183,7 +187,7 @@ class _AddProjectDialogState extends State<ProjectsDialog> {
                           name: _name,
                           description: _description,
                           tag: _tag,
-                          picurl: _picture,
+                          image: _image,
                           yarn: _yarn,
                           hook: _hook
                         );

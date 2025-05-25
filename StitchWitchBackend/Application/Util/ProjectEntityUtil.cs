@@ -12,7 +12,7 @@ public class ProjectEntityUtil
             Name = createNewProjectDto.Name,
             Stitch = 0,
             Row = 0,
-            Picurl = createNewProjectDto.Picurl,
+            Picurl = createNewProjectDto.Image,
             Description = createNewProjectDto.Description,
             Yarn = createNewProjectDto.Yarn,
             Hook = createNewProjectDto.Hook,

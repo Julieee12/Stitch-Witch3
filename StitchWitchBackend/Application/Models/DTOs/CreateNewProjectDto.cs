@@ -4,7 +4,7 @@ public class CreateNewProjectDto
 {
     public string Name { get; set; } = null!;
     
-    public string? Picurl { get; set; }
+    public string? Image { get; set; }
 
     public string? Description { get; set; }
 

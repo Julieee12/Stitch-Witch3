@@ -225,9 +225,9 @@ class CreateNewProjectDtoMapper extends ClassMapperBase<CreateNewProjectDto> {
   static String? _$tag(CreateNewProjectDto v) => v.tag;
   static const Field<CreateNewProjectDto, String> _f$tag =
       Field('tag', _$tag, opt: true);
-  static String? _$picurl(CreateNewProjectDto v) => v.picurl;
-  static const Field<CreateNewProjectDto, String> _f$picurl =
-      Field('picurl', _$picurl, opt: true);
+  static String? _$image(CreateNewProjectDto v) => v.image;
+  static const Field<CreateNewProjectDto, String> _f$image =
+      Field('image', _$image, opt: true);
   static String? _$description(CreateNewProjectDto v) => v.description;
   static const Field<CreateNewProjectDto, String> _f$description =
       Field('description', _$description, opt: true);
@@ -242,7 +242,7 @@ class CreateNewProjectDtoMapper extends ClassMapperBase<CreateNewProjectDto> {
   final MappableFields<CreateNewProjectDto> fields = const {
     #name: _f$name,
     #tag: _f$tag,
-    #picurl: _f$picurl,
+    #image: _f$image,
     #description: _f$description,
     #yarn: _f$yarn,
     #hook: _f$hook,
@@ -252,7 +252,7 @@ class CreateNewProjectDtoMapper extends ClassMapperBase<CreateNewProjectDto> {
     return CreateNewProjectDto(
         name: data.dec(_f$name),
         tag: data.dec(_f$tag),
-        picurl: data.dec(_f$picurl),
+        image: data.dec(_f$image),
         description: data.dec(_f$description),
         yarn: data.dec(_f$yarn),
         hook: data.dec(_f$hook));
@@ -316,7 +316,7 @@ abstract class CreateNewProjectDtoCopyWith<$R, $In extends CreateNewProjectDto,
   $R call(
       {String? name,
       String? tag,
-      String? picurl,
+      String? image,
       String? description,
       String? yarn,
       String? hook});
@@ -336,14 +336,14 @@ class _CreateNewProjectDtoCopyWithImpl<$R, $Out>
   $R call(
           {String? name,
           Object? tag = $none,
-          Object? picurl = $none,
+          Object? image = $none,
           Object? description = $none,
           Object? yarn = $none,
           Object? hook = $none}) =>
       $apply(FieldCopyWithData({
         if (name != null) #name: name,
         if (tag != $none) #tag: tag,
-        if (picurl != $none) #picurl: picurl,
+        if (image != $none) #image: image,
         if (description != $none) #description: description,
         if (yarn != $none) #yarn: yarn,
         if (hook != $none) #hook: hook
@@ -352,7 +352,7 @@ class _CreateNewProjectDtoCopyWithImpl<$R, $Out>
   CreateNewProjectDto $make(CopyWithData data) => CreateNewProjectDto(
       name: data.get(#name, or: $value.name),
       tag: data.get(#tag, or: $value.tag),
-      picurl: data.get(#picurl, or: $value.picurl),
+      image: data.get(#image, or: $value.image),
       description: data.get(#description, or: $value.description),
       yarn: data.get(#yarn, or: $value.yarn),
       hook: data.get(#hook, or: $value.hook));

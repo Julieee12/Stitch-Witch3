@@ -1,5 +1,6 @@
 using Api.Websocket.ServerResponses;
 using Application.Infrastructure.Postgres.Interfaces;
+using Application.Interfaces;
 using Application.Models.DTOs;
 using Fleck;
 using WebSocketBoilerplate;
@@ -11,12 +12,18 @@ public class ClientCreatesNewProjectDto : BaseDto
     public CreateNewProjectDto CreateNewProjectDto { get; set; } = null!;
 }
 
-public class ClientCreatesNewProject(IProjectRepository projectRepository) : BaseEventHandler<ClientCreatesNewProjectDto>
+public class ClientCreatesNewProject(IProjectRepository projectRepository, IMediaHostingService mediaHostingService) : BaseEventHandler<ClientCreatesNewProjectDto>
 {
     public override async Task Handle(ClientCreatesNewProjectDto dto, IWebSocketConnection socket)
     {
+        var image = dto.CreateNewProjectDto.Image;
+        if (image != null)
+        {
+            dto.CreateNewProjectDto.Image = await mediaHostingService.UploadMedia(image);
+        }
+        
         var projectDto = await projectRepository.CreateNewProjectAsync(dto.CreateNewProjectDto);
-
+        
         var serverResponse = new ServerSendsCreatedProject
         {
             requestId = dto.requestId,

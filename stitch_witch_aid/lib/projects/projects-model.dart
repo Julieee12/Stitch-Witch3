@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dart_mappable/dart_mappable.dart';
 
 import '../tag/tags-model.dart';
@@ -34,7 +36,7 @@ class ProjectItemModel with ProjectItemModelMappable {
 class CreateNewProjectDto with CreateNewProjectDtoMappable {
   String name;
   String? tag;
-  String? picurl;
+  String? image;
   String? description;
   String? yarn;
   String? hook;
@@ -42,7 +44,7 @@ class CreateNewProjectDto with CreateNewProjectDtoMappable {
   CreateNewProjectDto({
     required this.name,
     this.tag,
-    this.picurl,
+    this.image,
     this.description,
     this.yarn,
     this.hook});
