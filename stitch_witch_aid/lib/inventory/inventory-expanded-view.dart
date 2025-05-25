@@ -21,11 +21,7 @@ class _ItemExpandedViewState extends State<ItemExpandedView> {
   Widget build(BuildContext context) {
     InventoryItemModel itemToUpdate =
     BlocProvider.of<ItemBloc>(context).state.items[widget.indexToUpdate];
-
-    // Trigger tag fetching after build
-    /*WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<ItemBloc>().clientWantsToGetAllItemTagsFromItem(itemToUpdate.id);
-    });*/
+    
 
     return BlocConsumer<ItemBloc, ItemState>(
       listener: (context, state) {
@@ -113,6 +109,34 @@ class _ItemExpandedViewState extends State<ItemExpandedView> {
                         color: BrandColors.purpleDark),
                   ),
                   const SizedBox(height: 10),
+                  ////////////// TAGS /////////////////
+
+                  itemToUpdate.tags != null && itemToUpdate.tags!.isNotEmpty ?
+                  Container(
+                    height: 100,
+                    child: GridView.count(
+                        crossAxisCount: itemToUpdate.tags!.length,
+                        crossAxisSpacing: 20,
+                        mainAxisSpacing: 2,
+                        childAspectRatio: 4,
+                      children: List.generate(itemToUpdate.tags!.length, (index) {
+                        return ButtonTheme(
+                          height: 10,
+                          child: FilledButton(
+                            onPressed: () {},
+                            style: FilledButton.styleFrom(
+                              backgroundColor: BrandColors.purpleLight,
+                            ),
+                            child: Text(
+                              itemToUpdate.tags![index].typename,
+                              style: TextStyle(fontSize: 12,),),
+                          ),
+                        );
+                      }),
+                    ),
+                  )
+                : const SizedBox(height: 1,),
+                  
                   /*if (state.tagsForItem != null && state.tagsForItem!.isNotEmpty)
                     Wrap(
                       spacing: 8,
