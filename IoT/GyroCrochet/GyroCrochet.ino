@@ -17,10 +17,10 @@ int16_t gx, gy, gz;
 #define SERVICE_UUID        "12345678-1234-1234-1234-123456789012"
 #define CHARACTERISTIC_UUID "87654321-4321-4321-4321-210987654321"
 
-BLECharacteristic xCharacteristic("0001", BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY | BLECharacteristic::PROPERTY_WRITE);
-BLECharacteristic yCharacteristic("0002", BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY | BLECharacteristic::PROPERTY_WRITE);
-BLECharacteristic zCharacteristic("0003", BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY | BLECharacteristic::PROPERTY_WRITE);
-BLECharacteristic cuntCharacteristic("0004", BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY | BLECharacteristic::PROPERTY_WRITE);
+BLECharacteristic xCharacteristic("87654321-4321-4321-4321-210987654329", BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY | BLECharacteristic::PROPERTY_WRITE);
+BLECharacteristic yCharacteristic("87654321-4321-4321-4321-210987654328", BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY | BLECharacteristic::PROPERTY_WRITE);
+BLECharacteristic zCharacteristic("87654321-4321-4321-4321-210987654327", BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY | BLECharacteristic::PROPERTY_WRITE);
+BLECharacteristic cuntCharacteristic("87654321-4321-4321-4321-210987654326", BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY | BLECharacteristic::PROPERTY_WRITE);
 
 
 
@@ -90,38 +90,41 @@ void setup() {
   display.display();
 }
 
-
-
 void loop() {
+
   if (deviceConnected) {
-    mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
+ mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
 
-    data.ax = ax;
-    data.ay = ay;
-    data.az = az;
+  data.ax = ax;
+  data.ay = ay;
+  data.az = az;
 
-    Serial.print("Raw AX = "); Serial.print(data.ax);
-    Serial.print("  AY = "); Serial.print(data.ay);
-    Serial.print("  AZ = "); Serial.println(data.az);
+  Serial.print("Raw AX = "); Serial.print(data.ax);
+  Serial.print("  AY = "); Serial.print(data.ay);
+  Serial.print("  AZ = "); Serial.println(data.az);
 
-    // Convert int16_t to bytes for BLE transmission
-    uint8_t axBytes[2] = {(uint8_t)(data.ax & 0xFF), (uint8_t)((data.ax >> 8) & 0xFF)};
-    uint8_t ayBytes[2] = {(uint8_t)(data.ay & 0xFF), (uint8_t)((data.ay >> 8) & 0xFF)};
-    uint8_t azBytes[2] = {(uint8_t)(data.az & 0xFF), (uint8_t)((data.az >> 8) & 0xFF)};
-    uint8_t countBytes[2] = {10, 0}; // For stitch count of 10
+int axVal = data.ax;
+int ayVal = data.ay;
+int azVal = data.az;
+int cuntVal = 10;
 
-    // Set values as byte arrays
-    xCharacteristic.setValue(axBytes, 2);
-    yCharacteristic.setValue(ayBytes, 2);
-    zCharacteristic.setValue(azBytes, 2);
-    cuntCharacteristic.setValue(countBytes, 2);
+xCharacteristic.setValue(axVal);
+yCharacteristic.setValue(ayVal);
+zCharacteristic.setValue(azVal);
+cuntCharacteristic.setValue(cuntVal);
 
-    // Notify all characteristics
-    xCharacteristic.notify();
-    yCharacteristic.notify();
-    zCharacteristic.notify();
-    cuntCharacteristic.notify();
+xCharacteristic.notify();
+yCharacteristic.notify();
+zCharacteristic.notify();
+cuntCharacteristic.notify();
 
-    delay(100);
+
+  // // Send raw data via BLE
+  // sensorCharacteristic.setValue((uint8_t *)&data, sizeof(data));
+  // sensorCharacteristic.notify();
+
+  delay(100);
+
   }
+ 
 }
