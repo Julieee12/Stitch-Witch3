@@ -10,7 +10,7 @@ import 'package:stitch_witch_aid/inventory/inventory-model.dart';
 import 'package:uuid/uuid.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-import '../inventory/item-state.dart';
+import 'item-state.dart';
 
 class ItemBloc extends Bloc<BaseEvent, ItemState> {
   final WebSocketChannel _channel;
