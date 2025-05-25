@@ -17,20 +17,6 @@ public class ItemRepository(StitchWitchDbContext context) : IItemRepository
     
     public async Task<List<ItemDtoWithTags>> GetAllItemsWithTags()
     {
-        
-        /*var query = await (from item in context.Items
-                join tag in context.ItemTags on item.Id equals tag.Itemid into gj
-                from subgroup in gj.DefaultIfEmpty()
-                select new ItemDtoWithTags()
-                {
-                    Id = item.Id,
-                    Name = item.Name,
-                    Description = item.Description,
-                    Picurl = item.Picurl,
-                    TagId = subgroup.Tagid ?? " "
-                }).ToListAsync();
-
-        return query;*/
 
         return await context.Items.GroupJoin(
             context.ItemTags,
@@ -83,6 +69,23 @@ public class ItemRepository(StitchWitchDbContext context) : IItemRepository
         
         context.Items.Remove(item!);
         await context.SaveChangesAsync();
+    }
+    
+    public async Task AddTagToItem(String itemId, String typeId)
+    {
+        ItemTag newTag = new ItemTag()
+        {
+            Itemid = itemId,
+            Tagid = typeId,
+        };
+        await context.ItemTags.AddAsync(newTag);
+        await context.SaveChangesAsync();
+    }
+    
+    public async Task RemoveTagFromItem(ItemTag tag)
+    {
+         context.ItemTags.Remove(tag);
+         await context.SaveChangesAsync();
     }
     
     

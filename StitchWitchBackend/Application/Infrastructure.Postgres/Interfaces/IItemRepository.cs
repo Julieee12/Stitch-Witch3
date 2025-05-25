@@ -15,7 +15,9 @@ public interface IItemRepository
 
     public Task DeleteItem(string id);
 
+    public Task AddTagToItem(String itemId, String typeId);
 
+    public Task RemoveTagFromItem(ItemTag tag);
 
 
 }
