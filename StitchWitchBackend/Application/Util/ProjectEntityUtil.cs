@@ -53,7 +53,7 @@ public class ProjectEntityUtil
             Name = updateProjectDto.Name,
             Stitch = updateProjectDto.Stitch,
             Row = updateProjectDto.Row,
-            Picurl = updateProjectDto.Picurl,
+            Picurl = updateProjectDto.Image,
             Description = updateProjectDto.Description,
             Yarn = updateProjectDto.Yarn,
             Hook = updateProjectDto.Hook,

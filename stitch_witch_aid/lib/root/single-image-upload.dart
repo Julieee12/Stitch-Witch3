@@ -16,7 +16,7 @@ class SingleImageUpload extends StatelessWidget {
       multipleUpload: false,
       cardinality: 1,
       onSave: (List<ImageAndCaptionModel>? imageAndCaptionList) {
-        ImageAndCaptionModel? firstImage = imageAndCaptionList?.elementAt(0);
+        ImageAndCaptionModel? firstImage = imageAndCaptionList?.firstOrNull;
         if (firstImage != null) {
           String base64Image = base64Encode(firstImage.file);
 

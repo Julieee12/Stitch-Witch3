@@ -390,9 +390,9 @@ class UpdateProjectDtoMapper extends ClassMapperBase<UpdateProjectDto> {
       Field('stitch', _$stitch);
   static int _$row(UpdateProjectDto v) => v.row;
   static const Field<UpdateProjectDto, int> _f$row = Field('row', _$row);
-  static String? _$picurl(UpdateProjectDto v) => v.picurl;
-  static const Field<UpdateProjectDto, String> _f$picurl =
-      Field('picurl', _$picurl, opt: true);
+  static String? _$image(UpdateProjectDto v) => v.image;
+  static const Field<UpdateProjectDto, String> _f$image =
+      Field('image', _$image, opt: true);
   static String? _$description(UpdateProjectDto v) => v.description;
   static const Field<UpdateProjectDto, String> _f$description =
       Field('description', _$description, opt: true);
@@ -416,7 +416,7 @@ class UpdateProjectDtoMapper extends ClassMapperBase<UpdateProjectDto> {
     #tag: _f$tag,
     #stitch: _f$stitch,
     #row: _f$row,
-    #picurl: _f$picurl,
+    #image: _f$image,
     #description: _f$description,
     #yarn: _f$yarn,
     #hook: _f$hook,
@@ -431,7 +431,7 @@ class UpdateProjectDtoMapper extends ClassMapperBase<UpdateProjectDto> {
         tag: data.dec(_f$tag),
         stitch: data.dec(_f$stitch),
         row: data.dec(_f$row),
-        picurl: data.dec(_f$picurl),
+        image: data.dec(_f$image),
         description: data.dec(_f$description),
         yarn: data.dec(_f$yarn),
         hook: data.dec(_f$hook),
@@ -501,7 +501,7 @@ abstract class UpdateProjectDtoCopyWith<$R, $In extends UpdateProjectDto, $Out>
       String? tag,
       int? stitch,
       int? row,
-      String? picurl,
+      String? image,
       String? description,
       String? yarn,
       String? hook,
@@ -530,7 +530,7 @@ class _UpdateProjectDtoCopyWithImpl<$R, $Out>
           Object? tag = $none,
           int? stitch,
           int? row,
-          Object? picurl = $none,
+          Object? image = $none,
           Object? description = $none,
           Object? yarn = $none,
           Object? hook = $none,
@@ -542,7 +542,7 @@ class _UpdateProjectDtoCopyWithImpl<$R, $Out>
         if (tag != $none) #tag: tag,
         if (stitch != null) #stitch: stitch,
         if (row != null) #row: row,
-        if (picurl != $none) #picurl: picurl,
+        if (image != $none) #image: image,
         if (description != $none) #description: description,
         if (yarn != $none) #yarn: yarn,
         if (hook != $none) #hook: hook,
@@ -556,7 +556,7 @@ class _UpdateProjectDtoCopyWithImpl<$R, $Out>
       tag: data.get(#tag, or: $value.tag),
       stitch: data.get(#stitch, or: $value.stitch),
       row: data.get(#row, or: $value.row),
-      picurl: data.get(#picurl, or: $value.picurl),
+      image: data.get(#image, or: $value.image),
       description: data.get(#description, or: $value.description),
       yarn: data.get(#yarn, or: $value.yarn),
       hook: data.get(#hook, or: $value.hook),

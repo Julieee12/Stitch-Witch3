@@ -57,7 +57,7 @@ class UpdateProjectDto with UpdateProjectDtoMappable {
   String? tag;
   int stitch;
   int row;
-  String? picurl;
+  String? image;
   String? description;
   String? yarn;
   String? hook;
@@ -70,7 +70,7 @@ class UpdateProjectDto with UpdateProjectDtoMappable {
     this.tag,
     required this.stitch,
     required this.row,
-    this.picurl,
+    this.image,
     this.description,
     this.yarn,
     this.hook,
