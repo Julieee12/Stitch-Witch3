@@ -7,6 +7,7 @@ import 'package:image_field/image_field.dart';
 import 'package:stitch_witch_aid/projects/project-bloc.dart';
 import 'package:stitch_witch_aid/projects/projects-model.dart';
 import 'package:stitch_witch_aid/projects/projects-state.dart';
+import 'package:stitch_witch_aid/root/single-image-upload.dart';
 import '../root/brand-colors.dart';
 
 
@@ -99,19 +100,8 @@ class _AddProjectDialogState extends State<ProjectsDialog> {
                 ),
                 const SizedBox(height: 15),
 
-                ImageField(
-                  enabledCaption: false,
-                  multipleUpload: false,
-                  cardinality: 1,
-                  onSave: (List<ImageAndCaptionModel>? imageAndCaptionList) {
-                    ImageAndCaptionModel? firstImage = imageAndCaptionList?.elementAt(0);
-                    if (firstImage != null) {
-                      String base64Image = base64Encode(firstImage.file);
-
-                      _image = base64Image;
-                    }
-                  },
-                ),
+                // Image upload field (optional)
+                SingleImageUpload((base64Image) => _image = base64Image),
 
                 // Tag input field (optional)
                 TextFormField(
