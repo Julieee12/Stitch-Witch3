@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:stitch_witch_aid/counter/stitch-detector.dart';
 import 'package:stitch_witch_aid/projects/project-bloc.dart';
 import 'package:stitch_witch_aid/projects/projects-model.dart';
 import 'package:stitch_witch_aid/projects/projects-state.dart';
@@ -21,6 +22,11 @@ class _CounterScreenState extends State<CounterScreen> {
 
   final TextEditingController stitchesPerRowController = TextEditingController();
 
+  //other variables
+  StitchDetector stitchDetector = StitchDetector();
+
+  // Store current axis values
+  int? currentX, currentY, currentZ;
 
 
   //Bluetooth variables
@@ -603,6 +609,49 @@ class _CounterScreenState extends State<CounterScreen> {
 
   }
 
+  void processSensorData(String characteristicUuid, int value) {
+    // Map the characteristic UUIDs to axis values
+    if (characteristicUuid.contains("0001")) { // X axis
+      currentX = value;
+    } else if (characteristicUuid.contains("0002")) { // Y axis
+      currentY = value;
+    } else if (characteristicUuid.contains("0003")) { // Z axis
+      currentZ = value;
+    }
+
+    // Check for stitch when we have all three axis values
+    if (currentX != null && currentY != null && currentZ != null) {
+      bool stitchDetected = stitchDetector.processAccelerometerData(
+          currentX!,
+          currentY!,
+          currentZ!
+      );
+
+      if (stitchDetected) {
+        onStitchDetected();
+      }
+    }
+  }
+
+  void onStitchDetected() {
+    setState(() {
+      _selectedProject?.stitch++;
+
+      // Auto-increment rows if stitches per row is set
+      int? stitchesPerRow = int.tryParse(stitchesPerRowController.text);
+      if (stitchesPerRow != null && stitchesPerRow > 0) {
+        if ((_selectedProject?.stitch ?? -1) % stitchesPerRow == 0) {
+          _selectedProject?.row++;
+        }
+      }
+    });
+
+    print("🧶 STITCH COUNTED! Total: ${_selectedProject?.stitch}");
+  }
+}
+
+
+
 
   ////////////// WRITE /////////////////////////////////////////
 
@@ -681,4 +730,4 @@ class _CounterScreenState extends State<CounterScreen> {
 
 
 
-}
+
