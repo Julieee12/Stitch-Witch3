@@ -30,6 +30,16 @@ public class CloudinaryService(IOptions<AppOptions> options) : IMediaHostingServ
         return uploadResult.Url.ToString();
     }
 
+    public void DeleteMedia(string url)
+    {
+        var splitUrlBySlash = url.Split("/");
+        var imagePartWithExtension = splitUrlBySlash[^1];
+        var imagePartSplitByExtension = imagePartWithExtension.Split(".");
+        var imagePublicIdOnly = imagePartSplitByExtension[0];
+        
+        _cloudinary.DeleteResources(imagePublicIdOnly);
+    }
+
     private Stream DecodeBase64ImageToStream(string base64Image)
     {
         var convertedImage = Convert.FromBase64String(base64Image);

@@ -1,4 +1,5 @@
 using Application.Infrastructure.Postgres.Interfaces;
+using Application.Interfaces;
 using Application.Models.DTOs;
 using Application.Utility;
 using Core.Domain.Entities;
@@ -7,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Postgres.repositories;
 
-public class ProjectRepository(StitchWitchDbContext context) : IProjectRepository
+public class ProjectRepository(StitchWitchDbContext context, IMediaHostingService mediaHostingService) : IProjectRepository
 {
     public async Task<ProjectDto> CreateNewProjectAsync(CreateNewProjectDto createNewProjectDto)
     {
@@ -40,6 +41,9 @@ public class ProjectRepository(StitchWitchDbContext context) : IProjectRepositor
             .SingleOrDefaultAsync();
 
         if (projectToDelete == null) throw new Exception("Project not found");
+        
+        // Delete the image if it has been set
+        if (projectToDelete.Picurl != null) mediaHostingService.DeleteMedia(projectToDelete.Picurl); 
         
         context.Projects.Remove(projectToDelete);
         
