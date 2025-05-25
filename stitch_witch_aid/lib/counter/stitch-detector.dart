@@ -1,11 +1,11 @@
 class StitchDetector {
   // Fictional intervals - replace these with your actual analysis results
-  static const int X_MIN = 5000;
-  static const int X_MAX = 8000;
-  static const int Y_MIN = -3000;
-  static const int Y_MAX = -1000;
-  static const int Z_MIN = 2000;
-  static const int Z_MAX = 4500;
+  static const int X_MIN = 7000;
+  static const int X_MAX = 13500;
+  static const int Y_MIN = -4000;
+  static const int Y_MAX = 24000;
+  static const int Z_MIN = -10000;
+  static const int Z_MAX = 11000;
 
   // Prevent double counting
   static const int MIN_SAMPLES_BETWEEN_STITCHES = 3;

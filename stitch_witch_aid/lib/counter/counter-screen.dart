@@ -560,11 +560,11 @@ class _CounterScreenState extends State<CounterScreen> {
 
           // Check all characteristics in this service
           for(BluetoothCharacteristic c in service.characteristics) {
-            print("  CHARACTERISTIC: ${c.uuid}");
-            print("  PROPERTIES: read=${c.properties.read}, notify=${c.properties.notify}, write=${c.properties.write}");
+            // print("  CHARACTERISTIC: ${c.uuid}");
+            // print("  PROPERTIES: read=${c.properties.read}, notify=${c.properties.notify}, write=${c.properties.write}");
 
             if(c.uuid.toString().toLowerCase() == UUID.toLowerCase()){
-              print("✅ Found characteristic ${UUID}");
+              // print("✅ Found characteristic ${UUID}");
               characteristicFound = true;
               await subscribeToCharacteristic(c);
               break;
@@ -587,7 +587,7 @@ class _CounterScreenState extends State<CounterScreen> {
   Future<void> subscribeToCharacteristic(BluetoothCharacteristic characteristic) async {
     //code to be executed When the characteristic gets a neW value (notify called)
     final subscription = characteristic.onValueReceived.listen((value) {
-      print("RECEIVING NEW VALUE FOR ${characteristic.uuid}!!!!!!!!!!");
+      // print("RECEIVING NEW VALUE FOR ${characteristic.uuid}!!!!!!!!!!");
 
       // Convert bytes back to int16_t (2 bytes, little endian)
       if (value.length >= 2) {
@@ -597,11 +597,15 @@ class _CounterScreenState extends State<CounterScreen> {
           intValue = intValue - 65536;
         }
         print("CHARACTERISTIC ${characteristic.uuid}: $intValue");
+
+        processSensorData(characteristic.uuid.toString(), intValue);
+
       } else if (value.length == 1) {
         print("CHARACTERISTIC ${characteristic.uuid}: ${value[0]}");
       } else {
         print("RAW BYTES: $value");
       }
+
     });
 
     //subscribe
@@ -634,19 +638,19 @@ class _CounterScreenState extends State<CounterScreen> {
   }
 
   void onStitchDetected() {
-    setState(() {
-      _selectedProject?.stitch++;
+  //   setState(() {
+  //     _selectedProject?.stitch++;
+  //
+  //     // Auto-increment rows if stitches per row is set
+  //     int? stitchesPerRow = int.tryParse(stitchesPerRowController.text);
+  //     if (stitchesPerRow != null && stitchesPerRow > 0) {
+  //       if ((_selectedProject?.stitch ?? -1) % stitchesPerRow == 0) {
+  //         _selectedProject?.row++;
+  //       }
+  //     }
+  //   });
 
-      // Auto-increment rows if stitches per row is set
-      int? stitchesPerRow = int.tryParse(stitchesPerRowController.text);
-      if (stitchesPerRow != null && stitchesPerRow > 0) {
-        if ((_selectedProject?.stitch ?? -1) % stitchesPerRow == 0) {
-          _selectedProject?.row++;
-        }
-      }
-    });
-
-    print("🧶 STITCH COUNTED! Total: ${_selectedProject?.stitch}");
+    print("🧶 STITCH COUNTED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
   }
 }
 
@@ -665,9 +669,9 @@ class _CounterScreenState extends State<CounterScreen> {
       for(BluetoothCharacteristic c in characteristics) {
         if (c.properties.read) {
           List<int> value = await c.read();
-          print("CHARACTERISTIC: ${c.uuid}");
-          print("IN SERVICE: ${service.uuid}");
-          print(value);
+          // print("CHARACTERISTIC: ${c.uuid}");
+          // print("IN SERVICE: ${service.uuid}");
+          // print(value);
 
           if(c.uuid.toString() == charUUID.toLowerCase()){
             writeToCharacteristic(c, stitchCount);
