@@ -16,12 +16,6 @@ public class ClientCreatesNewProject(IProjectRepository projectRepository, IMedi
 {
     public override async Task Handle(ClientCreatesNewProjectDto dto, IWebSocketConnection socket)
     {
-        var image = dto.CreateNewProjectDto.Image;
-        if (image != null)
-        {
-            dto.CreateNewProjectDto.Image = await mediaHostingService.UploadMedia(image);
-        }
-        
         var projectDto = await projectRepository.CreateNewProjectAsync(dto.CreateNewProjectDto);
         
         var serverResponse = new ServerSendsCreatedProject

@@ -15,6 +15,11 @@ public class ProjectRepository(StitchWitchDbContext context, IMediaHostingServic
         var projectToCreate = ProjectEntityUtil.CreateNewProjectDtoToProject(createNewProjectDto);
         projectToCreate.Id = Guid.NewGuid().ToString();
         
+        if (createNewProjectDto.Image != null)
+        {
+            projectToCreate.Picurl = await mediaHostingService.UploadMedia(createNewProjectDto.Image);
+        }
+        
         var result = await context.Projects.AddAsync(projectToCreate);
         await context.SaveChangesAsync();
 
