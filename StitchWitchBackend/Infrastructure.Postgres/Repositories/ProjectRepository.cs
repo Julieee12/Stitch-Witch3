@@ -66,7 +66,7 @@ public class ProjectRepository(StitchWitchDbContext context, IMediaHostingServic
         
         var projectToUpdate = ProjectEntityUtil.UpdateProjectDtoToProject(updateProjectDto);
 
-        await UpdateAndDeleteProjectImageAsync(oldProject, projectToUpdate);
+        projectToUpdate.Picurl = await mediaHostingService.UpdateDeleteNewAndOldImage(oldProject.Picurl, projectToUpdate.Picurl);
         
         var updatedProject = context.Projects.Update(projectToUpdate).Entity;
 
@@ -75,26 +75,5 @@ public class ProjectRepository(StitchWitchDbContext context, IMediaHostingServic
         var projectDto = ProjectEntityUtil.ProjectToProjectDto(updatedProject);
         
         return projectDto;
-    }
-
-    /*
-     * This method takes in an old and new version of a project,
-     * and determines if their images should be deleted/uploaded,
-     * based on them being null and different.
-     */
-    private async Task UpdateAndDeleteProjectImageAsync(Project oldProject, Project newProject)
-    {
-        var oldImageIsNull = oldProject.Picurl == null;
-        var newImageIsNull = newProject.Picurl == null;
-        var oldAndNewImagesAreSame = oldProject.Picurl?.Equals(newProject.Picurl);
-
-        if (oldAndNewImagesAreSame == true) return;
-        
-        if (!oldImageIsNull) mediaHostingService.DeleteMedia(oldProject.Picurl!);
-
-        if (!newImageIsNull)
-        {
-            newProject.Picurl = await mediaHostingService.UploadMedia(newProject.Picurl!);
-        }
     }
 }

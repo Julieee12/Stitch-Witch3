@@ -17,7 +17,22 @@ public class CloudinaryService(IOptions<AppOptions> options) : IMediaHostingServ
         }
     };
     private readonly String _validImageFormats = "JPEG, PNG, GIF, BMP, TIFF";
+    
+    public async Task<string?> UpdateDeleteNewAndOldImage(string? oldImageUrl, string? newImageUrl)
+    {
+        var oldImageIsNull = oldImageUrl is null or "";
+        var newImageIsNull = newImageUrl is null or "";
+        var oldAndNewImagesAreSame = oldImageUrl?.Equals(newImageUrl);
 
+        if (oldAndNewImagesAreSame == true) return newImageUrl;
+        
+        if (!oldImageIsNull) DeleteMedia(oldImageUrl!);
+
+        if (newImageIsNull) return oldImageUrl;
+        
+        return await UploadMedia(newImageUrl!);
+    }
+    
     public async Task<string> UploadMedia(string base64Image)
     {
         var imageStream = DecodeBase64ImageToStream(base64Image);

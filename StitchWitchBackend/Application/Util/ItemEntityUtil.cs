@@ -12,7 +12,7 @@ public class ItemEntityUtil
             Id = updateItemDto.Id,
             Name = updateItemDto.Name,
             Description = updateItemDto.Description,
-            Picurl = updateItemDto.Picurl
+            Picurl = updateItemDto.Image
         };
 
         return item;
@@ -25,7 +25,7 @@ public class ItemEntityUtil
             Id = Guid.NewGuid().ToString(),
             Name = addItemDto.Name,
             Description = addItemDto.Description,
-            Picurl = addItemDto.Picurl
+            Picurl = addItemDto.Image
         };
 
         return item;

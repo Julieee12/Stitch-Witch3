@@ -8,19 +8,19 @@ part 'inventory-item-dto.mapper.dart';
 class InventoryItemDto with InventoryItemDtoMappable{
   final String name;
   final String? description;
-  final String? picurl;
+  final String? image;
 
   InventoryItemDto({
     required this.name,
     required this.description,
-    required this.picurl,
+    required this.image,
   });
 
   Map<String, dynamic> toMap() {
     return {
       'name': name,
       'description': description,
-      'picture': picurl,
+      'picture': image,
     };
   }
 }

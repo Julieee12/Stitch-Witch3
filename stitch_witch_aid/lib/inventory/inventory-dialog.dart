@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stitch_witch_aid/inventory/inventory-item-dto.dart';
+import 'package:stitch_witch_aid/root/single-image-upload.dart';
 
 import '../blocs/Item-bloc.dart';
 import 'item-state.dart';
@@ -23,14 +24,14 @@ class _AddItemDialogState extends State<InventoryDialog> {
 
   late String _name;
   late String _description;
-  late String _picture;
+  late String? _image;
 
   @override
   void initState() {
     super.initState();
     _name = '';
     _description = '';
-    _picture = ''; // Optional
+    _image = null; // Optional
   }
 
   @override
@@ -97,19 +98,8 @@ class _AddItemDialogState extends State<InventoryDialog> {
               ),
               const SizedBox(height: 15),
 
-              // Picture URL input field (optional)
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Picture (optional)',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  filled: true,
-                  fillColor: BrandColors.purpleVeryLight,
-                ),
-                onChanged: (value) => _picture = value, // Optional
-              ),
-              const SizedBox(height: 20),
+              // Image upload field (optional)
+              SingleImageUpload((base64Image) => _image = base64Image),
 
               // Buttons
               Row(
@@ -142,7 +132,7 @@ class _AddItemDialogState extends State<InventoryDialog> {
                       final newItem = InventoryItemDto(
                         name: _name,
                         description: _description,
-                        picurl: _picture.isNotEmpty ? _picture : null,
+                        image: _image,
                       );
 
                       // You can now use this item, e.g., adding to your state or database

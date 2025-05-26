@@ -40,6 +40,7 @@ class _UpdateProjectDialogState extends State<UpdateProjectDialog> {
     _picture = widget.projectToUpdate.picurl ?? ''; // Optional
     _yarn = widget.projectToUpdate.yarn ?? ''; // Optional
     _hook = widget.projectToUpdate.hook ?? ''; // Optional
+    _base64Image = null;
   }
 
   @override

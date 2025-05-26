@@ -25,22 +25,22 @@ class InventoryItemDtoMapper extends ClassMapperBase<InventoryItemDto> {
   static String? _$description(InventoryItemDto v) => v.description;
   static const Field<InventoryItemDto, String> _f$description =
       Field('description', _$description);
-  static String? _$picurl(InventoryItemDto v) => v.picurl;
-  static const Field<InventoryItemDto, String> _f$picurl =
-      Field('picurl', _$picurl);
+  static String? _$image(InventoryItemDto v) => v.image;
+  static const Field<InventoryItemDto, String> _f$image =
+      Field('image', _$image);
 
   @override
   final MappableFields<InventoryItemDto> fields = const {
     #name: _f$name,
     #description: _f$description,
-    #picurl: _f$picurl,
+    #image: _f$image,
   };
 
   static InventoryItemDto _instantiate(DecodingData data) {
     return InventoryItemDto(
         name: data.dec(_f$name),
         description: data.dec(_f$description),
-        picurl: data.dec(_f$picurl));
+        image: data.dec(_f$image));
   }
 
   @override
@@ -98,7 +98,7 @@ extension InventoryItemDtoValueCopy<$R, $Out>
 
 abstract class InventoryItemDtoCopyWith<$R, $In extends InventoryItemDto, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
-  $R call({String? name, String? description, String? picurl});
+  $R call({String? name, String? description, String? image});
   InventoryItemDtoCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
       Then<$Out2, $R2> t);
 }
@@ -112,20 +112,17 @@ class _InventoryItemDtoCopyWithImpl<$R, $Out>
   late final ClassMapperBase<InventoryItemDto> $mapper =
       InventoryItemDtoMapper.ensureInitialized();
   @override
-  $R call(
-          {String? name,
-          Object? description = $none,
-          Object? picurl = $none}) =>
+  $R call({String? name, Object? description = $none, Object? image = $none}) =>
       $apply(FieldCopyWithData({
         if (name != null) #name: name,
         if (description != $none) #description: description,
-        if (picurl != $none) #picurl: picurl
+        if (image != $none) #image: image
       }));
   @override
   InventoryItemDto $make(CopyWithData data) => InventoryItemDto(
       name: data.get(#name, or: $value.name),
       description: data.get(#description, or: $value.description),
-      picurl: data.get(#picurl, or: $value.picurl));
+      image: data.get(#image, or: $value.image));
 
   @override
   InventoryItemDtoCopyWith<$R2, InventoryItemDto, $Out2> $chain<$R2, $Out2>(

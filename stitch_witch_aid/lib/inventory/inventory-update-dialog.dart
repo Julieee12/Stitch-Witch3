@@ -5,6 +5,7 @@ import 'package:stitch_witch_aid/inventory/inventory-item-dto.dart';
 import 'package:stitch_witch_aid/inventory/inventory-model.dart';
 import 'package:stitch_witch_aid/inventory/item-state.dart';
 import 'package:stitch_witch_aid/root/brand-colors.dart';
+import 'package:stitch_witch_aid/root/single-image-upload.dart';
 
 class UpdateItemDialog extends StatefulWidget {
   final InventoryItemModel itemToUpdate;
@@ -22,15 +23,16 @@ class _UpdateItemDialogState extends State<UpdateItemDialog> {
   late String _name;
   late String _description;
   late String _picUrl;
+  late String? _base64Image;
 
   @override
   void initState() {
     super.initState();
     _id = widget.itemToUpdate.id;
     _name = widget.itemToUpdate.name;
-    _description = widget.itemToUpdate.description ?? " "; //optional
-    _picUrl = widget.itemToUpdate.picurl ?? " "; //optional
-
+    _description = widget.itemToUpdate.description ?? ''; //optional
+    _picUrl = widget.itemToUpdate.picurl ?? ''; //optional
+    _base64Image = null;
   }
 
   @override
@@ -93,8 +95,10 @@ class _UpdateItemDialogState extends State<UpdateItemDialog> {
                 ),
                 const SizedBox(height: 15),
 
-                //////////// picUrl input ///////////
-                TextFormField(
+                // Image upload field (optional)
+                SingleImageUpload((base64Image) => _base64Image = base64Image),
+
+                /*TextFormField(
                   decoration: InputDecoration(
                       labelText: "Picture (optional)",
                       border: OutlineInputBorder(
@@ -106,7 +110,7 @@ class _UpdateItemDialogState extends State<UpdateItemDialog> {
                   initialValue: _picUrl,
                   onChanged: (value) => _picUrl = value,
                 ),
-                const SizedBox(height: 15),
+                const SizedBox(height: 15),*/
                 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -137,7 +141,7 @@ class _UpdateItemDialogState extends State<UpdateItemDialog> {
                           id: _id,
                           name: _name,
                           description: _description,
-                          picurl: _picUrl,
+                          image: _base64Image ?? _picUrl,
                         );
 
                         BlocProvider.of<ItemBloc>(context).clientUpdatesItem(updateItemDto);

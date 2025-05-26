@@ -24,7 +24,7 @@ class _AddProjectDialogState extends State<ProjectsDialog> {
 
   late String _name;
   late String _description;
-  late String _image;
+  late String? _image;
   late String _tag;
   late String _yarn;
   late String _hook;
@@ -34,10 +34,10 @@ class _AddProjectDialogState extends State<ProjectsDialog> {
     super.initState();
     _name = '';
     _description = ''; // Optional
-    _image = ''; // Optional
     _tag = ''; // Optional
     _yarn = ''; // Optional
     _hook = ''; // Optional
+    _image = null; // Optional
   }
 
   @override
