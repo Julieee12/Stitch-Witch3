@@ -9,6 +9,7 @@ import 'package:stitch_witch_aid/projects/project-bloc.dart';
 import 'package:stitch_witch_aid/projects/projects-model.dart';
 import 'package:stitch_witch_aid/projects/projects-state.dart';
 import 'package:stitch_witch_aid/root/brand-colors.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';  // For screen wake lock functionality
 
 class CounterScreen extends StatefulWidget {
   const CounterScreen({super.key});
@@ -31,6 +32,7 @@ class _CounterScreenState extends State<CounterScreen> {
 
   //Bluetooth variables
   bool isBluetooth = false;
+  bool isConnected = false;
   late BluetoothDevice stitchWitch;
   //presumably We're going to have 2 characteristics
   // (one to read from and another to Write to, probably on the same service)
@@ -49,6 +51,7 @@ class _CounterScreenState extends State<CounterScreen> {
   @override
   void initState() {
     super.initState();
+    WakelockPlus.enable();
   }
 
 
@@ -101,14 +104,18 @@ class _CounterScreenState extends State<CounterScreen> {
               ),
               const SizedBox(height: 20),
 
-              /////////////////BLUETOOTH TEST BUTTON/////////////////////////////
+              /////////////////BLUETOOTH BUTTONS/////////////////////////////
               isBluetooth ?
                   Column(
                     children: [
                       Text("BLUETOOTH ON"),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
                       ElevatedButton(
                           onPressed: () async {
                             await bleConnection();
+                            setState(() => isConnected = true); //updates connection status
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: BrandColors.purpleDark,
@@ -118,6 +125,26 @@ class _CounterScreenState extends State<CounterScreen> {
                             ),
                           ),
                           child: Text("Start Counting", style: TextStyle(color: Colors.white),)),
+                      const SizedBox(height: 20),
+                          ElevatedButton(
+                            onPressed: isConnected ? () async { // Only enabled when connected
+                              await disconnectBluetooth();
+                              setState(() => isConnected = false); // Update connection status
+                            } : null,  // Disable button when not connected
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red[700],  // Visual distinction for stop action
+                              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            child: Text(
+                              "Stop Counting",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ],
+                      ),
                       const SizedBox(height: 20),
                     ],
                   )
@@ -410,7 +437,12 @@ class _CounterScreenState extends State<CounterScreen> {
   ///////////////////////// BLUE TOOTH ///////////////////////////
   ////////////////////////////////////////////////////////////////
 
-  //test method doing all the basic functionality
+  /// Fully resets Bluetooth to initial app state
+  /// 1. Disconnects device
+  /// 2. Stops scans
+  /// 3. Clears sensor data
+  /// 4. Cancels all subscriptions
+  /// 5. Resets stitch detector
   Future<void> bleConnection() async {
     await tryConnectToBluetooth();
 
@@ -440,6 +472,62 @@ class _CounterScreenState extends State<CounterScreen> {
 
     // await writeStitchCount(stitchWitch, 200, characteristic2UUID); //check serial plotter on Arduino IDE to see if value was recieved
 
+  }
+
+  /// Fully resets Bluetooth to initial app state
+  /// 1. Disconnects device
+  /// 2. Stops scans
+  /// 3. Clears sensor data
+  /// 4. Cancels all subscriptions
+  /// 5. Resets stitch detector
+  Future<void> disconnectBluetooth() async {
+    try {
+      // 1. Disconnect from device if currently connected
+      if (stitchWitch.isConnected) {
+        await stitchWitch.disconnect();
+        print("Successfully disconnected from: ${stitchWitch.remoteId}");
+      }
+
+      // 2. Stop any ongoing Bluetooth scans
+      await FlutterBluePlus.stopScan();
+      print("Bluetooth scanning stopped");
+
+      // 3. Reset sensor data and UI state
+      setState(() {
+        currentX = currentY = currentZ = null; // Clear accelerometer values
+      });
+
+      // 4. Cancel all active characteristic notifications
+      await cancelAllSubscriptions();
+
+      // 5. Reset stitch detection algorithm state
+      stitchDetector.reset();
+      print("Stitch detector reset to initial state");
+
+      print("Bluetooth system fully reset");
+    } catch (e) {
+      print("Error during disconnection: $e");
+      // Consider adding error handling UI feedback here
+    }
+  }
+
+  Future<void> cancelAllSubscriptions() async {
+    try {
+      // Get all services from connected device
+      List<BluetoothService> services = await stitchWitch.discoverServices();
+
+      for (BluetoothService service in services) {
+        for (BluetoothCharacteristic c in service.characteristics) {
+          // Check if characteristic is currently notifying
+          if (c.isNotifying) {
+            await c.setNotifyValue(false); // Disable notifications
+            print("Unsubscribed from characteristic: ${c.uuid}");
+          }
+        }
+      }
+    } catch (e) {
+      print("Error canceling subscriptions: $e");
+    }
   }
 
 

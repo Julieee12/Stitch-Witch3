@@ -32,5 +32,7 @@ class StitchDetector {
 
     return false;
   }
-
+  void reset() {
+    _samplesSinceLastStitch = 0;
+  }
 }
