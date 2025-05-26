@@ -124,6 +124,9 @@ class _CounterScreenState extends State<CounterScreen> {
                             ),
                           ),
                           child: Text("Start Counting", style: TextStyle(color: Colors.white),)),
+
+                          SizedBox(width: 15),
+
                       const SizedBox(height: 20),
                           ElevatedButton(
                             onPressed: isConnected ? () async { // Only enabled when connected
@@ -131,7 +134,7 @@ class _CounterScreenState extends State<CounterScreen> {
                               setState(() => isConnected = false); // Update connection status
                             } : null,  // Disable button when not connected
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red[700],  // Visual distinction for stop action
+                              backgroundColor: Colors.red[200],  // Visual distinction for stop action
                               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
@@ -319,6 +322,19 @@ class _CounterScreenState extends State<CounterScreen> {
                       time: double.parse(_elapsedSeconds.toString()));
 
                   BlocProvider.of<ProjectBloc>(context).clientUpdatesProject(updateProjectDto);
+
+                  //confirmation for user that progress is saved
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Progress saved!',
+                      style: TextStyle(color: Colors.white)),
+                      duration: const Duration(seconds: 2),
+                      backgroundColor: Colors.green[300],
+                      behavior: SnackBarBehavior.floating,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      margin: const EdgeInsets.all(12),
+                    ),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: BrandColors.purpleDark,
