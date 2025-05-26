@@ -17,25 +17,16 @@ int16_t gx, gy, gz;
 #define SERVICE_UUID        "12345678-1234-1234-1234-123456789012"
 #define CHARACTERISTIC_UUID "87654321-4321-4321-4321-210987654321"
 
-BLECharacteristic xCharacteristic("87654321-4321-4321-4321-210987654329", BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY | BLECharacteristic::PROPERTY_WRITE);
-BLECharacteristic yCharacteristic("87654321-4321-4321-4321-210987654328", BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY | BLECharacteristic::PROPERTY_WRITE);
-BLECharacteristic zCharacteristic("87654321-4321-4321-4321-210987654327", BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY | BLECharacteristic::PROPERTY_WRITE);
-BLECharacteristic cuntCharacteristic("87654321-4321-4321-4321-210987654326", BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY | BLECharacteristic::PROPERTY_WRITE);
+BLECharacteristic xCharacteristic("0001", BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY | BLECharacteristic::PROPERTY_WRITE);
+BLECharacteristic yCharacteristic("0002", BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY | BLECharacteristic::PROPERTY_WRITE);
+BLECharacteristic zCharacteristic("0003", BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY | BLECharacteristic::PROPERTY_WRITE);
+BLECharacteristic cuntCharacteristic("0004", BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY | BLECharacteristic::PROPERTY_WRITE);
+
+int stitchCount = 0;
 
 
 
 bool deviceConnected = false; 
-
-class MyServerCallbacks: public BLEServerCallbacks {
-    void onConnect(BLEServer* pServer) {
-      deviceConnected = true;
-    };
-
-    void onDisconnect(BLEServer* pServer) {
-      deviceConnected = false;
-    }
-};
-
 
 
 struct MyData {
@@ -52,10 +43,72 @@ MyData data;
 #define OLED_RESET -1
 Adafruit_SH1106G display = Adafruit_SH1106G(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
+
+void updateDisplay() {
+  display.clearDisplay();
+  display.setTextSize(2);
+  display.setTextColor(SH110X_WHITE);
+  
+  // Display "Stitch" on first line
+  display.setCursor(10, 10);
+  display.println("Stitch");
+  
+  // Display "Count:" on second line
+  display.setCursor(10, 30);
+  display.println("Count:");
+  
+  // Display the actual count number on third line
+  display.setCursor(10, 50);
+  display.println(String(stitchCount));
+  
+  display.display();
+}
+
+  class MyServerCallbacks: public BLEServerCallbacks {
+    void onConnect(BLEServer* pServer) {
+      deviceConnected = true;
+    };
+
+    void onDisconnect(BLEServer* pServer) {
+      deviceConnected = false;
+    }
+};
+
+class MyCallbacks: public BLECharacteristicCallbacks {
+    void onWrite(BLECharacteristic *pCharacteristic) {
+      String value = pCharacteristic->getValue();
+
+      if (value.length() > 0) {
+        Serial.println("*********");
+        Serial.print("New value: ");
+        for (int i = 0; i < value.length(); i++){
+          Serial.print(value[i]); 
+          //note for future self:
+          //you may need to send the data as hex codes
+          //if so, check the ascii table and send based on that
+        }
+        Serial.println();
+        Serial.println("********************************************************************************************************************************************");
+
+        int receivedStitchCount = value.toInt();
+        stitchCount = receivedStitchCount;
+
+        updateDisplay();
+
+        pCharacteristic->notify();
+
+
+      }
+    }
+
+};
+
+
 void setup() {
   Serial.begin(9600);
   Wire.begin();
   delay(100);  // Allow I2C devices time to power up
+  
 
   mpu.initialize();
   if (mpu.testConnection()) {
@@ -69,11 +122,16 @@ void setup() {
   BLEDevice::init("Stitch Witch");
   BLEServer *pServer = BLEDevice::createServer();
   pServer->setCallbacks(new MyServerCallbacks());
+
+  
   BLEService *pService = pServer->createService(SERVICE_UUID);
   pService->addCharacteristic(&xCharacteristic);
   pService->addCharacteristic(&yCharacteristic);
   pService->addCharacteristic(&zCharacteristic);
   pService->addCharacteristic(&cuntCharacteristic);
+
+  cuntCharacteristic.setCallbacks(new MyCallbacks());
+
   pService->start();
   BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
   pAdvertising->addServiceUUID(SERVICE_UUID);
@@ -82,13 +140,11 @@ void setup() {
 
   // Initialize OLED display
   display.begin(i2c_Address, true);
-  display.clearDisplay();
-  display.setTextSize(2);
-  display.setTextColor(SH110X_WHITE);
-  display.setCursor(10, 20);
-  display.println("Stitch    Count:12");
-  display.display();
+  updateDisplay(); 
 }
+
+
+
 
 void loop() {
 
@@ -126,5 +182,6 @@ cuntCharacteristic.notify();
   delay(100);
 
   }
+
  
 }

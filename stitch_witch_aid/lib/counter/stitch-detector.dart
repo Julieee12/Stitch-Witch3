@@ -8,7 +8,7 @@ class StitchDetector {
   static const int Z_MAX = 9500;
 
   // Prevent double counting
-  static const int MIN_SAMPLES_BETWEEN_STITCHES = 10;
+  static const int MIN_SAMPLES_BETWEEN_STITCHES = 200;
   int _samplesSinceLastStitch = 0;
 
   bool processAccelerometerData(int ax, int ay, int az) {

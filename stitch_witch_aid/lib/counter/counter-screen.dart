@@ -638,17 +638,20 @@ class _CounterScreenState extends State<CounterScreen> {
   }
 
   void onStitchDetected() {
-  //   setState(() {
-  //     _selectedProject?.stitch++;
-  //
-  //     // Auto-increment rows if stitches per row is set
-  //     int? stitchesPerRow = int.tryParse(stitchesPerRowController.text);
-  //     if (stitchesPerRow != null && stitchesPerRow > 0) {
-  //       if ((_selectedProject?.stitch ?? -1) % stitchesPerRow == 0) {
-  //         _selectedProject?.row++;
-  //       }
-  //     }
-  //   });
+    setState(() {
+      _selectedProject?.stitch++;
+
+      // Auto-increment rows if stitches per row is set
+      int? stitchesPerRow = int.tryParse(stitchesPerRowController.text);
+      if (stitchesPerRow != null && stitchesPerRow > 0) {
+        if ((_selectedProject?.stitch ?? -1) % stitchesPerRow == 0) {
+          _selectedProject?.row++;
+        }
+      }
+    });
+
+    //write to device here
+    writeStitchCount(stitchWitch, _selectedProject!.stitch, cuntCharUuid.toString());
 
     print("🧶 STITCH COUNTED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
   }
