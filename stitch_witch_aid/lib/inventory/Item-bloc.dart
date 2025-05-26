@@ -141,6 +141,10 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
     print("received state?");
     state.items.clear();
     state.items.addAll(event.items);
+
+    state.filteredItems.clear();
+    state.filteredItems.addAll(event.items);
+
     emit(state);
   }
 
@@ -150,8 +154,11 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
     print("PLESASE GOT WORK -------------- TAGS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     state.items.clear();
     state.items.addAll(event.itemsWithTags);
-    emit(state);
 
+    state.filteredItems.clear();
+    state.filteredItems.addAll(event.itemsWithTags);
+
+    emit(state);
   }
 
 
@@ -160,11 +167,13 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
       ServerSendsUpdatedItemEvent event,
       Emitter<ItemState> emit) {
     print("received updated item?");
-    var stateCopy = ItemState(items: [...state.items]);
+    var stateCopy = ItemState(items: [...state.items], filteredItems: [...state.filteredItems]);
 
     int indexOfItemToUpdate = stateCopy.items.indexWhere((item) => item.id == event.itemDto.id);
 
     stateCopy.items[indexOfItemToUpdate] = event.itemDto;
+
+    stateCopy.filteredItems[indexOfItemToUpdate] = event.itemDto;
 
     emit(stateCopy);
 
@@ -174,9 +183,10 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
       ServerSendsCreatedItemEvent event,
       Emitter<ItemState> emit) {
     print("received new item?");
-    var stateCopy = ItemState(items: [...state.items]);
+    var stateCopy = ItemState(items: [...state.items], filteredItems: [...state.filteredItems]);
 
     stateCopy.items.add(event.item);
+    stateCopy.filteredItems.add(event.item);
 
     emit(stateCopy);
 
@@ -187,9 +197,10 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
       Emitter<ItemState> emit) {
     print("received deleted item ID?");
 
-    var stateCopy = ItemState(items: state.items);
+    var stateCopy = ItemState(items: [...state.items], filteredItems: [...state.filteredItems]);
 
     stateCopy.items.removeWhere((item) => item.id == event.itemId);
+    stateCopy.filteredItems.removeWhere((item) => item.id == event.itemId);
 
     emit(stateCopy);
 
@@ -213,11 +224,12 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
       Emitter<ItemState> emit) {
     print("created item tag *cool guy emoji*");
 
-    var stateCopy = ItemState(items: [...state.items]);
+    var stateCopy = ItemState(items: [...state.items], filteredItems: [...state.filteredItems]);
 
     int indexOfItemToUpdate = stateCopy.items.indexWhere((item) => item.id == event.itemId);
 
-    stateCopy.items[indexOfItemToUpdate].tags?.add(event.tag);
+    stateCopy.items[indexOfItemToUpdate].tags.add(event.tag);
+    stateCopy.filteredItems[indexOfItemToUpdate].tags.add(event.tag);
 
     emit(stateCopy);
 
@@ -228,11 +240,12 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
       Emitter<ItemState> emit) {
     print("created item tag *cool guy emoji*");
 
-    var stateCopy = ItemState(items: [...state.items]);
+    var stateCopy = ItemState(items: [...state.items], filteredItems: [...state.filteredItems]);
 
     int indexOfItemToUpdate = stateCopy.items.indexWhere((item) => item.id == event.itemId);
 
-    stateCopy.items[indexOfItemToUpdate].tags?.removeWhere((tag) => tag.tagTypeId == event.tagId);
+    stateCopy.items[indexOfItemToUpdate].tags.removeWhere((tag) => tag.tagTypeId == event.tagId);
+    stateCopy.filteredItems[indexOfItemToUpdate].tags.removeWhere((tag) => tag.tagTypeId == event.tagId);
 
     emit(stateCopy);
 

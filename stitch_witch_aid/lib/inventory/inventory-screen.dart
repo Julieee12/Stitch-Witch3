@@ -3,17 +3,30 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stitch_witch_aid/inventory/Item-bloc.dart';
 import 'package:stitch_witch_aid/inventory/inventory-item.dart';
 import 'package:stitch_witch_aid/inventory/inventory-model.dart';
+import 'package:stitch_witch_aid/tag/all-tags.dart';
 import 'item-state.dart';
 import '../root/brand-colors.dart';
 import '../root/search-bar.dart';
 import '../root/tags.dart';
 import 'add-item-button.dart';
 import 'inventory-expanded-view.dart';
+import 'item-tags.dart';
 
-class InventoryScreen extends StatelessWidget {
+class InventoryScreen extends StatefulWidget {
+
   const InventoryScreen({super.key});
 
+  @override
+  State<InventoryScreen> createState() => _InventoryScreenState();
+}
 
+class _InventoryScreenState extends State<InventoryScreen> {
+
+  //this is a very hacky way to do this but I have no clue how to refresh a parent page
+  //from a child component and I kinda need to do that for tag searching
+  refreshPage() {
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +44,10 @@ class InventoryScreen extends StatelessWidget {
           color: BrandColors.purpleExtraLight,
           child: Stack(
             children: [
-              Tags(["in", "ven", "tory"]),
+              ItemTags(TagVariables.itemTags, refreshPage: refreshPage,),
               Padding(
                 padding: const EdgeInsets.only(top: 20),
-                child: TopSearchBar(caller: this),
+                child: TopSearchBar(caller: widget),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 130),
@@ -44,7 +57,7 @@ class InventoryScreen extends StatelessWidget {
                   crossAxisSpacing: 30,
                   mainAxisSpacing: 15,
 
-                  children: List.generate(state.items.length, (index) {
+                  children: List.generate(state.filteredItems.length, (index) {
                     return GestureDetector(
                       onTap: () {Navigator.push(
                         context,
@@ -54,10 +67,10 @@ class InventoryScreen extends StatelessWidget {
                       },
                     child: InventoryItem(
                         item: InventoryItemModel(
-                            id: state.items[index].id,
-                            name: state.items[index].name,
-                            description: state.items[index].description,
-                            picurl: state.items[index].picurl,
+                            id: state.filteredItems[index].id,
+                            name: state.filteredItems[index].name,
+                            description: state.filteredItems[index].description,
+                            picurl: state.filteredItems[index].picurl,
                             tags: [] ),
                         color: BrandColors.purpleSoft)
                     );

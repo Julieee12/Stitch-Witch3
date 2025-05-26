@@ -11,7 +11,7 @@ class InventoryItemModel with InventoryItemModelMappable{
   final String name;
   final String? description;
   final String? picurl;
-  final List<TagDto>? tags;
+  final List<TagDto> tags;
 
   InventoryItemModel( {
     required this.id,
