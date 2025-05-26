@@ -108,7 +108,6 @@ class _CounterScreenState extends State<CounterScreen> {
               isBluetooth ?
                   Column(
                     children: [
-                      Text("BLUETOOTH ON"),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
