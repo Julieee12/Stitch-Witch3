@@ -113,15 +113,7 @@ class _ItemExpandedViewState extends State<ItemExpandedView> {
                   ),
                   const SizedBox(height: 30),
 
-                  // Tags
-                  Text(
-                    "Tags:",
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: BrandColors.purpleDark),
-                  ),
-                  const SizedBox(height: 10),
+
                   ////////////// TAGS /////////////////
                   Row(
 
@@ -178,6 +170,17 @@ class _ItemExpandedViewState extends State<ItemExpandedView> {
                     ],
                   ),
 
+                  // "TAGS" TEXT
+                  Text(
+                    "Tags:",
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: BrandColors.purpleDark),
+                  ),
+                  const SizedBox(height: 10),
+
+                  //ALL OF THE ACTUAL TAGS
                   itemToUpdate.tags != null && itemToUpdate.tags!.isNotEmpty ?
                   Container(
                     height: 100,
@@ -204,20 +207,7 @@ class _ItemExpandedViewState extends State<ItemExpandedView> {
                     ),
                   )
                 : const SizedBox(height: 1,),
-                  
-                  /*if (state.tagsForItem != null && state.tagsForItem!.isNotEmpty)
-                    Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
-                      children: state.tagsForItem!
-                          .map((tag) => Chip(
-                        label: Text("nothing yet"),
-                        backgroundColor: BrandColors.purpleVeryLight,
-                      ))
-                          .toList(),
-                    )
-                  else
-                    const Text("No tags assigned."),*/
+
                 ],
               ),
             ),
