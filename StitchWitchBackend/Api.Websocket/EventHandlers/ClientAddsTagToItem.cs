@@ -22,7 +22,7 @@ public class ClientAddsTagToItem(IItemRepository itemRepo) : BaseEventHandler<Cl
         {
             ItemId = dto.itemId,
             TagId = dto.typeId,
-            Message = "successfully deleted tag " + dto.typeId + " from Item!!!!!"
+            Message = "successfully added tag " + dto.typeId + " to Item!!!!!"
         };
         
         socket.SendDto(responseDto);

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stitch_witch_aid/inventory/inventory-item-dto.dart';
 
-import '../blocs/Item-bloc.dart';
+import 'Item-bloc.dart';
 import 'item-state.dart';
 import '../root/brand-colors.dart';
 import 'inventory-model.dart';

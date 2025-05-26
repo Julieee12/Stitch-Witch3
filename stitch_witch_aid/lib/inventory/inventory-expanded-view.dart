@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:stitch_witch_aid/blocs/Item-bloc.dart';
+import 'package:stitch_witch_aid/inventory/Item-bloc.dart';
 import 'package:stitch_witch_aid/inventory/inventory-model.dart';
 import 'package:stitch_witch_aid/inventory/item-state.dart';
 

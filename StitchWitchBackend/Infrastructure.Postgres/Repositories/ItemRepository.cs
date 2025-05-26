@@ -71,6 +71,13 @@ public class ItemRepository(StitchWitchDbContext context) : IItemRepository
         await context.SaveChangesAsync();
     }
     
+    ///////////////////TAG STUFF!!!!!!!!///////////////////////
+    
+    public async Task<TagType> GetTagWithName(String name)
+    {
+        return await context.TagTypes.Where(t => t.Typename == name).FirstOrDefaultAsync();
+    }
+    
     public async Task AddTagToItem(String itemId, String typeId)
     {
         ItemTag newTag = new ItemTag()

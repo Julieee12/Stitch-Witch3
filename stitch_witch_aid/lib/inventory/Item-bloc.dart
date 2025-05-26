@@ -9,7 +9,7 @@ import 'package:stitch_witch_aid/inventory/inventory-model.dart';
 import 'package:uuid/uuid.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-import '../inventory/item-state.dart';
+import 'item-state.dart';
 
 class ItemBloc extends Bloc<BaseEvent, ItemState> {
   final WebSocketChannel _channel;
@@ -86,6 +86,24 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
         eventType: ClientDeletesItemEvent.name,
         requestId: Uuid().v4(),
         id: itemId,));
+  }
+
+  void clientAddsTagToItem(String itemID, String typeID){
+    print("((((((((((((((((((((((((( ADDING TAG TO ITEM ))))))))))))))))))))))))))))))))");
+    add(ClientAddsTagToItemEvent(
+        eventType: ClientAddsTagToItemEvent.name,
+        requestId: Uuid().v4(),
+        itemId: itemID,
+        typeId: typeID));
+  }
+
+  void clientDeletesTagFromItem(String itemID, String typeID){
+    print("+++=====++++++======+++++++ DELETING TAG TO ITEM ===+++++++++++=========++++++++++++");
+    add(ClientDeletesTagFromItemEvent(
+        eventType: ClientDeletesTagFromItemEvent.name,
+        requestId: Uuid().v4(),
+        itemId: itemID,
+        typeId: typeID));
   }
 
 
