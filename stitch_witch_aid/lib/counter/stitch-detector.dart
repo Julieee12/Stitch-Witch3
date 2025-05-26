@@ -33,21 +33,4 @@ class StitchDetector {
     return false;
   }
 
-  // // Method to update intervals once you analyze your data
-  // void updateIntervals({
-  //   required int xMin, required int xMax,
-  //   required int yMin, required int yMax,
-  //   required int zMin, required int zMax,
-  // }) {
-  //   // You can add these as instance variables instead of static const
-  //   // when you're ready to use your real intervals
-  //   print("Updated intervals:");
-  //   print("X: $xMin to $xMax");
-  //   print("Y: $yMin to $yMax");
-  //   print("Z: $zMin to $zMax");
-  // }
-
-  // void reset() {
-  //   _samplesSinceLastStitch = 0;
-  // }
 }
