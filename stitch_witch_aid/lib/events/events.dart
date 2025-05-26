@@ -1,5 +1,6 @@
 
 import 'package:dart_mappable/dart_mappable.dart';
+
 import 'package:stitch_witch_aid/inventory/inventory-item-dto.dart';
 
 import '../inventory/inventory-model.dart';
@@ -14,6 +15,7 @@ abstract class BaseEvent with BaseEventMappable {
 
   BaseEvent({required this.eventType, required this.requestId});
 }
+
 ///////////////////////////////////
 ////////// Client events //////////
 ///////////////////////////////////

@@ -4,10 +4,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:stitch_witch_aid/counter/stitch-detector.dart';
 import 'package:stitch_witch_aid/projects/project-bloc.dart';
 import 'package:stitch_witch_aid/projects/projects-model.dart';
 import 'package:stitch_witch_aid/projects/projects-state.dart';
 import 'package:stitch_witch_aid/root/brand-colors.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';  // For screen wake lock functionality
 
 class CounterScreen extends StatefulWidget {
   const CounterScreen({super.key});
@@ -21,16 +23,25 @@ class _CounterScreenState extends State<CounterScreen> {
 
   final TextEditingController stitchesPerRowController = TextEditingController();
 
+  //other variables
+  StitchDetector stitchDetector = StitchDetector();
+
+  // Store current axis values
+  int? currentX, currentY, currentZ;
 
 
   //Bluetooth variables
   bool isBluetooth = false;
+  bool isConnected = false;
   late BluetoothDevice stitchWitch;
   //presumably We're going to have 2 characteristics
   // (one to read from and another to Write to, probably on the same service)
   // these are 2 placeholder IDs for those
-  final String characteristic1UUID = "DFCD000A-36E1-4688-B7F5-EA07361B26A8";
-  final String characteristic2UUID = "DFCD0002-36E1-4688-B7F5-EA07361B26A8";
+  final serviceUuid = Guid("12345678-1234-1234-1234-123456789012");
+  final xCharUuid = Guid("0001");
+  final yCharUuid = Guid("0002");
+  final zCharUuid = Guid("0003");
+  final cuntCharUuid = Guid("0004");
 
   //timer variables
   Timer? _timer;
@@ -40,19 +51,9 @@ class _CounterScreenState extends State<CounterScreen> {
   @override
   void initState() {
     super.initState();
+    WakelockPlus.enable();
   }
 
-  @override
-  void dispose() async {
-    await stitchWitch.disconnect();
-    super.dispose();
-
-    //TODO: properly close connection on app close
-    // currently, when you close the app it doesn't fully close the connection to the esp (I think)
-    // right now you have to turn the ESP on and off again everytime you close and reopen the app
-
-
-  }
 
 
   @override
@@ -106,14 +107,17 @@ class _CounterScreenState extends State<CounterScreen> {
               ),
               const SizedBox(height: 20),
 
-              /////////////////BLUETOOTH TEST BUTTON/////////////////////////////
+              /////////////////BLUETOOTH BUTTONS/////////////////////////////
               isBluetooth ?
                   Column(
                     children: [
-                      Text("BLUETOOTH ON"),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
                       ElevatedButton(
                           onPressed: () async {
-                            await doStuff();
+                            await bleConnection();
+                            setState(() => isConnected = true); //updates connection status
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: BrandColors.purpleDark,
@@ -122,7 +126,30 @@ class _CounterScreenState extends State<CounterScreen> {
                               borderRadius: BorderRadius.circular(12),
                             ),
                           ),
-                          child: Text("Refresh Connection", style: TextStyle(color: Colors.white),)),
+                          child: Text("Start Counting", style: TextStyle(color: Colors.white),)),
+
+                          SizedBox(width: 15),
+
+                      const SizedBox(height: 20),
+                          ElevatedButton(
+                            onPressed: isConnected ? () async { // Only enabled when connected
+                              await disconnectBluetooth();
+                              setState(() => isConnected = false); // Update connection status
+                            } : null,  // Disable button when not connected
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red[200],  // Visual distinction for stop action
+                              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            child: Text(
+                              "Stop Counting",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ],
+                      ),
                       const SizedBox(height: 20),
                     ],
                   )
@@ -298,6 +325,19 @@ class _CounterScreenState extends State<CounterScreen> {
                       time: double.parse(_elapsedSeconds.toString()));
 
                   BlocProvider.of<ProjectBloc>(context).clientUpdatesProject(updateProjectDto);
+
+                  //confirmation for user that progress is saved
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Progress saved!',
+                      style: TextStyle(color: Colors.white)),
+                      duration: const Duration(seconds: 2),
+                      backgroundColor: Colors.green[300],
+                      behavior: SnackBarBehavior.floating,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      margin: const EdgeInsets.all(12),
+                    ),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: BrandColors.purpleDark,
@@ -415,8 +455,13 @@ class _CounterScreenState extends State<CounterScreen> {
   ///////////////////////// BLUE TOOTH ///////////////////////////
   ////////////////////////////////////////////////////////////////
 
-  //test method doing all the basic functionality
-  Future<void> doStuff() async {
+  /// Fully resets Bluetooth to initial app state
+  /// 1. Disconnects device
+  /// 2. Stops scans
+  /// 3. Clears sensor data
+  /// 4. Cancels all subscriptions
+  /// 5. Resets stitch detector
+  Future<void> bleConnection() async {
     await tryConnectToBluetooth();
 
     //delay so that there r no errors caused by the previous process not being done
@@ -437,10 +482,70 @@ class _CounterScreenState extends State<CounterScreen> {
 
     //await getCharacteristic(characteristic1UUID, stitchWitch);
 
-    await getCharacteristicAndSubscribe(characteristic1UUID, stitchWitch);
+    await getCharacteristicAndSubscribe(xCharUuid.toString(), stitchWitch);
+    await getCharacteristicAndSubscribe(yCharUuid.toString(), stitchWitch);
+    await getCharacteristicAndSubscribe(zCharUuid.toString(), stitchWitch);
 
-    await writeStitchCount(stitchWitch, 200, characteristic2UUID); //check serial plotter on Arduino IDE to see if value was recieved
 
+
+    // await writeStitchCount(stitchWitch, 200, characteristic2UUID); //check serial plotter on Arduino IDE to see if value was recieved
+
+  }
+
+  /// Fully resets Bluetooth to initial app state
+  /// 1. Disconnects device
+  /// 2. Stops scans
+  /// 3. Clears sensor data
+  /// 4. Cancels all subscriptions
+  /// 5. Resets stitch detector
+  Future<void> disconnectBluetooth() async {
+    try {
+      // 1. Disconnect from device if currently connected
+      if (stitchWitch.isConnected) {
+        await stitchWitch.disconnect();
+        print("Successfully disconnected from: ${stitchWitch.remoteId}");
+      }
+
+      // 2. Stop any ongoing Bluetooth scans
+      await FlutterBluePlus.stopScan();
+      print("Bluetooth scanning stopped");
+
+      // 3. Reset sensor data and UI state
+      setState(() {
+        currentX = currentY = currentZ = null; // Clear accelerometer values
+      });
+
+      // 4. Cancel all active characteristic notifications
+      await cancelAllSubscriptions();
+
+      // 5. Reset stitch detection algorithm state
+      stitchDetector.reset();
+      print("Stitch detector reset to initial state");
+
+      print("Bluetooth system fully reset");
+    } catch (e) {
+      print("Error during disconnection: $e");
+      // Consider adding error handling UI feedback here
+    }
+  }
+
+  Future<void> cancelAllSubscriptions() async {
+    try {
+      // Get all services from connected device
+      List<BluetoothService> services = await stitchWitch.discoverServices();
+
+      for (BluetoothService service in services) {
+        for (BluetoothCharacteristic c in service.characteristics) {
+          // Check if characteristic is currently notifying
+          if (c.isNotifying) {
+            await c.setNotifyValue(false); // Disable notifications
+            print("Unsubscribed from characteristic: ${c.uuid}");
+          }
+        }
+      }
+    } catch (e) {
+      print("Error canceling subscriptions: $e");
+    }
   }
 
 
@@ -551,40 +656,113 @@ class _CounterScreenState extends State<CounterScreen> {
     List<BluetoothService> services = await device.discoverServices();
     services.forEach( (service) async {
 
-      // Reads all characteristics
-      var characteristics = service.characteristics;
-      for(BluetoothCharacteristic c in characteristics) {
-        if (c.properties.read) {
-          List<int> value = await c.read();
-          print("CHARACTERISTIC: ${c.uuid}");
-          print("IN SERVICE: ${service.uuid}");
-          print(value);
+      try {
+        // discover services (which contain characteristics)
+        List<BluetoothService> services = await device.discoverServices();
+        bool characteristicFound = false;
 
-          if(c.uuid.toString() == UUID.toLowerCase()){
-            print("SUBSCRIBING!!");
-            subscribeToCharacteristic(c);
+        for (BluetoothService service in services) {
+          print("SERVICE: ${service.uuid}");
+
+          // Check all characteristics in this service
+          for(BluetoothCharacteristic c in service.characteristics) {
+            // print("  CHARACTERISTIC: ${c.uuid}");
+            // print("  PROPERTIES: read=${c.properties.read}, notify=${c.properties.notify}, write=${c.properties.write}");
+
+            if(c.uuid.toString().toLowerCase() == UUID.toLowerCase()){
+              // print("✅ Found characteristic ${UUID}");
+              characteristicFound = true;
+              await subscribeToCharacteristic(c);
+              break;
+            }
           }
 
+          if (characteristicFound) break;
         }
-      }
 
-    } );
+        if (!characteristicFound) {
+      print("❌ [$UUID] Characteristic not found.");
+    }
+
+  } catch (e) {
+  print("Error in getCharacteristicAndSubscribe: $e");
   }
-
+  });
+  }
   //so We can listen for any neW values (on Notify)
   Future<void> subscribeToCharacteristic(BluetoothCharacteristic characteristic) async {
     //code to be executed When the characteristic gets a neW value (notify called)
     final subscription = characteristic.onValueReceived.listen((value) {
-      print("RECIEVING NE VALUE!!!!!!!!!!");
-      print("VALUE: ");
-      print(value.first);
-      //values.add(value.first);
+      // print("RECEIVING NEW VALUE FOR ${characteristic.uuid}!!!!!!!!!!");
+
+      // Convert bytes back to int16_t (2 bytes, little endian)
+      if (value.length >= 2) {
+        int intValue = value[0] | (value[1] << 8);
+        // Handle signed 16-bit values
+        if (intValue > 32767) {
+          intValue = intValue - 65536;
+        }
+        print("CHARACTERISTIC ${characteristic.uuid}: $intValue");
+
+        processSensorData(characteristic.uuid.toString(), intValue);
+
+      } else if (value.length == 1) {
+        print("CHARACTERISTIC ${characteristic.uuid}: ${value[0]}");
+      } else {
+        print("RAW BYTES: $value");
+      }
+
     });
 
     //subscribe
     await characteristic.setNotifyValue(true); //so we can get notified of any new values
 
   }
+
+  void processSensorData(String characteristicUuid, int value) {
+    // Map the characteristic UUIDs to axis values
+    if (characteristicUuid.contains("0001")) { // X axis
+      currentX = value;
+    } else if (characteristicUuid.contains("0002")) { // Y axis
+      currentY = value;
+    } else if (characteristicUuid.contains("0003")) { // Z axis
+      currentZ = value;
+    }
+
+    // Check for stitch when we have all three axis values
+    if (currentX != null && currentY != null && currentZ != null) {
+      bool stitchDetected = stitchDetector.processAccelerometerData(
+          currentX!,
+          currentY!,
+          currentZ!
+      );
+
+      if (stitchDetected) {
+        onStitchDetected();
+      }
+    }
+  }
+
+  void onStitchDetected() {
+    setState(() {
+      _selectedProject?.stitch++;
+
+      // Auto-increment rows if stitches per row is set
+      int? stitchesPerRow = int.tryParse(stitchesPerRowController.text);
+      if (stitchesPerRow != null && stitchesPerRow > 0) {
+        if ((_selectedProject?.stitch ?? -1) % stitchesPerRow == 0) {
+          _selectedProject?.row++;
+        }
+      }
+    });
+
+    writeStitchCount(stitchWitch, _selectedProject!.stitch, cuntCharUuid.toString());
+
+    print("🧶 STITCH COUNTED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+  }
+}
+
+
 
 
   ////////////// WRITE /////////////////////////////////////////
@@ -599,9 +777,9 @@ class _CounterScreenState extends State<CounterScreen> {
       for(BluetoothCharacteristic c in characteristics) {
         if (c.properties.read) {
           List<int> value = await c.read();
-          print("CHARACTERISTIC: ${c.uuid}");
-          print("IN SERVICE: ${service.uuid}");
-          print(value);
+          // print("CHARACTERISTIC: ${c.uuid}");
+          // print("IN SERVICE: ${service.uuid}");
+          // print(value);
 
           if(c.uuid.toString() == charUUID.toLowerCase()){
             writeToCharacteristic(c, stitchCount);
@@ -664,4 +842,4 @@ class _CounterScreenState extends State<CounterScreen> {
 
 
 
-}
+
