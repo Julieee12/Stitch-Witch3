@@ -54,6 +54,7 @@ class _CounterScreenState extends State<CounterScreen> {
 
   }
 
+
   @override
   Widget build(BuildContext context) {
 
@@ -63,11 +64,13 @@ class _CounterScreenState extends State<CounterScreen> {
 
       projectBloc.clientGetsAllProjects();
 
-      if (_selectedProject == null) {
-        _selectedProject = projectBloc.state.projects.firstOrNull;
+      setState(() {
+        if (_selectedProject == null) {
+          _selectedProject = projectBloc.state.projects.firstOrNull;
 
-        setElapsedSeconds();
-      }
+          setElapsedSeconds();
+        }
+      });
     });
 
 
@@ -316,7 +319,7 @@ class _CounterScreenState extends State<CounterScreen> {
   }
 
   void setElapsedSeconds() {
-    _elapsedSeconds = int.parse(_selectedProject?.time?.toString() ?? '0');
+    _elapsedSeconds = _selectedProject?.time?.floor() ?? 0;
   }
 
   // Starts the timer and adds _elapsedSeconds every second
