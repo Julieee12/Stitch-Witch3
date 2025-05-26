@@ -73,6 +73,16 @@ public class ItemRepository(StitchWitchDbContext context) : IItemRepository
     
     ///////////////////TAG STUFF!!!!!!!!///////////////////////
     
+    public async Task<List<TagType>> GetAllTags()
+    {
+        return await context.TagTypes.ToListAsync();
+    }
+    
+    public async Task<TagType> GetTagWithId(String id)
+    {
+        return await context.TagTypes.Where(t => t.Id == id).FirstOrDefaultAsync();
+    }
+    
     public async Task<TagType> GetTagWithName(String name)
     {
         return await context.TagTypes.Where(t => t.Typename == name).FirstOrDefaultAsync();

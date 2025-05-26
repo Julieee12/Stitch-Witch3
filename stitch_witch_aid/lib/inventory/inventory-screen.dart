@@ -18,8 +18,11 @@ class InventoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      //gets all items (and their tags)
       context.read<ItemBloc>().clientWantsToGetAllItemsWithTags();
 
+      //get all tags in general (will need for expanded view)
+      context.read<ItemBloc>().clientGetsAllTags();
     });
 
     return BlocConsumer<ItemBloc, ItemState>(

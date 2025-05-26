@@ -1,5 +1,8 @@
 ﻿using Api.Websocket.ServerResponses;
 using Application.Infrastructure.Postgres;
+using Application.Models.DTOs;
+using Application.Utility;
+using Core.Domain.Entities;
 using Fleck;
 using WebSocketBoilerplate;
 
@@ -18,10 +21,14 @@ public class ClientAddsTagToItem(IItemRepository itemRepo) : BaseEventHandler<Cl
 
         await itemRepo.AddTagToItem(dto.itemId, dto.typeId);
 
+        TagType addedTag = await itemRepo.GetTagWithId(dto.typeId);
+        
+        TagDto addedTagDto = ItemEntityUtil.TagTypeToTagDto(addedTag) ;
+
         ServerSendsCreatedItemTag responseDto = new ServerSendsCreatedItemTag()
         {
             ItemId = dto.itemId,
-            TagId = dto.typeId,
+            Tag = addedTagDto,
             Message = "successfully added tag " + dto.typeId + " to Item!!!!!"
         };
         

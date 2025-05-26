@@ -59,11 +59,17 @@ class ClientDeletesItemEvent extends BaseEvent with ClientDeletesItemEventMappab
   ClientDeletesItemEvent({required this.id, required super.eventType, required super.requestId});
 }
 
+@MappableClass(discriminatorValue: ClientGetsAllTagsEvent.name)
+class ClientGetsAllTagsEvent extends BaseEvent with ClientGetsAllTagsEventMappable {
+  static const String name = "ClientGetsAllTags";
+
+  ClientGetsAllTagsEvent({ required super.eventType, required super.requestId});
+}
+
 @MappableClass(discriminatorValue: ClientGetsTagWithNameEvent.name)
 class ClientGetsTagWithNameEvent extends BaseEvent with ClientGetsTagWithNameEventMappable {
   static const String name = "ClientGetsTagWithName";
   final String tagName;
-
 
   ClientGetsTagWithNameEvent({required this.tagName, required super.eventType, required super.requestId});
 }
@@ -131,7 +137,15 @@ class ServerDeletedItemEvent extends BaseEvent with ServerDeletedItemEventMappab
   ServerDeletedItemEvent({required this.itemId, required super.eventType, required super.requestId});
 }
 
-@MappableClass(discriminatorValue: ServerSendsTagWithName.name)
+@MappableClass(discriminatorValue: ServerSendsAllTagsEvent.name)
+class ServerSendsAllTagsEvent extends BaseEvent with ServerSendsAllTagsEventMappable {
+  static const String name = "ServerSendsAllTags";
+  final List<TagDto> allTags;
+
+  ServerSendsAllTagsEvent({ required this.allTags,required super.eventType, required super.requestId});
+}
+
+@MappableClass(discriminatorValue: ServerSendsTagWithNameEvent.name)
 class ServerSendsTagWithNameEvent extends BaseEvent with ServerSendsTagWithNameEventMappable {
   static const String name = "ServerSendsTagWithName";
   final TagDto tagWithName;
@@ -139,22 +153,22 @@ class ServerSendsTagWithNameEvent extends BaseEvent with ServerSendsTagWithNameE
   ServerSendsTagWithNameEvent({required this.tagWithName, required super.eventType, required super.requestId});
 }
 
-@MappableClass(discriminatorValue: ServerDeletedTagFromItem.name)
+@MappableClass(discriminatorValue: ServerSendsCreatedItemTagEvent.name)
 class ServerSendsCreatedItemTagEvent extends BaseEvent with ServerSendsCreatedItemTagEventMappable {
   static const String name = "ServerSendsCreatedItemTag";
   final String itemId;
-  final String tagId;
+  final TagDto tag;
 
-  ServerSendsCreatedItemTagEvent({required this.itemId, required super.eventType, required super.requestId});
+  ServerSendsCreatedItemTagEvent( {required this.itemId, required this.tag, required super.eventType, required super.requestId});
 }
 
-@MappableClass(discriminatorValue: ServerDeletedTagFromItem.name)
+@MappableClass(discriminatorValue: ServerDeletedTagFromItemEvent.name)
 class ServerDeletedTagFromItemEvent extends BaseEvent with ServerDeletedTagFromItemEventMappable {
   static const String name = "ServerDeletedTagFromItem";
   final String itemId;
   final String tagId;
 
-  ServerDeletedTagFromItemEvent({required this.itemId, required super.eventType, required super.requestId});
+  ServerDeletedTagFromItemEvent({required this.itemId, required this.tagId, required super.eventType, required super.requestId});
 }
 
 ////////// Project events /////////

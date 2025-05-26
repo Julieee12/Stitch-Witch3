@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stitch_witch_aid/inventory/Item-bloc.dart';
 import 'package:stitch_witch_aid/inventory/inventory-model.dart';
 import 'package:stitch_witch_aid/inventory/item-state.dart';
+import 'package:stitch_witch_aid/tag/all-tags.dart';
+import 'package:stitch_witch_aid/tag/tags-model.dart';
 
 import '../root/brand-colors.dart';
 import 'inventory-update-dialog.dart';
@@ -17,6 +19,17 @@ class ItemExpandedView extends StatefulWidget {
 }
 
 class _ItemExpandedViewState extends State<ItemExpandedView> {
+
+  late List<TagDto> tags = [];
+  late TagDto selectedTag;
+
+  @override
+  void initState() {
+    getAllItemTagTypes();
+    super.initState();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     InventoryItemModel itemToUpdate =
@@ -110,6 +123,60 @@ class _ItemExpandedViewState extends State<ItemExpandedView> {
                   ),
                   const SizedBox(height: 10),
                   ////////////// TAGS /////////////////
+                  Row(
+
+                    children: [
+                      Text(
+                        "add tag:",
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: BrandColors.purpleDark),
+                      ),
+                      Container(
+                        width: 80,
+                        child: DropdownButtonFormField<String>(
+                          value: selectedTag.tagTypeId,
+                          isExpanded: true,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: BrandColors.purpleVeryLight,
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 3, vertical: 1),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: BrandColors.purpleLightish, width: 1),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: BrandColors.purpleLightish, width: 1),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: BrandColors.purpleLightish, width: 1.5),
+                            ),
+                          ),
+                          items: tags.map((currentTag) {
+                            return DropdownMenuItem<String>(
+                              value: currentTag.tagTypeId,
+                              child: Text(currentTag.typename),
+                            );
+                          }).toList(),
+                          onChanged: (String? selectedValue) {
+                            setState(() {
+                              selectedTag = tags.firstWhere((tag) => tag.tagTypeId == selectedValue);
+                              print(selectedTag);
+                            });
+                          },
+                        ),
+                      ),
+                      OutlinedButton(
+                          onPressed: () {
+
+                            BlocProvider.of<ItemBloc>(context).clientAddsTagToItem(itemToUpdate.id, selectedTag.tagTypeId);
+
+                          },
+                          child: Text("Add")),
+                    ],
+                  ),
 
                   itemToUpdate.tags != null && itemToUpdate.tags!.isNotEmpty ?
                   Container(
@@ -159,4 +226,32 @@ class _ItemExpandedViewState extends State<ItemExpandedView> {
       ),
     );
   }
+
+  //gets the tag type variables for each tag name
+  void getAllItemTagTypes(){
+    if(TagVariables.allTags.isNotEmpty){
+      // if the tag (variable) has the same name as any
+      // of the strings in itemTags, add it to the list
+      TagVariables.itemTags.forEach((tagName) {
+        tags.add(
+            TagVariables.allTags.firstWhere(
+                    (tag) => tag.typename == tagName));
+
+      });
+
+      tags.forEach((tag)  {
+        print(tag.typename);
+      });
+
+      selectedTag = tags.first;
+    } else{
+      print("TAGS R EMPTY!! EMPTY !!!!! MEPTY!!!!!!!!!! EMPOTY!!!!!!!!");
+    }
+  }
+
+
+
+
+
+
 }

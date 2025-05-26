@@ -6,6 +6,7 @@ import 'package:bloc/bloc.dart';
 import 'package:stitch_witch_aid/events/events.dart';
 import 'package:stitch_witch_aid/inventory/inventory-item-dto.dart';
 import 'package:stitch_witch_aid/inventory/inventory-model.dart';
+import 'package:stitch_witch_aid/tag/all-tags.dart';
 import 'package:uuid/uuid.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -24,6 +25,9 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
     on<ClientUpdatesItemEvent>(_onClientEvent);
     on<ClientDeletesItemEvent>(_onClientEvent);
     on<ClientGetsAllItemsWithTagsEvent>(_onClientEvent);
+    on<ClientGetsAllTagsEvent>(_onClientEvent);
+    on<ClientAddsTagToItemEvent>(_onClientEvent);
+    on<ClientDeletesTagFromItemEvent>(_onClientEvent);
 
 
     ////////////////////Server event handlers////////////////////////
@@ -33,6 +37,7 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
     on<ServerSendsCreatedItemEvent>(_onServerSendsCreatedItem);
     on<ServerDeletedItemEvent>(_onServerDeletedItem);
     on<ServerSendsAllItemsWithTagsEvent>(_onServerSendsAllItemsWithTags);
+    on<ServerSendsAllTagsEvent>(_onServerSendsAllTags);
 
     //feed deserialized events into this bloc
     //basically just listening to events
@@ -97,6 +102,14 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
         typeId: typeID));
   }
 
+  void clientGetsTagWithName(String tagName){
+    print("88888888888888888888  GETTING TAG WITH NAME  888888888888888888888888888888888888");
+    add(ClientGetsTagWithNameEvent(
+        eventType: ClientGetsTagWithNameEvent.name,
+        requestId: Uuid().v4(),
+        tagName: tagName ));
+  }
+
   void clientDeletesTagFromItem(String itemID, String typeID){
     print("+++=====++++++======+++++++ DELETING TAG TO ITEM ===+++++++++++=========++++++++++++");
     add(ClientDeletesTagFromItemEvent(
@@ -104,6 +117,14 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
         requestId: Uuid().v4(),
         itemId: itemID,
         typeId: typeID));
+  }
+
+  void clientGetsAllTags(){
+    print("= = = = = = = =  G E T T I N G   A L L   T A G S  = = = = = = = = = = = =");
+    add(ClientGetsAllTagsEvent(
+        eventType: ClientGetsAllTagsEvent.name,
+        requestId: Uuid().v4(),
+    ));
   }
 
 
@@ -173,6 +194,52 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
     emit(stateCopy);
 
   }
+
+  FutureOr<void> _onServerSendsAllTags(
+      ServerSendsAllTagsEvent event,
+      Emitter<ItemState> emit) {
+    print("SERVER HAS SENT ALL TAGS !!!!!!!");
+
+    TagVariables.allTags = event.allTags;
+
+    TagVariables.allTags.forEach((tag) {
+      print(tag.typename);
+    });
+
+  }
+
+  FutureOr<void> _onServerSendsCreatedItemTag(
+      ServerSendsCreatedItemTagEvent event,
+      Emitter<ItemState> emit) {
+    print("created item tag *cool guy emoji*");
+
+    var stateCopy = ItemState(items: [...state.items]);
+
+    int indexOfItemToUpdate = stateCopy.items.indexWhere((item) => item.id == event.itemId);
+
+    stateCopy.items[indexOfItemToUpdate].tags?.add(event.tag);
+
+    emit(stateCopy);
+
+  }
+
+  FutureOr<void> _onServerDeletedItemTag(
+      ServerDeletedTagFromItemEvent event,
+      Emitter<ItemState> emit) {
+    print("created item tag *cool guy emoji*");
+
+    var stateCopy = ItemState(items: [...state.items]);
+
+    int indexOfItemToUpdate = stateCopy.items.indexWhere((item) => item.id == event.itemId);
+
+    stateCopy.items[indexOfItemToUpdate].tags?.removeWhere((tag) => tag.tagTypeId == event.tagId);
+
+    emit(stateCopy);
+
+  }
+
+
+
 
   FutureOr<void> _onServerSendsErrorMessage(
       ServerSendsErrorMessageEvent event,

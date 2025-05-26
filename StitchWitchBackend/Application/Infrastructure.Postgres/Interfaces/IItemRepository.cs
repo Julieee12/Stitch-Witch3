@@ -14,6 +14,10 @@ public interface IItemRepository
     public Task<Item> UpdateItem(Item item);
 
     public Task DeleteItem(string id);
+    
+    public Task<List<TagType>> GetAllTags();
+
+    public Task<TagType> GetTagWithId(String id);
 
     public Task<TagType> GetTagWithName(String name);
 

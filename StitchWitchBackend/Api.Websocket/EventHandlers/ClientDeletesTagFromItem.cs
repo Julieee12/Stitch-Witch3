@@ -23,7 +23,7 @@ public class ClientDeletesTagFromItem(IItemRepository itemRepo) : BaseEventHandl
         };
         await itemRepo.RemoveTagFromItem(itemTag);
 
-        ServerDeletedItemTag responseDto = new ServerDeletedItemTag()
+        ServerDeletedTagFromItem responseDto = new ServerDeletedTagFromItem()
         {
             ItemId = itemTag.Itemid,
             TagId = itemTag.Tagid,
