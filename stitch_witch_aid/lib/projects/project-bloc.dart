@@ -24,6 +24,8 @@ class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
     on<ClientUpdatesProjectEvent>(_onClientEvent);
     on<ClientGetsAllProjectsWithTagsEvent>(_onClientEvent);
     on<ClientGetsAllTagsEvent>(_onClientEvent);
+    on<ClientAddsTagToProjectEvent>(_onClientEvent);
+    on<ClientDeletesTagFromProjectEvent>(_onClientEvent);
 
 
     ////////////////////// Handlers for server events //////////////////////
@@ -194,12 +196,16 @@ class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
       ServerSendsCreatedProjectTagEvent event,
       Emitter<ProjectsState> emit) {
 
+    print("recieved created project tag");
     var stateCopy = ProjectsState(projects: [...state.projects], filteredProjects: [...state.filteredProjects]);
 
     int indexOfItemToUpdate = stateCopy.projects.indexWhere((item) => item.id == event.projectId);
 
+    int indexOfFilteredProjToUpdate = stateCopy.filteredProjects.indexWhere((proj) => proj.id == event.projectId);
+
+
     stateCopy.projects[indexOfItemToUpdate].tags.add(event.tag);
-    stateCopy.filteredProjects[indexOfItemToUpdate].tags.add(event.tag);
+    stateCopy.filteredProjects[indexOfFilteredProjToUpdate].tags.add(event.tag);
 
     emit(stateCopy);
 
@@ -213,8 +219,12 @@ class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
 
     int indexOfItemToUpdate = stateCopy.projects.indexWhere((project) => project.id == event.projectId);
 
+    int indexOfFilteredProjToUpdate = stateCopy.filteredProjects.indexWhere((proj) => proj.id == event.projectId);
+
+
+
     stateCopy.projects[indexOfItemToUpdate].tags.removeWhere((tag) => tag.tagTypeId == event.tagId);
-    stateCopy.filteredProjects[indexOfItemToUpdate].tags.removeWhere((tag) => tag.tagTypeId == event.tagId);
+    stateCopy.filteredProjects[indexOfFilteredProjToUpdate].tags.removeWhere((tag) => tag.tagTypeId == event.tagId);
 
     emit(stateCopy);
 

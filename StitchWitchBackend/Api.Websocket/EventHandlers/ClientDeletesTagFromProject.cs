@@ -26,6 +26,7 @@ public class ClientDeletesTagFromProject(IProjectRepository projRepo) : BaseEven
 
         ServerDeletedTagFromProject responseDto = new ServerDeletedTagFromProject()
         {
+            requestId = dto.requestId,
             ProjectId = dto.projectId,
             TagId = dto.typeId,
         };

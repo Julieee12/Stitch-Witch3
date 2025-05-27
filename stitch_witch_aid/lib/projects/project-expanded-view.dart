@@ -186,7 +186,7 @@ class _ProjectExpandedViewState extends State<ProjectExpandedView> {
                       OutlinedButton(
                           onPressed: () {
 
-                            //BlocProvider.of<ProjectBloc>(context).clientAddsTagToItem(itemToUpdate.id, selectedTag.tagTypeId);
+                            BlocProvider.of<ProjectBloc>(context).clientAddsTagToProject(projectToUpdate.id, selectedTag.tagTypeId);
 
                           },
                           child: Text("Add")),

@@ -27,6 +27,7 @@ public class ClientAddsTagToProject(IProjectRepository projRepo, IItemRepository
 
         ServerSendsCreatedProjectTag responseDto = new ServerSendsCreatedProjectTag()
         {
+            requestId = dto.requestId,
             ProjectId = dto.projectId,
             Tag = addedTagDto
         };
