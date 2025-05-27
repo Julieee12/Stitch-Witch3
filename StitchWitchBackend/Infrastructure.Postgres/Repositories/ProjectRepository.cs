@@ -92,4 +92,23 @@ public class ProjectRepository(StitchWitchDbContext context) : IProjectRepositor
         
         return projectDto;
     }
+    
+    
+    public async Task AddTagToProject(String projId, String typeId)
+    {
+        ProjectTag newTag = new ProjectTag()
+        {
+            Projectid = projId,
+            Tagid = typeId,
+        };
+        await context.ProjectTags.AddAsync(newTag);
+        await context.SaveChangesAsync();
+    }
+    
+    public async Task RemoveTagFromProject(ProjectTag tag)
+    {
+        context.ProjectTags.Remove(tag);
+        await context.SaveChangesAsync();
+    }
+    
 }

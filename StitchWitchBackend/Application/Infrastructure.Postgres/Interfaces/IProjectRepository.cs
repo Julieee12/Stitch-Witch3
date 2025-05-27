@@ -15,4 +15,8 @@ public interface IProjectRepository
 
     public Task<List<ProjectDtoWithTags>> GetAllProjectsWithTags();
 
+    public Task AddTagToProject(String projId, String typeId);
+
+    public Task RemoveTagFromProject(ProjectTag tag);
+
 }
