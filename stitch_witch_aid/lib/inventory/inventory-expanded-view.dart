@@ -111,12 +111,13 @@ class _ItemExpandedViewState extends State<ItemExpandedView> {
 
                   ////////////// TAGS /////////////////
                   Row(
-
+                    spacing: 10,
                     children: [
                       Text(
-                        "add tag:",
+                        "Add Tag:",
                         style: TextStyle(
                             fontSize: 16,
+                            fontWeight: FontWeight.bold,
                             color: BrandColors.purpleDark),
                       ),
                       Container(
@@ -155,7 +156,10 @@ class _ItemExpandedViewState extends State<ItemExpandedView> {
                           },
                         ),
                       ),
-                      OutlinedButton(
+                      FilledButton(
+                          style: FilledButton.styleFrom(
+                            backgroundColor: BrandColors.purpleLight,
+                          ),
                           onPressed: () {
 
                             BlocProvider.of<ItemBloc>(context).clientAddsTagToItem(widget.selectedItem.id, selectedTag.tagTypeId);
