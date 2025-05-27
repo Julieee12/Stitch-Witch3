@@ -25,6 +25,7 @@ class _ProjectExpandedViewState extends State<ProjectExpandedView> {
 
   @override
   void initState() {
+    print(widget.projectIndexToUpdate);
     getAllProjectTagTypes();
     super.initState();
   }

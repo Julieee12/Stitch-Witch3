@@ -205,7 +205,7 @@ class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
 
 
     stateCopy.projects[indexOfItemToUpdate].tags.add(event.tag);
-    stateCopy.filteredProjects[indexOfFilteredProjToUpdate].tags.add(event.tag);
+    //stateCopy.filteredProjects[indexOfFilteredProjToUpdate].tags.add(event.tag);
 
     emit(stateCopy);
 

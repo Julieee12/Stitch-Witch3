@@ -60,7 +60,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
-                                ProjectExpandedView(projectIndexToUpdate: state.filteredProjects.indexOf(project)),
+                                ProjectExpandedView(projectIndexToUpdate: index),
                           ),
                         );
                       },
