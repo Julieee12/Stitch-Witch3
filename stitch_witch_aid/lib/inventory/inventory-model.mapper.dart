@@ -32,7 +32,7 @@ class InventoryItemModelMapper extends ClassMapperBase<InventoryItemModel> {
   static String? _$picurl(InventoryItemModel v) => v.picurl;
   static const Field<InventoryItemModel, String> _f$picurl =
       Field('picurl', _$picurl);
-  static List<TagDto>? _$tags(InventoryItemModel v) => v.tags;
+  static List<TagDto> _$tags(InventoryItemModel v) => v.tags;
   static const Field<InventoryItemModel, List<TagDto>> _f$tags =
       Field('tags', _$tags);
 
@@ -109,7 +109,7 @@ extension InventoryItemModelValueCopy<$R, $Out>
 
 abstract class InventoryItemModelCopyWith<$R, $In extends InventoryItemModel,
     $Out> implements ClassCopyWith<$R, $In, $Out> {
-  ListCopyWith<$R, TagDto, TagDtoCopyWith<$R, TagDto, TagDto>>? get tags;
+  ListCopyWith<$R, TagDto, TagDtoCopyWith<$R, TagDto, TagDto>> get tags;
   $R call(
       {String? id,
       String? name,
@@ -129,24 +129,22 @@ class _InventoryItemModelCopyWithImpl<$R, $Out>
   late final ClassMapperBase<InventoryItemModel> $mapper =
       InventoryItemModelMapper.ensureInitialized();
   @override
-  ListCopyWith<$R, TagDto, TagDtoCopyWith<$R, TagDto, TagDto>>? get tags =>
-      $value.tags != null
-          ? ListCopyWith($value.tags!, (v, t) => v.copyWith.$chain(t),
-              (v) => call(tags: v))
-          : null;
+  ListCopyWith<$R, TagDto, TagDtoCopyWith<$R, TagDto, TagDto>> get tags =>
+      ListCopyWith(
+          $value.tags, (v, t) => v.copyWith.$chain(t), (v) => call(tags: v));
   @override
   $R call(
           {String? id,
           String? name,
           Object? description = $none,
           Object? picurl = $none,
-          Object? tags = $none}) =>
+          List<TagDto>? tags}) =>
       $apply(FieldCopyWithData({
         if (id != null) #id: id,
         if (name != null) #name: name,
         if (description != $none) #description: description,
         if (picurl != $none) #picurl: picurl,
-        if (tags != $none) #tags: tags
+        if (tags != null) #tags: tags
       }));
   @override
   InventoryItemModel $make(CopyWithData data) => InventoryItemModel(

@@ -47,7 +47,7 @@ class ProjectItemModelMapper extends ClassMapperBase<ProjectItemModel> {
       Field('time', _$time, opt: true);
   static List<TagDto>? _$tags(ProjectItemModel v) => v.tags;
   static const Field<ProjectItemModel, List<TagDto>> _f$tags =
-      Field('tags', _$tags, opt: true);
+      Field('tags', _$tags);
 
   @override
   final MappableFields<ProjectItemModel> fields = const {

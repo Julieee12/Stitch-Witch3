@@ -7,7 +7,6 @@ import 'package:uuid/uuid.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../events/events.dart';
-import '../tag/all-tags.dart';
 
 
 class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
@@ -22,7 +21,7 @@ class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
     on<ClientCreatesNewProjectEvent>(_onClientEvent);
     on<ClientDeletesProjectEvent>(_onClientEvent);
     on<ClientUpdatesProjectEvent>(_onClientEvent);
-    on<ClientGetsAllTagsEvent>(_onClientEvent);
+    on<ClientGetsAllProjectsWithTagsEvent>(_onClientEvent);
 
 
     ////////////////////// Handlers for server events //////////////////////
@@ -30,8 +29,8 @@ class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
     on<ServerSendsCreatedProjectEvent>(_onServerSendsCreatedProject);
     on<ServerDeletedProjectEvent>(_onServerDeletedProject);
     on<ServerSendsUpdatedProjectEvent>(_onServerUpdatedProject);
+    on<ServerSendsAllProjectsWithTagsEvent>(_onServerSendsAllProjectsWithTags);
     on<ServerSendsErrorMessageEvent>(_onServerSendsErrorMessage);
-    on<ServerSendsAllTagsEvent>(_onServerSendsAllTags);
 
 
     ///////////////////// Feed deserialized events from server into this bloc //////////////////////
@@ -60,6 +59,13 @@ class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
         requestId: Uuid().v4()));
   }
 
+  void clientGetsAllProjectsWithTags() {
+    print("trying to get all projects with tags");
+    add(ClientGetsAllProjectsWithTagsEvent(
+        eventType: ClientGetsAllProjectsWithTagsEvent.name,
+        requestId: Uuid().v4()));
+  }
+
   void clientCreatesNewProject(CreateNewProjectDto dto) {
     add(ClientCreatesNewProjectEvent(
         createNewProjectDto: dto,
@@ -81,13 +87,6 @@ class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
         requestId: Uuid().v4()));
   }
 
-  void clientGetsAllTags(){
-    print("= = = = = = = =  G E T T I N G   A L L   T A G S  = = = = = = = = = = = =");
-    add(ClientGetsAllTagsEvent(
-      eventType: ClientGetsAllTagsEvent.name,
-      requestId: Uuid().v4(),
-    ));
-  }
 
   ///////////////////// Receiving server events /////////////////////
   FutureOr<void> _onServerSendsAllProjects(
@@ -96,7 +95,17 @@ class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
     var stateCopy = ProjectsState.empty();
 
     stateCopy.projects.addAll(event.projects);
-    stateCopy.filteredProjects.addAll(event.projects);
+
+    emit(stateCopy);
+  }
+
+  FutureOr<void> _onServerSendsAllProjectsWithTags(
+      ServerSendsAllProjectsWithTagsEvent event,
+      Emitter<ProjectsState> emit) {
+    print("RECIEVED PROJECTS WITH TAGS !!");
+    var stateCopy = ProjectsState.empty();
+
+    stateCopy.projects.addAll(event.projectsWithTags);
 
     emit(stateCopy);
   }
@@ -107,7 +116,6 @@ class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
     var stateCopy = ProjectsState(projects: [...state.projects], filteredProjects: [...state.filteredProjects]);
 
     stateCopy.projects.add(event.projectDto);
-    stateCopy.filteredProjects.add(event.projectDto);
 
     emit(stateCopy);
   }
@@ -118,7 +126,6 @@ class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
     var stateCopy = ProjectsState(projects: [...state.projects], filteredProjects: [...state.filteredProjects]);
 
     stateCopy.projects.removeWhere((project) => project.id == event.projectId);
-    stateCopy.filteredProjects.removeWhere((project) => project.id == event.projectId);
 
     emit(stateCopy);
   }
@@ -131,22 +138,8 @@ class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
     var indexOfProjectToUpdate = stateCopy.projects.indexWhere((project) => project.id == event.projectDto.id);
 
     stateCopy.projects[indexOfProjectToUpdate] = event.projectDto;
-    stateCopy.filteredProjects[indexOfProjectToUpdate] = event.projectDto;
 
     emit(stateCopy);
-  }
-
-  FutureOr<void> _onServerSendsAllTags(
-      ServerSendsAllTagsEvent event,
-      Emitter<ProjectsState> emit) {
-    print("SERVER HAS SENT ALL TAGS !!!!!!!");
-
-    TagVariables.allTags = event.allTags;
-
-    TagVariables.allTags.forEach((tag) {
-      print(tag.typename);
-    });
-
   }
 
   FutureOr<void> _onServerSendsErrorMessage(
