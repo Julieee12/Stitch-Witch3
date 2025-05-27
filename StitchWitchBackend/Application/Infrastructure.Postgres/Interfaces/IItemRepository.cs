@@ -19,8 +19,6 @@ public interface IItemRepository
 
     public Task<TagType> GetTagWithId(String id);
 
-    public Task<TagType> GetTagWithName(String name);
-
     public Task AddTagToItem(String itemId, String typeId);
 
     public Task RemoveTagFromItem(String itemId, String tagId);

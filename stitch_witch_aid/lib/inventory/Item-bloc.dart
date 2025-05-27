@@ -104,14 +104,6 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
         typeId: typeID));
   }
 
-  void clientGetsTagWithName(String tagName){
-    print("88888888888888888888  GETTING TAG WITH NAME  888888888888888888888888888888888888");
-    add(ClientGetsTagWithNameEvent(
-        eventType: ClientGetsTagWithNameEvent.name,
-        requestId: Uuid().v4(),
-        tagName: tagName ));
-  }
-
   void clientDeletesTagFromItem(String itemID, String typeID){
     print("+++=====++++++======+++++++ DELETING TAG TO ITEM ===+++++++++++=========++++++++++++");
     add(ClientDeletesTagFromItemEvent(

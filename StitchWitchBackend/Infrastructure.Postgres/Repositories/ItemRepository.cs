@@ -101,10 +101,6 @@ public class ItemRepository(StitchWitchDbContext context, IMediaHostingService m
         return await context.TagTypes.Where(t => t.Id == id).FirstOrDefaultAsync();
     }
     
-    public async Task<TagType> GetTagWithName(String name)
-    {
-        return await context.TagTypes.Where(t => t.Typename == name).FirstOrDefaultAsync();
-    }
     
     public async Task AddTagToItem(String itemId, String typeId)
     {

@@ -68,14 +68,6 @@ class ClientGetsAllTagsEvent extends BaseEvent with ClientGetsAllTagsEventMappab
   ClientGetsAllTagsEvent({ required super.eventType, required super.requestId});
 }
 
-@MappableClass(discriminatorValue: ClientGetsTagWithNameEvent.name)
-class ClientGetsTagWithNameEvent extends BaseEvent with ClientGetsTagWithNameEventMappable {
-  static const String name = "ClientGetsTagWithName";
-  final String tagName;
-
-  ClientGetsTagWithNameEvent({required this.tagName, required super.eventType, required super.requestId});
-}
-
 @MappableClass(discriminatorValue: ClientAddsTagToItemEvent.name)
 class ClientAddsTagToItemEvent extends BaseEvent with ClientAddsTagToItemEventMappable {
   static const String name = "ClientAddsTagToItem";
@@ -145,14 +137,6 @@ class ServerSendsAllTagsEvent extends BaseEvent with ServerSendsAllTagsEventMapp
   final List<TagDto> allTags;
 
   ServerSendsAllTagsEvent({ required this.allTags,required super.eventType, required super.requestId});
-}
-
-@MappableClass(discriminatorValue: ServerSendsTagWithNameEvent.name)
-class ServerSendsTagWithNameEvent extends BaseEvent with ServerSendsTagWithNameEventMappable {
-  static const String name = "ServerSendsTagWithName";
-  final TagDto tagWithName;
-
-  ServerSendsTagWithNameEvent({required this.tagWithName, required super.eventType, required super.requestId});
 }
 
 @MappableClass(discriminatorValue: ServerSendsCreatedItemTagEvent.name)
