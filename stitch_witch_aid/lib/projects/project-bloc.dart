@@ -106,6 +106,7 @@ class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
     var stateCopy = ProjectsState.empty();
 
     stateCopy.projects.addAll(event.projects);
+    stateCopy.filteredProjects.addAll(event.projects);
 
     emit(stateCopy);
   }
@@ -114,11 +115,13 @@ class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
       ServerSendsAllProjectsWithTagsEvent event,
       Emitter<ProjectsState> emit) {
     print("RECIEVED PROJECTS WITH TAGS !!");
-    var stateCopy = ProjectsState.empty();
+    state.projects.clear();
+    state.projects.addAll(event.projectsWithTags);
 
-    stateCopy.projects.addAll(event.projectsWithTags);
+    state.filteredProjects.clear();
+    state.filteredProjects.addAll(event.projectsWithTags);
 
-    emit(stateCopy);
+    emit(state);
   }
 
   FutureOr<void> _onServerSendsCreatedProject(
@@ -127,6 +130,7 @@ class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
     var stateCopy = ProjectsState(projects: [...state.projects], filteredProjects: [...state.filteredProjects]);
 
     stateCopy.projects.add(event.projectDto);
+    stateCopy.filteredProjects.add(event.projectDto);
 
     emit(stateCopy);
   }
@@ -137,6 +141,7 @@ class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
     var stateCopy = ProjectsState(projects: [...state.projects], filteredProjects: [...state.filteredProjects]);
 
     stateCopy.projects.removeWhere((project) => project.id == event.projectId);
+    stateCopy.filteredProjects.removeWhere((project) => project.id == event.projectId);
 
     emit(stateCopy);
   }
@@ -149,6 +154,8 @@ class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
     var indexOfProjectToUpdate = stateCopy.projects.indexWhere((project) => project.id == event.projectDto.id);
 
     stateCopy.projects[indexOfProjectToUpdate] = event.projectDto;
+    stateCopy.filteredProjects[indexOfProjectToUpdate] = event.projectDto;
+
 
     emit(stateCopy);
   }
