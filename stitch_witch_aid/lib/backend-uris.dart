@@ -1,9 +1,9 @@
 class BackendUris {
   //deployed URI
-  //static final String wsUri = 'wss://stitch-witch-backend-766551077366.europe-west1.run.app';
+  //static final String deployedWsUri = 'wss://stitch-witch-backend-766551077366.europe-west1.run.app';
 
   //local URI
-  static final String wsUri = 'ws://127.0.0.1:8181';
+  static final String localWsUri = 'ws://127.0.0.1:8181';
 
 }
 
