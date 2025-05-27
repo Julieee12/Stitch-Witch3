@@ -14,7 +14,7 @@ import 'projects/project-bloc.dart';
 
 void main() {
   ////////////////////// Connect to the backend websocket server //////////////////////
-  final wsUri = Uri.parse('${BackendUris.localWsUri}?id=${Uuid().v4()}');
+  final wsUri = Uri.parse('${BackendUris.deployedWsUri}?id=${Uuid().v4()}');
 
   //final channel = WebSocketChannel.connect(wsUri);
 
