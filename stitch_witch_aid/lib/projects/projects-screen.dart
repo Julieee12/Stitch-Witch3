@@ -55,15 +55,15 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                 crossAxisCount: 2,
                 crossAxisSpacing: 30,
                 mainAxisSpacing: 15,
-                children: List.generate(state.filteredProjects.length, (index) {
-                  final project = state.filteredProjects[index];
+                children: List.generate(state.projects.length, (index) {
+                  final project = state.projects[index];
                   return GestureDetector(
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              ProjectExpandedView(projectIndexToUpdate: state.filteredProjects.indexOf(project)),
+                              ProjectExpandedView(projectIndexToUpdate: index),
                         ),
                       );
                     },
