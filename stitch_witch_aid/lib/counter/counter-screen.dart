@@ -54,28 +54,25 @@ class _CounterScreenState extends State<CounterScreen> {
     WakelockPlus.enable();
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     //////////// Retrieve all projects and set default selected project ////////////////////
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ProjectBloc projectBloc = BlocProvider.of<ProjectBloc>(context);
 
-      projectBloc.clientGetsAllProjects();
-
-      setState(() {
-        if (_selectedProject == null) {
-          _selectedProject = projectBloc.state.projects.firstOrNull;
-
-          setElapsedSeconds();
-        }
-      });
+      projectBloc.clientGetsAllProjectsWithTags();
     });
 
-
     return BlocConsumer<ProjectBloc, ProjectsState>(
-       listener: (context, state) {},
+       listener: (context, state) {
+         setState(() {
+           if (_selectedProject == null) {
+             _selectedProject = state.projects.firstOrNull;
+
+             setElapsedSeconds();
+           }
+         });
+       },
        builder: (context, state) => SingleChildScrollView( // Make the whole screen scrollable if content exceeds the screen
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 30),
