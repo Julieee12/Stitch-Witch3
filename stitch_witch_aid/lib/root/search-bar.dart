@@ -3,8 +3,15 @@ import 'package:flutter/material.dart';
 import 'brand-colors.dart';
 
 class TopSearchBar extends StatefulWidget {
-  final Widget caller;
-  const TopSearchBar({super.key, required this.caller});
+  const TopSearchBar({super.key, required this.callback, required this.refreshParent});
+
+  // Callback function to call with the search query.
+  final Function(String) callback;
+  /*
+  Callback function to tell the parent widget to
+  refresh its page.
+   */
+  final Function() refreshParent;
 
   @override
   State<TopSearchBar> createState() => _TopSearchBarState();
@@ -14,7 +21,6 @@ class _TopSearchBarState extends State<TopSearchBar> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-
       padding: const EdgeInsets.only(top: 60, left: 10, right: 10),
       child: SizedBox(
         height: 40,
@@ -39,8 +45,9 @@ class _TopSearchBarState extends State<TopSearchBar> {
             hintStyle: const TextStyle(fontSize: 16),
             contentPadding: const EdgeInsets.symmetric(vertical: 0), // Tight padding
           ),
-          onTap: () {
-            // TODO: implement search
+          onChanged: (String query) {
+            widget.callback(query);
+            widget.refreshParent();
           },
         ),
       ),

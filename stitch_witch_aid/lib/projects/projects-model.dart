@@ -1,11 +1,12 @@
 import 'package:dart_mappable/dart_mappable.dart';
+import 'package:stitch_witch_aid/abstractions/abstract-searchable.dart';
 
 import '../tag/tags-model.dart';
 
 part 'projects-model.mapper.dart';
 
 @MappableClass()
-class ProjectItemModel with ProjectItemModelMappable {
+class ProjectItemModel extends AbstractSearchable with ProjectItemModelMappable {
   String id;
   String name;
   int stitch;
@@ -28,6 +29,13 @@ class ProjectItemModel with ProjectItemModelMappable {
       this.hook,
       this.time,
       required this.tags});
+
+  @override
+  ProjectItemModel? search(String query) {
+    var searchableFields = '$id$name$description$yarn$hook'.toLowerCase();
+    var lowercaseQuery = query.toLowerCase();
+    return searchableFields.contains(lowercaseQuery) ? this : null;
+  }
 }
 
 @MappableClass()

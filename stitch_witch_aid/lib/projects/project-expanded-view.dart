@@ -10,31 +10,26 @@ import '../tag/all-tags.dart';
 import '../tag/tags-model.dart';
 
 class ProjectExpandedView extends StatefulWidget {
-  final int projectIndexToUpdate;
+  final ProjectItemModel selectedProject;
 
-  const ProjectExpandedView({Key? key, required this.projectIndexToUpdate}) : super(key: key);
+  const ProjectExpandedView({Key? key, required this.selectedProject}) : super(key: key);
 
   @override
   State<ProjectExpandedView> createState() => _ProjectExpandedViewState();
 }
 
 class _ProjectExpandedViewState extends State<ProjectExpandedView> {
-
   late List<TagDto> tags = [];
   late TagDto selectedTag;
 
   @override
   void initState() {
-    print(widget.projectIndexToUpdate);
     getAllProjectTagTypes();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    ProjectItemModel projectToUpdate =
-    BlocProvider.of<ProjectBloc>(context).state.projects[widget.projectIndexToUpdate];
-
     return BlocConsumer<ProjectBloc, ProjectsState>(
       listener: (context, state) {
         setState(() {});
@@ -43,7 +38,7 @@ class _ProjectExpandedViewState extends State<ProjectExpandedView> {
         backgroundColor: BrandColors.purpleExtraLight,
         appBar: AppBar(
           title: Text(
-            projectToUpdate.name,
+            widget.selectedProject.name,
             style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
           ),
           backgroundColor: BrandColors.purpleSoft,
@@ -53,7 +48,7 @@ class _ProjectExpandedViewState extends State<ProjectExpandedView> {
             IconButton(
               icon: const Icon(Icons.delete),
               onPressed: () {
-                BlocProvider.of<ProjectBloc>(context).clientDeletesProject(projectToUpdate.id);
+                BlocProvider.of<ProjectBloc>(context).clientDeletesProject(widget.selectedProject.id);
                 Navigator.pop(context);
               },
             ),
@@ -71,7 +66,7 @@ class _ProjectExpandedViewState extends State<ProjectExpandedView> {
                       child: Material(
                         color: BrandColors.purpleExtraLight,
                         borderRadius: BorderRadius.circular(20),
-                        child: UpdateProjectDialog(projectToUpdate: projectToUpdate),
+                        child: UpdateProjectDialog(projectToUpdate: widget.selectedProject),
                       ),
                     ),
                   ),
@@ -91,9 +86,9 @@ class _ProjectExpandedViewState extends State<ProjectExpandedView> {
                   // Image display
                   ClipRRect(
                     borderRadius: BorderRadius.circular(12),
-                    child: projectToUpdate.picurl != null && projectToUpdate.picurl!.isNotEmpty
+                    child: widget.selectedProject.picurl != null && widget.selectedProject.picurl!.isNotEmpty
                         ? Image.network(
-                      projectToUpdate.picurl!,
+                      widget.selectedProject.picurl!,
                       height: 200,
                       fit: BoxFit.contain,
                     )
@@ -107,7 +102,7 @@ class _ProjectExpandedViewState extends State<ProjectExpandedView> {
 
                   // Description
                   Text(
-                    projectToUpdate.description ?? "No description available",
+                    widget.selectedProject.description ?? "No description available",
                     style: const TextStyle(fontSize: 18),
                   ),
                   const SizedBox(height: 30),
@@ -123,17 +118,17 @@ class _ProjectExpandedViewState extends State<ProjectExpandedView> {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    "Yarn: ${projectToUpdate.yarn ?? 'N/A'}",
+                    "Yarn: ${widget.selectedProject.yarn ?? 'N/A'}",
                     style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    "Hook: ${projectToUpdate.hook ?? 'N/A'}",
+                    "Hook: ${widget.selectedProject.hook ?? 'N/A'}",
                     style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    "Time spent on project: ${projectToUpdate.time ?? 'N/A'}",
+                    "Time spent on project: ${widget.selectedProject.time ?? 'N/A'}",
                     style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
 
                   ),
@@ -187,7 +182,7 @@ class _ProjectExpandedViewState extends State<ProjectExpandedView> {
                       OutlinedButton(
                           onPressed: () {
 
-                            BlocProvider.of<ProjectBloc>(context).clientAddsTagToProject(projectToUpdate.id, selectedTag.tagTypeId);
+                            BlocProvider.of<ProjectBloc>(context).clientAddsTagToProject(widget.selectedProject.id, selectedTag.tagTypeId);
 
                           },
                           child: Text("Add")),
@@ -205,15 +200,15 @@ class _ProjectExpandedViewState extends State<ProjectExpandedView> {
                   const SizedBox(height: 10),
 
                   //ALL OF THE ACTUAL TAGS
-                  projectToUpdate.tags != null && projectToUpdate.tags!.isNotEmpty ?
+                  widget.selectedProject.tags != null && widget.selectedProject.tags!.isNotEmpty ?
                   Container(
                     height: 100,
                     child: GridView.count(
-                      crossAxisCount: projectToUpdate.tags!.length,
+                      crossAxisCount: widget.selectedProject.tags!.length,
                       crossAxisSpacing: 20,
                       mainAxisSpacing: 2,
                       childAspectRatio: 5,
-                      children: List.generate(projectToUpdate.tags!.length, (index) {
+                      children: List.generate(widget.selectedProject.tags!.length, (index) {
                         return ButtonTheme(
                           height: 5,
                           minWidth: 10,
@@ -221,14 +216,14 @@ class _ProjectExpandedViewState extends State<ProjectExpandedView> {
                             onPressed: () {
                               setState(() {
 
-                                context.read<ProjectBloc>().clientDeletesTagFromProject(projectToUpdate.id, projectToUpdate.tags[index].tagTypeId);
+                                context.read<ProjectBloc>().clientDeletesTagFromProject(widget.selectedProject.id, widget.selectedProject.tags[index].tagTypeId);
                               });
                             },
                             style: FilledButton.styleFrom(
                               backgroundColor: BrandColors.purpleLight,
                             ),
                             child: Text(
-                              projectToUpdate.tags![index].typename,
+                              widget.selectedProject.tags![index].typename,
                               style: TextStyle(fontSize: 15,),),
                           ),
                         );

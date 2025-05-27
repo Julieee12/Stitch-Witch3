@@ -47,7 +47,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
               ItemTags(TagVariables.itemTags, refreshPage: refreshPage,),
               Padding(
                 padding: const EdgeInsets.only(top: 20),
-                child: TopSearchBar(caller: widget),
+                //child: TopSearchBar(caller: widget),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 130),

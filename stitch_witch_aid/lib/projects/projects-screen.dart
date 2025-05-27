@@ -21,7 +21,6 @@ class ProjectsScreen extends StatefulWidget {
 }
 
 class _ProjectsScreenState extends State<ProjectsScreen> {
-
   refreshPage() {
     setState(() {});
   }
@@ -43,7 +42,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
               ProjectTags(TagVariables.projectTags, refreshPage: refreshPage,state: state,),
               Padding(
                 padding: const EdgeInsets.only(top: 20),
-                child: TopSearchBar(caller: widget),
+                child: TopSearchBar(callback: state.searchProjects, refreshParent: refreshPage),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 130),
@@ -60,7 +59,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
-                                ProjectExpandedView(projectIndexToUpdate: index),
+                                ProjectExpandedView(selectedProject: project),
                           ),
                         );
                       },
