@@ -27,6 +27,7 @@ void main() {
       BlocProvider(create: (context) => ProjectBloc(channel: WebSocketChannel.connect(wsUri))),
       BlocProvider(create: (context) => ItemBloc(channel: WebSocketChannel.connect(wsUri)))
     ],
+      //
       child: const MyApp(),
   ));
 }
