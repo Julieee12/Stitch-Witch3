@@ -71,7 +71,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
                             name: state.filteredItems[index].name,
                             description: state.filteredItems[index].description,
                             picurl: state.filteredItems[index].picurl,
-                            tags: [] ),
+                            tags: state.filteredItems[index].tags ),
                         color: BrandColors.purpleSoft)
                     );
                   }),

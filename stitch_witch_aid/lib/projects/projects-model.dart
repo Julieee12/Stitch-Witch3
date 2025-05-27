@@ -15,7 +15,7 @@ class ProjectItemModel with ProjectItemModelMappable {
   String? yarn;
   String? hook;
   double? time;
-  List<TagDto>? tags = [];
+  List<TagDto> tags = [];
 
   ProjectItemModel({
       required this.id,
@@ -27,7 +27,7 @@ class ProjectItemModel with ProjectItemModelMappable {
       this.yarn,
       this.hook,
       this.time,
-      this.tags});
+      required this.tags});
 }
 
 @MappableClass()

@@ -32,6 +32,40 @@ public class ProjectRepository(StitchWitchDbContext context) : IProjectRepositor
         
         return projectDtos;
     }
+    
+    public async Task<List<ProjectDtoWithTags>> GetAllProjectsWithTags()
+    {
+
+        return await context.Projects.GroupJoin(
+            context.ProjectTags,
+            project => project.Id,
+            projectTag => projectTag.Projectid,
+            (proj, projTag ) => new ProjectDtoWithTags()
+            {
+                Id = proj.Id,
+                Name = proj.Name,
+                Description = proj.Description,
+                Picurl = proj.Picurl,
+                Stitch = proj.Stitch,
+                Row = proj.Row,
+                Yarn = proj.Yarn,
+                Hook = proj.Hook,
+                Time = proj.Time,
+                Tags = ItemEntityUtil.TagTypeListToTagDtoList(projTag.Select(p => p.Tag).ToList()) ,
+            }).Select(p => new ProjectDtoWithTags()
+        {
+            Id = p.Id,
+            Name = p.Name,
+            Description = p.Description,
+            Picurl = p.Picurl,
+            Stitch = p.Stitch,
+            Row = p.Row,
+            Yarn = p.Yarn,
+            Hook = p.Hook,
+            Time = p.Time,
+            Tags = p.Tags,
+        }).ToListAsync();
+    }
 
     public async Task DeleteProjectAsync(string projectId)
     {

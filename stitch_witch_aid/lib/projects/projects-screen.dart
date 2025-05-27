@@ -1,8 +1,9 @@
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stitch_witch_aid/projects/project-bloc.dart';
 import 'package:stitch_witch_aid/projects/project-expanded-view.dart';
+import 'package:stitch_witch_aid/projects/project-tags.dart';
 import 'package:stitch_witch_aid/projects/projects-item.dart';
 import 'package:stitch_witch_aid/projects/projects-model.dart';
 import 'package:stitch_witch_aid/projects/projects-state.dart';
@@ -10,15 +11,30 @@ import 'package:stitch_witch_aid/tag/all-tags.dart';
 import '../root/add-button.dart';
 import '../root/brand-colors.dart';
 import '../root/search-bar.dart';
-import '../root/tags.dart';
 
-class ProjectsScreen extends StatelessWidget {
+class ProjectsScreen extends StatefulWidget {
+
   const ProjectsScreen({super.key});
+
+  @override
+  State<ProjectsScreen> createState() => _ProjectsScreenState();
+}
+
+class _ProjectsScreenState extends State<ProjectsScreen> {
+
+  //this is a very hacky way to do this but I have no clue how to refresh a parent page
+  //from a child component and I kinda need to do that for tag searching
+  refreshPage() {
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      BlocProvider.of<ProjectBloc>(context).clientGetsAllProjects();
+      context.read<ProjectBloc>().clientGetsAllProjects();
+
+      //get all tags in general (will need for expanded view)
+      context.read<ProjectBloc>().clientGetsAllTags();
     });
 
     return BlocConsumer<ProjectBloc, ProjectsState>(
@@ -27,10 +43,10 @@ class ProjectsScreen extends StatelessWidget {
         color: BrandColors.purpleExtraLight,
         child: Stack(
           children: [
-            Tags(TagVariables.projectTags),
+            //ProjectTags(TagVariables.projectTags, refreshPage: refreshPage,),
             Padding(
               padding: const EdgeInsets.only(top: 20),
-              child: TopSearchBar(caller: this),
+              child: TopSearchBar(caller: widget),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 130),
@@ -39,15 +55,15 @@ class ProjectsScreen extends StatelessWidget {
                 crossAxisCount: 2,
                 crossAxisSpacing: 30,
                 mainAxisSpacing: 15,
-                children: List.generate(state.projects.length, (index) {
-                  final project = state.projects[index];
+                children: List.generate(state.filteredProjects.length, (index) {
+                  final project = state.filteredProjects[index];
                   return GestureDetector(
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              ProjectExpandedView(projectIndexToUpdate: state.projects.indexOf(project)),
+                              ProjectExpandedView(projectIndexToUpdate: state.filteredProjects.indexOf(project)),
                         ),
                       );
                     },
@@ -62,7 +78,7 @@ class ProjectsScreen extends StatelessWidget {
                         yarn: project.yarn,
                         hook: project.hook,
                         time: project.time,
-                        // tags: project.tags
+                         tags: []
                       ),
                       color: BrandColors.purpleSoft,
                     ),
