@@ -34,6 +34,8 @@ class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
     on<ServerSendsAllProjectsWithTagsEvent>(_onServerSendsAllProjectsWithTags);
     on<ServerSendsAllTagsEvent>(_onServerSendsAllTags);
     on<ServerSendsErrorMessageEvent>(_onServerSendsErrorMessage);
+    on<ServerDeletedTagFromProjectEvent>(_onServerDeletedProjectTag);
+    on<ServerSendsCreatedProjectTagEvent>(_onServerSendsCreatedProjectTag);
 
 
     ///////////////////// Feed deserialized events from server into this bloc //////////////////////
@@ -96,6 +98,21 @@ class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
       eventType: ClientGetsAllTagsEvent.name,
       requestId: Uuid().v4(),
     ));
+  }
+
+  void clientAddsTagToProject(String projId, String tagId,) {
+    add(ClientAddsTagToProjectEvent(
+        projectId: projId,
+        typeId: tagId,
+        eventType: ClientAddsTagToProjectEvent.name,
+        requestId: Uuid().v4()));
+  }
+  void clientDeletesTagFromProject(String projId, String tagId,) {
+    add(ClientDeletesTagFromProjectEvent(
+        projectId: projId,
+        typeId: tagId,
+        eventType: ClientDeletesTagFromProjectEvent.name,
+        requestId: Uuid().v4()));
   }
 
 
@@ -172,6 +189,37 @@ class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
     });
 
   }
+
+  FutureOr<void> _onServerSendsCreatedProjectTag(
+      ServerSendsCreatedProjectTagEvent event,
+      Emitter<ProjectsState> emit) {
+
+    var stateCopy = ProjectsState(projects: [...state.projects], filteredProjects: [...state.filteredProjects]);
+
+    int indexOfItemToUpdate = stateCopy.projects.indexWhere((item) => item.id == event.projectId);
+
+    stateCopy.projects[indexOfItemToUpdate].tags.add(event.tag);
+    stateCopy.filteredProjects[indexOfItemToUpdate].tags.add(event.tag);
+
+    emit(stateCopy);
+
+  }
+
+  FutureOr<void> _onServerDeletedProjectTag(
+      ServerDeletedTagFromProjectEvent event,
+      Emitter<ProjectsState> emit) {
+
+    var stateCopy = ProjectsState(projects: [...state.projects], filteredProjects: [...state.filteredProjects]);
+
+    int indexOfItemToUpdate = stateCopy.projects.indexWhere((project) => project.id == event.projectId);
+
+    stateCopy.projects[indexOfItemToUpdate].tags.removeWhere((tag) => tag.tagTypeId == event.tagId);
+    stateCopy.filteredProjects[indexOfItemToUpdate].tags.removeWhere((tag) => tag.tagTypeId == event.tagId);
+
+    emit(stateCopy);
+
+  }
+
 
   FutureOr<void> _onServerSendsErrorMessage(
       ServerSendsErrorMessageEvent event,

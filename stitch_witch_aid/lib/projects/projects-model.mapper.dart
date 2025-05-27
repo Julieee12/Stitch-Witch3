@@ -45,7 +45,7 @@ class ProjectItemModelMapper extends ClassMapperBase<ProjectItemModel> {
   static double? _$time(ProjectItemModel v) => v.time;
   static const Field<ProjectItemModel, double> _f$time =
       Field('time', _$time, opt: true);
-  static List<TagDto>? _$tags(ProjectItemModel v) => v.tags;
+  static List<TagDto> _$tags(ProjectItemModel v) => v.tags;
   static const Field<ProjectItemModel, List<TagDto>> _f$tags =
       Field('tags', _$tags);
 
@@ -132,7 +132,7 @@ extension ProjectItemModelValueCopy<$R, $Out>
 
 abstract class ProjectItemModelCopyWith<$R, $In extends ProjectItemModel, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
-  ListCopyWith<$R, TagDto, TagDtoCopyWith<$R, TagDto, TagDto>>? get tags;
+  ListCopyWith<$R, TagDto, TagDtoCopyWith<$R, TagDto, TagDto>> get tags;
   $R call(
       {String? id,
       String? name,
@@ -157,11 +157,9 @@ class _ProjectItemModelCopyWithImpl<$R, $Out>
   late final ClassMapperBase<ProjectItemModel> $mapper =
       ProjectItemModelMapper.ensureInitialized();
   @override
-  ListCopyWith<$R, TagDto, TagDtoCopyWith<$R, TagDto, TagDto>>? get tags =>
-      $value.tags != null
-          ? ListCopyWith($value.tags!, (v, t) => v.copyWith.$chain(t),
-              (v) => call(tags: v))
-          : null;
+  ListCopyWith<$R, TagDto, TagDtoCopyWith<$R, TagDto, TagDto>> get tags =>
+      ListCopyWith(
+          $value.tags, (v, t) => v.copyWith.$chain(t), (v) => call(tags: v));
   @override
   $R call(
           {String? id,
@@ -173,7 +171,7 @@ class _ProjectItemModelCopyWithImpl<$R, $Out>
           Object? yarn = $none,
           Object? hook = $none,
           Object? time = $none,
-          Object? tags = $none}) =>
+          List<TagDto>? tags}) =>
       $apply(FieldCopyWithData({
         if (id != null) #id: id,
         if (name != null) #name: name,
@@ -184,7 +182,7 @@ class _ProjectItemModelCopyWithImpl<$R, $Out>
         if (yarn != $none) #yarn: yarn,
         if (hook != $none) #hook: hook,
         if (time != $none) #time: time,
-        if (tags != $none) #tags: tags
+        if (tags != null) #tags: tags
       }));
   @override
   ProjectItemModel $make(CopyWithData data) => ProjectItemModel(

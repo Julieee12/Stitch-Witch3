@@ -37,6 +37,8 @@ class ItemBloc extends Bloc<BaseEvent, ItemState> {
     on<ServerSendsCreatedItemEvent>(_onServerSendsCreatedItem);
     on<ServerDeletedItemEvent>(_onServerDeletedItem);
     on<ServerSendsAllItemsWithTagsEvent>(_onServerSendsAllItemsWithTags);
+    on<ServerSendsCreatedItemTagEvent>(_onServerSendsCreatedItemTag);
+    on<ServerDeletedTagFromItemEvent>(_onServerDeletedItemTag);
     on<ServerSendsAllTagsEvent>(_onServerSendsAllTags);
 
     //feed deserialized events into this bloc

@@ -212,6 +212,25 @@ class ClientUpdatesProjectEvent extends BaseEvent with ClientUpdatesProjectEvent
   ClientUpdatesProjectEvent({required this.updateProjectDto, required super.eventType, required super.requestId});
 }
 
+@MappableClass(discriminatorValue: ClientAddsTagToProjectEvent.name)
+class ClientAddsTagToProjectEvent extends BaseEvent with ClientAddsTagToProjectEventMappable {
+  static const String name = "ClientAddsTagToProject";
+  final String projectId;
+  final String typeId;
+
+  ClientAddsTagToProjectEvent({required this.projectId, required this.typeId, required super.eventType, required super.requestId});
+}
+
+@MappableClass(discriminatorValue: ClientDeletesTagFromProjectEvent.name)
+class ClientDeletesTagFromProjectEvent extends BaseEvent with ClientDeletesTagFromProjectEventMappable {
+  static const String name = "ClientDeletesTagFromProject";
+  final String projectId;
+  final String typeId;
+
+
+  ClientDeletesTagFromProjectEvent({required this.projectId, required this.typeId, required super.eventType, required super.requestId});
+}
+
 ////////// Project Server events //////////
 @MappableClass(discriminatorValue: ServerSendsAllProjectsEvent.name)
 class ServerSendsAllProjectsEvent extends BaseEvent with ServerSendsAllProjectsEventMappable {
@@ -252,6 +271,24 @@ class ServerSendsUpdatedProjectEvent extends BaseEvent with ServerSendsUpdatedPr
   final ProjectItemModel projectDto;
 
   ServerSendsUpdatedProjectEvent({required this.projectDto, required super.eventType, required super.requestId});
+}
+
+@MappableClass(discriminatorValue: ServerSendsCreatedProjectTagEvent.name)
+class ServerSendsCreatedProjectTagEvent extends BaseEvent with ServerSendsCreatedProjectTagEventMappable {
+  static const String name = "ServerSendsCreatedProjectTag";
+  final String projectId;
+  final TagDto tag;
+
+  ServerSendsCreatedProjectTagEvent( {required this.projectId, required this.tag, required super.eventType, required super.requestId});
+}
+
+@MappableClass(discriminatorValue: ServerDeletedTagFromProjectEvent.name)
+class ServerDeletedTagFromProjectEvent extends BaseEvent with ServerDeletedTagFromProjectEventMappable {
+  static const String name = "ServerDeletedTagFromProject";
+  final String projectId;
+  final String tagId;
+
+  ServerDeletedTagFromProjectEvent({required this.projectId, required this.tagId, required super.eventType, required super.requestId});
 }
 
 @MappableClass(discriminatorValue: ServerSendsErrorMessageEvent.name)
