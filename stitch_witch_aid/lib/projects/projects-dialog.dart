@@ -1,8 +1,13 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_field/image_field.dart';
 import 'package:stitch_witch_aid/projects/project-bloc.dart';
 import 'package:stitch_witch_aid/projects/projects-model.dart';
 import 'package:stitch_witch_aid/projects/projects-state.dart';
+import 'package:stitch_witch_aid/root/single-image-upload.dart';
 import '../root/brand-colors.dart';
 
 
@@ -19,8 +24,8 @@ class _AddProjectDialogState extends State<ProjectsDialog> {
 
   late String _name;
   late String _description;
+  late String? _image;
   late String _tag;
-  late String _picture;
   late String _yarn;
   late String _hook;
 
@@ -30,9 +35,9 @@ class _AddProjectDialogState extends State<ProjectsDialog> {
     _name = '';
     _description = ''; // Optional
     _tag = ''; // Optional
-    _picture = ''; // Optional
     _yarn = ''; // Optional
     _hook = ''; // Optional
+    _image = null; // Optional
   }
 
   @override
@@ -95,6 +100,9 @@ class _AddProjectDialogState extends State<ProjectsDialog> {
                 ),
                 const SizedBox(height: 15),
 
+                // Image upload field (optional)
+                SingleImageUpload((base64Image) => _image = base64Image),
+
                 // Tag input field (optional)
                 TextFormField(
                   decoration: InputDecoration(
@@ -108,20 +116,6 @@ class _AddProjectDialogState extends State<ProjectsDialog> {
                   onChanged: (value) => _tag = value, // Optional
                 ),
                 const SizedBox(height: 15),
-
-                // Picture URL input field (optional)
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: 'Picture (optional)',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    filled: true,
-                    fillColor: BrandColors.purpleVeryLight,
-                  ),
-                  onChanged: (value) => _picture = value, // Optional
-                ),
-                const SizedBox(height: 20),
 
                 // Yarn type input field (optional)
                 TextFormField(
@@ -183,7 +177,7 @@ class _AddProjectDialogState extends State<ProjectsDialog> {
                           name: _name,
                           description: _description,
                           tag: _tag,
-                          picurl: _picture,
+                          image: _image,
                           yarn: _yarn,
                           hook: _hook
                         );

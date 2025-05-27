@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stitch_witch_aid/projects/project-bloc.dart';
 import 'package:stitch_witch_aid/projects/projects-model.dart';
 import 'package:stitch_witch_aid/projects/projects-state.dart';
+import 'package:stitch_witch_aid/root/single-image-upload.dart';
 
 import '../root/brand-colors.dart';
 
@@ -24,6 +25,7 @@ class _UpdateProjectDialogState extends State<UpdateProjectDialog> {
   late int _stitch;
   late int _row;
   late String _picture;
+  late String? _base64Image;
   late String _yarn;
   late String _hook;
 
@@ -38,6 +40,7 @@ class _UpdateProjectDialogState extends State<UpdateProjectDialog> {
     _picture = widget.projectToUpdate.picurl ?? ''; // Optional
     _yarn = widget.projectToUpdate.yarn ?? ''; // Optional
     _hook = widget.projectToUpdate.hook ?? ''; // Optional
+    _base64Image = null;
   }
 
   @override
@@ -102,8 +105,11 @@ class _UpdateProjectDialogState extends State<UpdateProjectDialog> {
                 ),
                 const SizedBox(height: 15),
 
+                // Image upload field (optional)
+                SingleImageUpload((base64Image) => _base64Image = base64Image),
+
                 // Picture URL input field (optional)
-                TextFormField(
+                /*TextFormField(
                   decoration: InputDecoration(
                     labelText: 'Picture (optional)',
                     border: OutlineInputBorder(
@@ -115,7 +121,7 @@ class _UpdateProjectDialogState extends State<UpdateProjectDialog> {
                   initialValue: _picture,
                   onChanged: (value) => _picture = value, // Optional
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 20),*/
 
                 // Yarn type input field (optional)
                 TextFormField(
@@ -180,7 +186,7 @@ class _UpdateProjectDialogState extends State<UpdateProjectDialog> {
                             description: _description,
                             stitch: _stitch,
                             row: _row,
-                            picurl: _picture,
+                            image: _base64Image ?? _picture,
                             yarn: _yarn,
                             hook: _hook,
                             tagsDtos: []

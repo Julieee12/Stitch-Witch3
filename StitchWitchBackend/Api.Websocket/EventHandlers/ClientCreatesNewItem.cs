@@ -20,7 +20,7 @@ public class ClientCreatesNewItem(IItemRepository itemRepo) : BaseEventHandler<C
     {
 
         Item item = ItemEntityUtil.CreateNewItemDtoToItem(dto.newItemDto);
-
+        
         await itemRepo.AddItem(item);
 
         ServerSendsCreatedItem responseDto = new ServerSendsCreatedItem()

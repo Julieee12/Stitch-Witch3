@@ -9,8 +9,8 @@ public class UpdateProjectDto
     public int Stitch { get; set; }
 
     public int Row { get; set; }
-
-    public string? Picurl { get; set; }
+    
+    public string? Image { get; set; }
 
     public string? Description { get; set; }
 

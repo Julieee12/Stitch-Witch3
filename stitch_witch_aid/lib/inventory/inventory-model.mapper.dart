@@ -181,16 +181,15 @@ class UpdateItemDtoMapper extends ClassMapperBase<UpdateItemDto> {
   static String? _$description(UpdateItemDto v) => v.description;
   static const Field<UpdateItemDto, String> _f$description =
       Field('description', _$description);
-  static String? _$picurl(UpdateItemDto v) => v.picurl;
-  static const Field<UpdateItemDto, String> _f$picurl =
-      Field('picurl', _$picurl);
+  static String? _$image(UpdateItemDto v) => v.image;
+  static const Field<UpdateItemDto, String> _f$image = Field('image', _$image);
 
   @override
   final MappableFields<UpdateItemDto> fields = const {
     #id: _f$id,
     #name: _f$name,
     #description: _f$description,
-    #picurl: _f$picurl,
+    #image: _f$image,
   };
 
   static UpdateItemDto _instantiate(DecodingData data) {
@@ -198,7 +197,7 @@ class UpdateItemDtoMapper extends ClassMapperBase<UpdateItemDto> {
         id: data.dec(_f$id),
         name: data.dec(_f$name),
         description: data.dec(_f$description),
-        picurl: data.dec(_f$picurl));
+        image: data.dec(_f$image));
   }
 
   @override
@@ -254,7 +253,7 @@ extension UpdateItemDtoValueCopy<$R, $Out>
 
 abstract class UpdateItemDtoCopyWith<$R, $In extends UpdateItemDto, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
-  $R call({String? id, String? name, String? description, String? picurl});
+  $R call({String? id, String? name, String? description, String? image});
   UpdateItemDtoCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -271,19 +270,19 @@ class _UpdateItemDtoCopyWithImpl<$R, $Out>
           {String? id,
           String? name,
           Object? description = $none,
-          Object? picurl = $none}) =>
+          Object? image = $none}) =>
       $apply(FieldCopyWithData({
         if (id != null) #id: id,
         if (name != null) #name: name,
         if (description != $none) #description: description,
-        if (picurl != $none) #picurl: picurl
+        if (image != $none) #image: image
       }));
   @override
   UpdateItemDto $make(CopyWithData data) => UpdateItemDto(
       id: data.get(#id, or: $value.id),
       name: data.get(#name, or: $value.name),
       description: data.get(#description, or: $value.description),
-      picurl: data.get(#picurl, or: $value.picurl));
+      image: data.get(#image, or: $value.image));
 
   @override
   UpdateItemDtoCopyWith<$R2, UpdateItemDto, $Out2> $chain<$R2, $Out2>(

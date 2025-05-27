@@ -5,7 +5,8 @@ public class CreateNewItemDto
 
     public string Name { get; set; } = null!;
 
-    public string? Picurl { get; set; }
+    // This should be a base64 encoded image file.
+    public string? Image { get; set; }
 
     public string? Description { get; set; }
 }

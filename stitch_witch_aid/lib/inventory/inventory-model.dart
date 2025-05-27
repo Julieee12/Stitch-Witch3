@@ -46,13 +46,13 @@ class UpdateItemDto with UpdateItemDtoMappable{
   final String id;
   final String name;
   final String? description;
-  final String? picurl;
+  final String? image;
 
   UpdateItemDto({
     required this.id,
     required this.name,
     required this.description,
-    required this.picurl,
+    required this.image,
   });
 
   Map<String, dynamic> toMap() {
@@ -60,7 +60,7 @@ class UpdateItemDto with UpdateItemDtoMappable{
       'id': id,
       'name': name,
       'description': description,
-      'picture': picurl,
+      'picture': image,
     };
   }
 }

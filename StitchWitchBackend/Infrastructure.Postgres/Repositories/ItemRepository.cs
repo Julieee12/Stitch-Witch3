@@ -1,4 +1,5 @@
 using Application.Infrastructure.Postgres;
+using Application.Interfaces;
 using Application.Models.DTOs;
 using Application.Utility;
 using Core.Domain.Entities;
@@ -8,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Infrastructure.Postgres.repositories;
 
-public class ItemRepository(StitchWitchDbContext context) : IItemRepository
+public class ItemRepository(StitchWitchDbContext context, IMediaHostingService mediaHostingService) : IItemRepository
 {
     public async Task<List<Item>> GetAllItems()
     {
@@ -50,12 +51,26 @@ public class ItemRepository(StitchWitchDbContext context) : IItemRepository
     
     public async Task AddItem(Item item)
     {
+        if (item.Picurl != null)
+        {
+            item.Picurl = await mediaHostingService.UploadMedia(item.Picurl);
+        }
+        
         await context.Items.AddAsync(item);
         await context.SaveChangesAsync();
     }
     
     public async Task<Item> UpdateItem(Item item)
     {
+        var oldItem = context.Items
+            .AsNoTracking()
+            .FirstOrDefault((oldItem) => oldItem.Id == item.Id);
+        
+        // The item doesn't exist.
+        if (oldItem == null) throw new Exception("Item not found");
+
+        item.Picurl = await mediaHostingService.UpdateDeleteNewAndOldImage(oldItem.Picurl, item.Picurl);
+        
         context.Items.Update(item);
         await context.SaveChangesAsync();
         return item;
@@ -66,6 +81,9 @@ public class ItemRepository(StitchWitchDbContext context) : IItemRepository
         Item item = context.Items.Where(i => i.Id == id).SingleOrDefault();
 
         if (item == null) throw new Exception("Item not found... lol");
+        
+        // Delete the image if it has been set
+        if (item.Picurl != null) mediaHostingService.DeleteMedia(item.Picurl); 
         
         context.Items.Remove(item!);
         await context.SaveChangesAsync();

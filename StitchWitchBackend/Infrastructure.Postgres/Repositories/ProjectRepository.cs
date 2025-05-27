@@ -1,4 +1,5 @@
 using Application.Infrastructure.Postgres.Interfaces;
+using Application.Interfaces;
 using Application.Models.DTOs;
 using Application.Utility;
 using Core.Domain.Entities;
@@ -7,12 +8,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Postgres.repositories;
 
-public class ProjectRepository(StitchWitchDbContext context) : IProjectRepository
+public class ProjectRepository(StitchWitchDbContext context, IMediaHostingService mediaHostingService) : IProjectRepository
 {
     public async Task<ProjectDto> CreateNewProjectAsync(CreateNewProjectDto createNewProjectDto)
     {
         var projectToCreate = ProjectEntityUtil.CreateNewProjectDtoToProject(createNewProjectDto);
         projectToCreate.Id = Guid.NewGuid().ToString();
+        
+        if (createNewProjectDto.Image != null)
+        {
+            projectToCreate.Picurl = await mediaHostingService.UploadMedia(createNewProjectDto.Image);
+        }
         
         var result = await context.Projects.AddAsync(projectToCreate);
         await context.SaveChangesAsync();
@@ -75,6 +81,9 @@ public class ProjectRepository(StitchWitchDbContext context) : IProjectRepositor
 
         if (projectToDelete == null) throw new Exception("Project not found");
         
+        // Delete the image if it has been set
+        if (projectToDelete.Picurl != null) mediaHostingService.DeleteMedia(projectToDelete.Picurl); 
+        
         context.Projects.Remove(projectToDelete);
         
         await context.SaveChangesAsync();
@@ -82,8 +91,17 @@ public class ProjectRepository(StitchWitchDbContext context) : IProjectRepositor
 
     public async Task<ProjectDto> UpdateProjectAsync(UpdateProjectDto updateProjectDto)
     {
+        var oldProject = context.Projects
+            .AsNoTracking()
+            .FirstOrDefault((project) => project.Id == updateProjectDto.Id);
+        
+        // The project doesn't exist.
+        if (oldProject == null) throw new Exception("Project not found");
+        
         var projectToUpdate = ProjectEntityUtil.UpdateProjectDtoToProject(updateProjectDto);
 
+        projectToUpdate.Picurl = await mediaHostingService.UpdateDeleteNewAndOldImage(oldProject.Picurl, projectToUpdate.Picurl);
+        
         var updatedProject = context.Projects.Update(projectToUpdate).Entity;
 
         await context.SaveChangesAsync();

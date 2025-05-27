@@ -1,6 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using Application.Exceptions;
+using Application.Interfaces;
 using Application.Models;
+using Application.Services;
 
 namespace Application.Extentions;
 
@@ -32,7 +34,8 @@ public static class ServiceCollectionExtentions
     // Adds application services
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
-        // TODO add application services here
+        services.AddScoped<IMediaHostingService, CloudinaryService>();
+        
         return services;
     }
 }

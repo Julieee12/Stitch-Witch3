@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:stitch_witch_aid/abstractions/abstract-searchable.dart';
 
@@ -42,7 +44,7 @@ class ProjectItemModel extends AbstractSearchable with ProjectItemModelMappable 
 class CreateNewProjectDto with CreateNewProjectDtoMappable {
   String name;
   String? tag;
-  String? picurl;
+  String? image;
   String? description;
   String? yarn;
   String? hook;
@@ -50,7 +52,7 @@ class CreateNewProjectDto with CreateNewProjectDtoMappable {
   CreateNewProjectDto({
     required this.name,
     this.tag,
-    this.picurl,
+    this.image,
     this.description,
     this.yarn,
     this.hook});
@@ -63,7 +65,7 @@ class UpdateProjectDto with UpdateProjectDtoMappable {
   String? tag;
   int stitch;
   int row;
-  String? picurl;
+  String? image;
   String? description;
   String? yarn;
   String? hook;
@@ -76,7 +78,7 @@ class UpdateProjectDto with UpdateProjectDtoMappable {
     this.tag,
     required this.stitch,
     required this.row,
-    this.picurl,
+    this.image,
     this.description,
     this.yarn,
     this.hook,
