@@ -29,7 +29,7 @@ class GlossaryScreen extends StatelessWidget {
           Tags(["gl", "O", "ser", "Y"]),
           Padding(
             padding: const EdgeInsets.only(top: 20),
-            //child: TopSearchBar(caller: this),
+            child: TopSearchBar(callback: (String value) {}, refreshParent: () {})
           ),
           Padding(
             padding: const EdgeInsets.only(top: 130),

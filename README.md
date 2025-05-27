@@ -6,8 +6,8 @@
 - Jean-Jensen: ***Jean***
 
 ## Deployment
-- Deployed webapp:
-- Deployed backend:
+- Deployed webapp: stitch-witch-web.web.app
+- Deployed backend: https://stitch-witch-backend-766551077366.europe-west1.run.app
 
 ## Setup
 If you wish to run this project locally, these are the changes you need to make.
