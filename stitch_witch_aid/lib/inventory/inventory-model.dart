@@ -1,12 +1,13 @@
 
 import 'package:dart_mappable/dart_mappable.dart';
+import 'package:stitch_witch_aid/abstractions/abstract-searchable.dart';
 
 import '../tag/tags-model.dart';
 
 part 'inventory-model.mapper.dart';
 
 @MappableClass()
-class InventoryItemModel with InventoryItemModelMappable{
+class InventoryItemModel extends AbstractSearchable with InventoryItemModelMappable{
   final String id;
   final String name;
   final String? description;
@@ -29,6 +30,13 @@ class InventoryItemModel with InventoryItemModelMappable{
       'picture': picurl,
       'tags' : tags,
     };
+  }
+
+  @override
+  InventoryItemModel? search(String query) {
+    var searchableFields = '$id$name$description'.toLowerCase();
+    var lowercaseQuery = query.toLowerCase();
+    return searchableFields.contains(lowercaseQuery) ? this : null;
   }
 }
 

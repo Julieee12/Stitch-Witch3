@@ -47,7 +47,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
               ItemTags(TagVariables.itemTags, refreshPage: refreshPage,),
               Padding(
                 padding: const EdgeInsets.only(top: 20),
-                //child: TopSearchBar(caller: widget),
+                child: TopSearchBar(callback: state.searchItems, refreshParent: refreshPage),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 130),
@@ -58,20 +58,22 @@ class _InventoryScreenState extends State<InventoryScreen> {
                   mainAxisSpacing: 15,
 
                   children: List.generate(state.filteredItems.length, (index) {
+                    final item = state.filteredItems[index];
+                    
                     return GestureDetector(
                       onTap: () {Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ItemExpandedView(indexToUpdate: index))
+                            builder: (context) => ItemExpandedView(selectedItem: item))
                         );
                       },
                     child: InventoryItem(
                         item: InventoryItemModel(
-                            id: state.filteredItems[index].id,
-                            name: state.filteredItems[index].name,
-                            description: state.filteredItems[index].description,
-                            picurl: state.filteredItems[index].picurl,
-                            tags: state.filteredItems[index].tags ),
+                            id: item.id,
+                            name: item.name,
+                            description: item.description,
+                            picurl: item.picurl,
+                            tags: item.tags ),
                         color: BrandColors.purpleSoft)
                     );
                   }),

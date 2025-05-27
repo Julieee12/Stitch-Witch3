@@ -4,9 +4,6 @@ import 'package:stitch_witch_aid/projects/projects-model.dart';
 import 'package:stitch_witch_aid/projects/projects-state.dart';
 import 'package:stitch_witch_aid/root/brand-colors.dart';
 
-import '../blocs/project-bloc.dart';
-
-
 
 class ProjectTags extends StatefulWidget {
   final List<String> tags;

@@ -15,6 +15,16 @@ class ItemState {
     filteredItems = newFilteredItems;
   }
 
+  void searchItems(String query) {
+    List<InventoryItemModel> searchedItems = [];
+
+    for (var item in items) {
+      if (item.search(query) != null) searchedItems.add(item);
+    }
+
+    setFilteredItems(searchedItems);
+  }
+
   static ItemState empty() =>
       ItemState(items: List.empty(growable: true), filteredItems: List.empty(growable: true));
 }

@@ -10,16 +10,15 @@ import '../root/brand-colors.dart';
 import 'inventory-update-dialog.dart';
 
 class ItemExpandedView extends StatefulWidget {
-  final int indexToUpdate;
+  final InventoryItemModel selectedItem;
 
-  const ItemExpandedView({super.key, required this.indexToUpdate});
+  const ItemExpandedView({super.key, required this.selectedItem});
 
   @override
   State<ItemExpandedView> createState() => _ItemExpandedViewState();
 }
 
 class _ItemExpandedViewState extends State<ItemExpandedView> {
-
   late List<TagDto> tags = [];
   late TagDto selectedTag;
 
@@ -32,10 +31,6 @@ class _ItemExpandedViewState extends State<ItemExpandedView> {
 
   @override
   Widget build(BuildContext context) {
-    InventoryItemModel itemToUpdate =
-    BlocProvider.of<ItemBloc>(context).state.items[widget.indexToUpdate];
-    
-
     return BlocConsumer<ItemBloc, ItemState>(
       listener: (context, state) {
         setState(() {});
@@ -44,7 +39,7 @@ class _ItemExpandedViewState extends State<ItemExpandedView> {
         backgroundColor: BrandColors.purpleExtraLight,
         appBar: AppBar(
           title: Text(
-            itemToUpdate.name,
+            widget.selectedItem.name,
             style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
           ),
           backgroundColor: BrandColors.purpleSoft,
@@ -54,7 +49,7 @@ class _ItemExpandedViewState extends State<ItemExpandedView> {
             IconButton(
               icon: const Icon(Icons.delete),
               onPressed: () {
-                BlocProvider.of<ItemBloc>(context).clientDeletesItemItems(itemToUpdate.id);
+                BlocProvider.of<ItemBloc>(context).clientDeletesItemItems(widget.selectedItem.id);
                 Navigator.pop(context);
               },
             ),
@@ -72,7 +67,7 @@ class _ItemExpandedViewState extends State<ItemExpandedView> {
                       child: Material(
                         color: BrandColors.purpleExtraLight,
                         borderRadius: BorderRadius.circular(20),
-                        child: UpdateItemDialog(itemToUpdate: itemToUpdate),
+                        child: UpdateItemDialog(itemToUpdate: widget.selectedItem),
                       ),
                     ),
                   ),
@@ -92,9 +87,9 @@ class _ItemExpandedViewState extends State<ItemExpandedView> {
                   // Image display
                   ClipRRect(
                     borderRadius: BorderRadius.circular(12),
-                    child: itemToUpdate.picurl != null && itemToUpdate.picurl!.isNotEmpty
+                    child: widget.selectedItem.picurl != null && widget.selectedItem.picurl!.isNotEmpty
                         ? Image.network(
-                      itemToUpdate.picurl!,
+                      widget.selectedItem.picurl!,
                       height: 200,
                       fit: BoxFit.contain,
                     )
@@ -108,7 +103,7 @@ class _ItemExpandedViewState extends State<ItemExpandedView> {
 
                   // Description
                   Text(
-                    itemToUpdate.description ?? "No description available",
+                    widget.selectedItem.description ?? "No description available",
                     style: const TextStyle(fontSize: 18),
                   ),
                   const SizedBox(height: 30),
@@ -163,7 +158,7 @@ class _ItemExpandedViewState extends State<ItemExpandedView> {
                       OutlinedButton(
                           onPressed: () {
 
-                            BlocProvider.of<ItemBloc>(context).clientAddsTagToItem(itemToUpdate.id, selectedTag.tagTypeId);
+                            BlocProvider.of<ItemBloc>(context).clientAddsTagToItem(widget.selectedItem.id, selectedTag.tagTypeId);
 
                           },
                           child: Text("Add")),
@@ -181,29 +176,29 @@ class _ItemExpandedViewState extends State<ItemExpandedView> {
                   const SizedBox(height: 10),
 
                   //ALL OF THE ACTUAL TAGS
-                  itemToUpdate.tags != null && itemToUpdate.tags!.isNotEmpty ?
+                  widget.selectedItem.tags != null && widget.selectedItem.tags!.isNotEmpty ?
                   Container(
                     height: 100,
                     child: GridView.count(
-                        crossAxisCount: itemToUpdate.tags!.length,
+                        crossAxisCount: widget.selectedItem.tags!.length,
                         crossAxisSpacing: 20,
                         mainAxisSpacing: 2,
                         childAspectRatio: 5,
-                      children: List.generate(itemToUpdate.tags!.length, (index) {
+                      children: List.generate(widget.selectedItem.tags!.length, (index) {
                         return ButtonTheme(
                           height: 5,
                           minWidth: 10,
                           child: FilledButton(
                             onPressed: () {
                               setState(() {
-                                context.read<ItemBloc>().clientDeletesTagFromItem(itemToUpdate.id, itemToUpdate.tags[index].tagTypeId);
+                                context.read<ItemBloc>().clientDeletesTagFromItem(widget.selectedItem.id, widget.selectedItem.tags[index].tagTypeId);
                               });
                             },
                             style: FilledButton.styleFrom(
                               backgroundColor: BrandColors.purpleLight,
                             ),
                             child: Text(
-                              itemToUpdate.tags![index].typename,
+                              widget.selectedItem.tags![index].typename,
                               style: TextStyle(fontSize: 15,),),
                           ),
                         );
