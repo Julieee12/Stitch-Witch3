@@ -25,7 +25,6 @@ class _AddProjectDialogState extends State<ProjectsDialog> {
   late String _name;
   late String _description;
   late String? _image;
-  late String _tag;
   late String _yarn;
   late String _hook;
 
@@ -34,7 +33,6 @@ class _AddProjectDialogState extends State<ProjectsDialog> {
     super.initState();
     _name = '';
     _description = ''; // Optional
-    _tag = ''; // Optional
     _yarn = ''; // Optional
     _hook = ''; // Optional
     _image = null; // Optional
@@ -103,20 +101,6 @@ class _AddProjectDialogState extends State<ProjectsDialog> {
                 // Image upload field (optional)
                 SingleImageUpload((base64Image) => _image = base64Image),
 
-                // Tag input field (optional)
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: 'Tag (optional)',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    filled: true,
-                    fillColor: BrandColors.purpleVeryLight,
-                  ),
-                  onChanged: (value) => _tag = value, // Optional
-                ),
-                const SizedBox(height: 15),
-
                 // Yarn type input field (optional)
                 TextFormField(
                   decoration: InputDecoration(
@@ -176,7 +160,7 @@ class _AddProjectDialogState extends State<ProjectsDialog> {
                         final newProject = CreateNewProjectDto(
                           name: _name,
                           description: _description,
-                          tag: _tag,
+                          tag: null,
                           image: _image,
                           yarn: _yarn,
                           hook: _hook
