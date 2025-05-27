@@ -7,6 +7,7 @@ import 'package:uuid/uuid.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../events/events.dart';
+import '../tag/all-tags.dart';
 
 
 class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
@@ -22,6 +23,7 @@ class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
     on<ClientDeletesProjectEvent>(_onClientEvent);
     on<ClientUpdatesProjectEvent>(_onClientEvent);
     on<ClientGetsAllProjectsWithTagsEvent>(_onClientEvent);
+    on<ClientGetsAllTagsEvent>(_onClientEvent);
 
 
     ////////////////////// Handlers for server events //////////////////////
@@ -30,6 +32,7 @@ class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
     on<ServerDeletedProjectEvent>(_onServerDeletedProject);
     on<ServerSendsUpdatedProjectEvent>(_onServerUpdatedProject);
     on<ServerSendsAllProjectsWithTagsEvent>(_onServerSendsAllProjectsWithTags);
+    on<ServerSendsAllTagsEvent>(_onServerSendsAllTags);
     on<ServerSendsErrorMessageEvent>(_onServerSendsErrorMessage);
 
 
@@ -87,6 +90,14 @@ class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
         requestId: Uuid().v4()));
   }
 
+  void clientGetsAllTags(){
+    print("= = = = = = = =  G E T T I N G   A L L   T A G S  = = = = = = = = = = = =");
+    add(ClientGetsAllTagsEvent(
+      eventType: ClientGetsAllTagsEvent.name,
+      requestId: Uuid().v4(),
+    ));
+  }
+
 
   ///////////////////// Receiving server events /////////////////////
   FutureOr<void> _onServerSendsAllProjects(
@@ -140,6 +151,19 @@ class ProjectBloc extends Bloc<BaseEvent, ProjectsState> {
     stateCopy.projects[indexOfProjectToUpdate] = event.projectDto;
 
     emit(stateCopy);
+  }
+
+  FutureOr<void> _onServerSendsAllTags(
+      ServerSendsAllTagsEvent event,
+      Emitter<ProjectsState> emit) {
+    print("SERVER HAS SENT ALL TAGS !!!!!!!");
+
+    TagVariables.allTags = event.allTags;
+
+    TagVariables.allTags.forEach((tag) {
+      print(tag.typename);
+    });
+
   }
 
   FutureOr<void> _onServerSendsErrorMessage(

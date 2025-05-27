@@ -18,6 +18,8 @@ class ProjectsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       BlocProvider.of<ProjectBloc>(context).clientGetsAllProjectsWithTags();
+
+      context.read<ProjectBloc>().clientGetsAllTags();
     });
 
     return BlocConsumer<ProjectBloc, ProjectsState>(

@@ -6,6 +6,8 @@ import 'package:stitch_witch_aid/projects/projects-model.dart';
 import 'package:stitch_witch_aid/projects/projects-state.dart';
 
 import '../root/brand-colors.dart';
+import '../tag/all-tags.dart';
+import '../tag/tags-model.dart';
 
 class ProjectExpandedView extends StatefulWidget {
   final int projectIndexToUpdate;
@@ -17,6 +19,16 @@ class ProjectExpandedView extends StatefulWidget {
 }
 
 class _ProjectExpandedViewState extends State<ProjectExpandedView> {
+
+  late List<TagDto> tags = [];
+  late TagDto selectedTag;
+
+  @override
+  void initState() {
+    getAllProjectTagTypes();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     ProjectItemModel projectToUpdate =
@@ -125,16 +137,100 @@ class _ProjectExpandedViewState extends State<ProjectExpandedView> {
 
                   ),
                   const SizedBox(height: 15),
+                  ////////////// TAGS /////////////////
+                  Row(
+
+                    children: [
+                      Text(
+                        "add tag:",
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: BrandColors.purpleDark),
+                      ),
+                      Container(
+                        width: 80,
+                        child: DropdownButtonFormField<String>(
+                          value: selectedTag.tagTypeId,
+                          isExpanded: true,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: BrandColors.purpleVeryLight,
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 3, vertical: 1),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: BrandColors.purpleLightish, width: 1),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: BrandColors.purpleLightish, width: 1),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: BrandColors.purpleLightish, width: 1.5),
+                            ),
+                          ),
+                          items: tags.map((currentTag) {
+                            return DropdownMenuItem<String>(
+                              value: currentTag.tagTypeId,
+                              child: Text(currentTag.typename),
+                            );
+                          }).toList(),
+                          onChanged: (String? selectedValue) {
+                            setState(() {
+                              selectedTag = tags.firstWhere((tag) => tag.tagTypeId == selectedValue);
+                              print(selectedTag);
+                            });
+                          },
+                        ),
+                      ),
+                      OutlinedButton(
+                          onPressed: () {
+
+                            //BlocProvider.of<ProjectBloc>(context).clientAddsTagToItem(itemToUpdate.id, selectedTag.tagTypeId);
+
+                          },
+                          child: Text("Add")),
+                    ],
+                  ),
+
+                  // "TAGS" TEXT
                   Text(
                     "Tags:",
                     style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                         color: BrandColors.purpleDark),
-
                   ),
                   const SizedBox(height: 10),
-                  const Text("No tags assigned."),
+
+                  //ALL OF THE ACTUAL TAGS
+                  projectToUpdate.tags != null && projectToUpdate.tags!.isNotEmpty ?
+                  Container(
+                    height: 100,
+                    child: GridView.count(
+                      crossAxisCount: projectToUpdate.tags!.length,
+                      crossAxisSpacing: 20,
+                      mainAxisSpacing: 2,
+                      childAspectRatio: 5,
+                      children: List.generate(projectToUpdate.tags!.length, (index) {
+                        return ButtonTheme(
+                          height: 5,
+                          minWidth: 10,
+                          child: FilledButton(
+                            onPressed: () {},
+                            style: FilledButton.styleFrom(
+                              backgroundColor: BrandColors.purpleLight,
+                            ),
+                            child: Text(
+                              projectToUpdate.tags![index].typename,
+                              style: TextStyle(fontSize: 15,),),
+                          ),
+                        );
+                      }),
+                    ),
+                  )
+                      : const SizedBox(height: 1,),
+
 
                 ],
               ),
@@ -144,4 +240,28 @@ class _ProjectExpandedViewState extends State<ProjectExpandedView> {
       ),
     );
   }
+
+
+  //gets the tag type variables for each tag name
+  void getAllProjectTagTypes(){
+    if(TagVariables.allTags.isNotEmpty){
+      // if the tag (variable) has the same name as any
+      // of the strings in projectTags, add it to the list
+      TagVariables.projectTags.forEach((tagName) {
+        tags.add(
+            TagVariables.allTags.firstWhere(
+                    (tag) => tag.typename == tagName));
+
+      });
+
+      tags.forEach((tag)  {
+        print(tag.typename);
+      });
+
+      selectedTag = tags.first;
+    } else{
+      print("TAGS R EMPTY!! EMPTY !!!!! MEPTY!!!!!!!!!! EMPOTY!!!!!!!!");
+    }
+  }
+
 }
