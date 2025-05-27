@@ -17,6 +17,6 @@ public interface IProjectRepository
 
     public Task AddTagToProject(String projId, String typeId);
 
-    public Task RemoveTagFromProject(ProjectTag tag);
+    public Task RemoveTagFromProject(String projectId, String tagId);
 
 }

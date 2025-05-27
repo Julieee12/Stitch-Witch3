@@ -99,10 +99,15 @@ public class ItemRepository(StitchWitchDbContext context) : IItemRepository
         await context.SaveChangesAsync();
     }
     
-    public async Task RemoveTagFromItem(ItemTag tag)
+    public async Task RemoveTagFromItem(String itemId, String tagId)
     {
-         context.ItemTags.Remove(tag);
-         await context.SaveChangesAsync();
+        var itemTagToDelete = await 
+            context.ItemTags.Where(itemTag => itemTag.Itemid == itemId && itemTag.Tagid == tagId).FirstOrDefaultAsync();
+
+        if (itemTagToDelete == null) throw new Exception("item tag not found.");
+        
+        context.ItemTags.Remove(itemTagToDelete);
+        await context.SaveChangesAsync();
     }
     
     

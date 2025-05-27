@@ -218,7 +218,12 @@ class _ProjectExpandedViewState extends State<ProjectExpandedView> {
                           height: 5,
                           minWidth: 10,
                           child: FilledButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              setState(() {
+
+                                context.read<ProjectBloc>().clientDeletesTagFromProject(projectToUpdate.id, projectToUpdate.tags[index].tagTypeId);
+                              });
+                            },
                             style: FilledButton.styleFrom(
                               backgroundColor: BrandColors.purpleLight,
                             ),

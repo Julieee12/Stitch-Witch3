@@ -23,7 +23,7 @@ public interface IItemRepository
 
     public Task AddTagToItem(String itemId, String typeId);
 
-    public Task RemoveTagFromItem(ItemTag tag);
+    public Task RemoveTagFromItem(String itemId, String tagId);
 
 
 }

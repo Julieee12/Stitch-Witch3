@@ -16,13 +16,8 @@ public class ClientDeletesTagFromProject(IProjectRepository projRepo) : BaseEven
 {
     public override async Task Handle(ClientDeletesTagFromProjectDto dto, IWebSocketConnection socket)
     {
-        ProjectTag projTag = new ProjectTag()
-        {
-            Projectid = dto.projectId,
-            Tagid = dto.typeId,
-        };
 
-        await projRepo.RemoveTagFromProject(projTag);
+        await projRepo.RemoveTagFromProject(dto.projectId, dto.typeId);
 
         ServerDeletedTagFromProject responseDto = new ServerDeletedTagFromProject()
         {

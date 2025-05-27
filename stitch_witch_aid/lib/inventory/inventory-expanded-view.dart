@@ -194,7 +194,11 @@ class _ItemExpandedViewState extends State<ItemExpandedView> {
                           height: 5,
                           minWidth: 10,
                           child: FilledButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              setState(() {
+                                context.read<ItemBloc>().clientDeletesTagFromItem(itemToUpdate.id, itemToUpdate.tags[index].tagTypeId);
+                              });
+                            },
                             style: FilledButton.styleFrom(
                               backgroundColor: BrandColors.purpleLight,
                             ),
