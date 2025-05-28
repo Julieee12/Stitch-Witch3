@@ -26,7 +26,7 @@ class GlossaryScreen extends StatelessWidget {
       color: BrandColors.purpleExtraLight,
       child: Stack(
         children: [
-          Tags(["gl", "O", "ser", "Y"]),
+          Tags(["All", "Tools", "Converters", "Favorites"]),
           Padding(
             padding: const EdgeInsets.only(top: 20),
             child: TopSearchBar(callback: (String value) {}, refreshParent: () {})
