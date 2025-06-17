@@ -17,6 +17,8 @@ int16_t gx, gy, gz;
 #define SERVICE_UUID        "12345678-1234-1234-1234-123456789012"
 #define CHARACTERISTIC_UUID "87654321-4321-4321-4321-210987654321"
 
+//object for the characteristics
+
 BLECharacteristic xCharacteristic("0001", BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY | BLECharacteristic::PROPERTY_WRITE);
 BLECharacteristic yCharacteristic("0002", BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY | BLECharacteristic::PROPERTY_WRITE);
 BLECharacteristic zCharacteristic("0003", BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY | BLECharacteristic::PROPERTY_WRITE);
@@ -63,7 +65,7 @@ void updateDisplay() {
   
   display.display();
 }
-
+// methods from listener for when the device connects or disconnects
   class MyServerCallbacks: public BLEServerCallbacks {
     void onConnect(BLEServer* pServer) {
       deviceConnected = true;
@@ -74,6 +76,7 @@ void updateDisplay() {
     }
 };
 
+//method for when the service is written to (we use it down below)
 class MyCallbacks: public BLECharacteristicCallbacks {
     void onWrite(BLECharacteristic *pCharacteristic) {
       String value = pCharacteristic->getValue();
@@ -130,6 +133,7 @@ void setup() {
   pService->addCharacteristic(&zCharacteristic);
   pService->addCharacteristic(&cuntCharacteristic);
 
+// callback for receiving count on device as well
   cuntCharacteristic.setCallbacks(new MyCallbacks());
 
   pService->start();
@@ -145,7 +149,7 @@ void setup() {
 
 
 
-
+// raw data coming from sensor
 void loop() {
 
   if (deviceConnected) {
@@ -169,6 +173,7 @@ yCharacteristic.setValue(ayVal);
 zCharacteristic.setValue(azVal);
 cuntCharacteristic.setValue(cuntVal);
 
+//sends the data to the app
 xCharacteristic.notify();
 yCharacteristic.notify();
 zCharacteristic.notify();
